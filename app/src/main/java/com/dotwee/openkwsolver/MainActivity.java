@@ -38,7 +38,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button buttonStartAndPullCaptcha = (Button) findViewById(R.id.buttonStartAndPullCaptcha);
         Button buttonServerCheck = (Button) findViewById(R.id.buttonServerCheck);
+
         buttonServerCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +81,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        Button buttonStartAndPullCaptcha = (Button) findViewById(R.id.buttonStartAndPullCaptcha);
+        buttonStartAndPullCaptcha.setText("Start");
         buttonStartAndPullCaptcha.setOnClickListener(new View.OnClickListener() {
 
             @Override
