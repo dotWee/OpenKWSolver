@@ -6,7 +6,7 @@ Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver.
 Using
 -----
 To work with it, you'll new an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key.
-The app won't work without API-Key.
+The app won't work without API-Key. You can get the current Version beta.1 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.1/app-release.apk).
 
 Building
 --------
