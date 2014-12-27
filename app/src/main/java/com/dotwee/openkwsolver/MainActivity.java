@@ -210,13 +210,14 @@ public class MainActivity extends Activity {
 
     }
 
+    // double-back to close the app
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
         else Toast.makeText(getBaseContext(), "Press again to close!", Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
 
-    // Lese API Key aus Datei
+    // read the 9kw API-Key from previously saved file
     private String pullKeyFromFile() {
 
         String apikey = null;
@@ -250,7 +251,7 @@ public class MainActivity extends Activity {
         return apikey;
     }
 
-    // CaptchaID anfordern und in TextView auslagern
+    // request CaptchaID
     public String pullCaptchaID() {
 
         String CaptchaIDURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchanew&source=javaapi&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
@@ -265,7 +266,7 @@ public class MainActivity extends Activity {
         return CaptchaID;
     }
 
-    // Captcha holen und anzeigen
+    // request Captcha and display it on ImageView
     public String pullCaptchaPicture(String CaptchaID) {
 
         String CaptchaPictureURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchashow&source=javaapi&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
@@ -278,13 +279,13 @@ public class MainActivity extends Activity {
 
     }
 
-    // ImageView bereinigen
+    // cleanup ImageView
     public void clearImageView() {
         ImageView ImageView = (ImageView) findViewById(R.id.imageViewReceivedCaptcha);
         ImageView.setImageDrawable(null);
     }
 
-    // CurrentCaptchaID bereinigen
+    // cleanup CurrentCaptchaID
     public void clearCurrentCaptchaID() {
         TextView TextViewID = (TextView) findViewById(R.id.textViewCurrentCaptchaID);
         TextViewID.setText(null);
@@ -293,7 +294,7 @@ public class MainActivity extends Activity {
         TextViewText.setText(null);
     }
 
-    // Guthabenanzahl anfordern
+    // request balance
     public String pullBalanceCount() {
 
         String Guthaben = null;
@@ -309,16 +310,18 @@ public class MainActivity extends Activity {
 
     }
 
-    // TextViewCaptcherAnswer bereinigen
+    // cleanup TextViewCaptcherAnswer
     public void clearCaptchaAnswer() {
         EditText EditTextAnswer = (EditText) findViewById(R.id.editTextCaptchaAnswer);
         EditTextAnswer.setText(null);
     }
 
+    // send the Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CurrentCaptchaID) {
 
         String CaptchaAnswerURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchacorrect&source=javaapi&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CurrentCaptchaID + "&apikey=" + pullKeyFromFile());
 
+        // Spaces aren't allowed in URLs
         CaptchaAnswerURL = CaptchaAnswerURL.replaceAll(" ", "%20");
 
         String AnswerStatus = null;
