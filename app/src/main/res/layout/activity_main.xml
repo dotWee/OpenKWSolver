@@ -93,7 +93,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/textViewCurrentCaptchaID"
-        android:text="Current CaptchaID: "
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ProgressBar
