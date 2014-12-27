@@ -5,11 +5,15 @@
     android:versionName="beta.1">
 
 
-// .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
+    // .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
     <uses-permission android:name="android.permission.INTERNET" />
 
     // .VIBRATE is needed for future use, we'll let it vibrate when a new Captcha arrives
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21"></uses-sdk>
 
     <application
         android:allowBackup="true"
