@@ -3,7 +3,6 @@ package com.dotwee.openkwsolver;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,57 +158,99 @@ public class MainActivity extends Activity {
         }
     }
 
-    // In Dialog nach API-Key fragen
+    // ask for API-Key in dialog
     public void DialogAskForAPI() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("API-Key");
-        alert.setMessage("Enter here your API-Key");
+        File mayexisting_apikeytxt = new File("apikey.txt");
+        if (mayexisting_apikeytxt.exists()) {
 
-        final EditText input_APIKey;
-        final String apikeytxt = "apikey.txt";
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        input_APIKey = new EditText(this);
-        alert.setView(input_APIKey);
+            alert.setTitle("API-Key");
+            alert.setMessage("Enter here your API-Key");
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
+            final EditText input_APIKey;
+            final String apikeytxt = "apikey.txt";
 
-                // API-Key als apikey.txt speichern
-                OutputStreamWriter out = null;
-                try {
-                    out = new OutputStreamWriter(openFileOutput(apikeytxt, MODE_APPEND));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+            input_APIKey = new EditText(this);
+            input_APIKey.setText(pullKeyFromFile());
+            alert.setView(input_APIKey);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // API-Key als apikey.txt speichern
+                    OutputStreamWriter out = null;
+                    try {
+                        out = new OutputStreamWriter(openFileOutput(apikeytxt, MODE_APPEND));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    String apikey = input_APIKey.getText().toString();
+                    try {
+                        out.write(apikey);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getApplicationContext(), "Your API-Key is now saved!", Toast.LENGTH_SHORT).show();
                 }
-                String apikey = input_APIKey.getText().toString();
-                try {
-                    out.write(apikey);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
                 }
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            });
+
+            alert.show();
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("API-Key");
+            alert.setMessage("Enter here your API-Key");
+
+            final EditText input_APIKey;
+            final String apikeytxt = "apikey.txt";
+
+            input_APIKey = new EditText(this);
+            alert.setView(input_APIKey);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // API-Key als apikey.txt speichern
+                    OutputStreamWriter out = null;
+                    try {
+                        out = new OutputStreamWriter(openFileOutput(apikeytxt, MODE_APPEND));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    String apikey = input_APIKey.getText().toString();
+                    try {
+                        out.write(apikey);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getApplicationContext(), "Your API-Key is now saved!", Toast.LENGTH_SHORT).show();
                 }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
 
-
-                Toast.makeText(getApplicationContext(), "Your API-Key is now saved!", Toast.LENGTH_SHORT).show();
-
-                // TODO Prüfen ob apikey.txt existiert
-
-                // Toast.makeText(getApplicationContext(), "Your API-Key could't be saved.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
-
-        alert.show();
+            alert.show();
+        }
 
     }
 
