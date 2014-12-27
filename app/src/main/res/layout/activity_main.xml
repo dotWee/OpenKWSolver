@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageViewReceivedCaptcha"
         android:layout_centerHorizontal="true"
-        android:inputType="none"
+        android:inputType="textFilter|textNoSuggestions"
         android:minWidth="150dp"
         android:paddingTop="10dp" />
 

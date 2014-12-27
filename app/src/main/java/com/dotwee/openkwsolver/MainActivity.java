@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 
         Button buttonStartAndPullCaptcha;
         Button buttonServerCheck;
-        
+
         buttonStartAndPullCaptcha = (Button) findViewById(R.id.buttonStartAndPullCaptcha);
         buttonServerCheck = (Button) findViewById(R.id.buttonServerCheck);
 
