@@ -2,7 +2,18 @@
 <resources>
 
     <string name="app_name">OpenKWSolver</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="error_with_captcha">"Error with CaptchaID: "</string>
+    <string name="current_captcha_id">"CurrentCaptchaID: "</string>
+    <string name="balance">"Balance: "</string>
+    <string name="workers">"Workers: "</string>
+    <string name="captchas_in_queue">"Captchas in queue: "</string>
+    <string name="code">"Code: "</string>
+    <string name="warning_couldnt_find_apikey">Warning, your API-Key could\'t be found. Please set it first.</string>
+    <string name="press_again_to_close">Press again to close!</string>
+    <string name="dialog_enter_here_apikey">Enter here your API-Key</string>
+    <string name="ok">Ok</string>
+    <string name="restart_app_to_continue">Restart App to continue captcharing.</string>
+    <string name="start">Start</string>
 
 </resources>

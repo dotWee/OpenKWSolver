@@ -27,9 +27,8 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
 
-    // Doppelt-zurück schließt App
+    // double-back to close the app
     private static long back_pressed;
-
     String debug = "0"; // 1 = wahr
     String regex = "^[0-9]+ .+";
 
@@ -46,9 +45,9 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 String tServercheck = null;
-                String tBalance = "Balance: ";
-                String tWorkers = ("Workers: ");
-                String tInQueue = ("Captchas in queue: ");
+                String tBalance = getString(R.string.balance);
+                String tWorkers = (getString(R.string.workers));
+                String tInQueue = (getString(R.string.captchas_in_queue));
 
                 Pattern pworker = Pattern.compile("worker=(\\d+)");
                 Pattern pqueue = Pattern.compile("queue=(\\d+)");
@@ -81,7 +80,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        buttonStartAndPullCaptcha.setText("Start");
+        buttonStartAndPullCaptcha.setText(getString(R.string.start));
         buttonStartAndPullCaptcha.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,7 +91,7 @@ public class MainActivity extends Activity {
                 clearCurrentCaptchaID();
 
                 final String CaptchaID = pullCaptchaID();
-                String TextCaptchaID = ("CurrentCaptchaID: ");
+                String TextCaptchaID = (getString(R.string.current_captcha_id));
 
                 TextView TextViewCurrentCaptchaID = (TextView) findViewById(R.id.textViewCurrentCaptchaID);
                 TextViewCurrentCaptchaID.setText(CaptchaID);
@@ -122,7 +121,7 @@ public class MainActivity extends Activity {
                     });
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error with CaptchaID: " + CaptchaID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_with_captcha) + CaptchaID, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -148,11 +147,11 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.action_stop_fetching:
                 super.onBackPressed();
-                Toast.makeText(getApplicationContext(), "Restart App to continue captcharing.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.restart_app_to_continue), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_show_balance:
                 TextView action_show_balance = (TextView) findViewById(R.id.action_show_balance);
-                action_show_balance.setText("Balance: " + pullBalanceCount());
+                action_show_balance.setText(getString(R.string.balance) + pullBalanceCount());
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,7 +166,7 @@ public class MainActivity extends Activity {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
             alert.setTitle("API-Key");
-            alert.setMessage("Enter here your API-Key");
+            alert.setMessage(getString(R.string.dialog_enter_here_apikey));
 
             final EditText input_APIKey;
             final String apikeytxt = "apikey.txt";
@@ -176,7 +175,7 @@ public class MainActivity extends Activity {
             input_APIKey.setText(pullKeyFromFile());
             alert.setView(input_APIKey);
 
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int whichButton) {
                     // API-Key als apikey.txt speichern
@@ -254,10 +253,10 @@ public class MainActivity extends Activity {
 
     }
 
-    // double-back to close the app
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
-        else Toast.makeText(getBaseContext(), "Press again to close!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getBaseContext(), getString(R.string.press_again_to_close), Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
 
@@ -285,7 +284,7 @@ public class MainActivity extends Activity {
             }
 
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "Warning, your API-Key could't be found. Please set it first.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.warning_couldnt_find_apikey), Toast.LENGTH_LONG).show();
             DialogAskForAPI();
             e.printStackTrace();
         } catch (IOException e) {
@@ -341,20 +340,20 @@ public class MainActivity extends Activity {
     // request balance
     public String pullBalanceCount() {
 
-        String Guthaben = null;
-        String GuthabenURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchaguthaben&source=javaapi&apikey=" + pullKeyFromFile());
+        String Balance = null;
+        String BalanceURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchaguthaben&source=javaapi&apikey=" + pullKeyFromFile());
 
         try {
-            Guthaben = new DownloadContentTask().execute(GuthabenURL).get();
+            Balance = new DownloadContentTask().execute(BalanceURL).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
-        return Guthaben;
+        return Balance;
 
     }
 
-    // cleanup TextViewCaptcherAnswer
+    // cleanup TextViewCaptchaAnswer
     public void clearCaptchaAnswer() {
         EditText EditTextAnswer = (EditText) findViewById(R.id.editTextCaptchaAnswer);
         EditTextAnswer.setText(null);
@@ -377,7 +376,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        Toast.makeText(getApplicationContext(), "Code: " + AnswerStatus, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.code) + AnswerStatus, Toast.LENGTH_SHORT).show();
     }
 
 
