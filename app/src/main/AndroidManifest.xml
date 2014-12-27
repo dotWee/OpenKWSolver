@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dotwee.openkwsolver" >
+    package="com.dotwee.openkwsolver"
+    android:versionCode="1"
+    android:versionName="beta.1">
 
-    // .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
+
+// .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
     <uses-permission android:name="android.permission.INTERNET" />
 
     // .VIBRATE is needed for future use, we'll let it vibrate when a new Captcha arrives
