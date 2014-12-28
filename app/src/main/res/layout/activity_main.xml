@@ -87,5 +87,6 @@
                 android:onClick="openConfirmActivity"
                 android:text="Start" />
         </TableRow>
+
     </TableLayout>
 </LinearLayout>

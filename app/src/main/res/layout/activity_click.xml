@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:maxHeight="200dp"
-        android:minHeight="150dp" />
+        android:clickable="true"
+        android:maxHeight="300dp"
+        android:minHeight="250dp" />
 
     <Button
         android:id="@+id/buttonLeft"
