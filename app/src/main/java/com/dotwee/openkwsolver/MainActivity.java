@@ -63,8 +63,6 @@ public class MainActivity extends Activity {
                 if (!CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
 
-                    // TODO Progressbar Countdown
-
                     final ProgressBar pProgressBar;
                     final CountDownTimer pCountDownTimer;
                     final int[] i = {0};
@@ -80,6 +78,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void onFinish() {
                             buttonBeginn.performClick();
+                            skipCaptcha(CaptchaID);
                         }
                     };
                     pCountDownTimer.start();
