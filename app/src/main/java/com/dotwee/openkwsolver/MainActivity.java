@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
                     // TODO Progressbar Countdown
 
                     final ProgressBar pProgressBar;
-                    CountDownTimer pCountDownTimer;
+                    final CountDownTimer pCountDownTimer;
                     final int[] i = {0};
                     pProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                     pProgressBar.setProgress(i[0]);
@@ -95,6 +95,7 @@ public class MainActivity extends Activity {
                             clearImageViewAndEditText();
                             buttonBeginn.setText("Continue");
                             buttonBeginn.performClick();
+                            pCountDownTimer.cancel();
                         }
                     });
 
