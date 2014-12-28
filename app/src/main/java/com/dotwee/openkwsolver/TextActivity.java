@@ -140,4 +140,13 @@ public class TextActivity extends ActionBarActivity {
 
         return CaptchaID;
     }
+
+    // pull Captcha picture and display it
+    public String pullCaptchaPicture(String CaptchaID) {
+        String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
+        new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
+
+        return CaptchaPictureURL;
+
+    }
 }
