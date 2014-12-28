@@ -27,9 +27,9 @@ Todo
 ----
 
 + Use Progressbar as 30s countdown
-+ <del>Make translations possible</del> Made possible by commit 1e8b3200e31eed2c2e8ceae10934d6d246667ecf
 + Skip Captcha automatically after 30s
 + Vibrate as soon as Captcha is displayed
 + Use 9kw's history API to view answered Captchas
 + Backport to lower Android API's
 + Add Confirm mode as well as Click mode
++ Make Debug mode available as Checkbox on MainActivity
