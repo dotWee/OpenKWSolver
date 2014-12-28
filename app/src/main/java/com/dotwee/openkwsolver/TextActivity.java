@@ -31,7 +31,7 @@ public class TextActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
 
-        Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
+        final Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
 
         buttonBeginn.setText("Beginn");
         buttonBeginn.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +56,8 @@ public class TextActivity extends Activity {
                             String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
                             sendCaptchaAnswerText(CaptchaAnswer, CaptchaID);
                             clearImageViewAndEditText();
+                            buttonBeginn.setText("Continue");
+                            buttonBeginn.performClick();
                         }
                     });
 
