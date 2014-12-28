@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -114,5 +115,14 @@ public class TextActivity extends ActionBarActivity {
         }
 
         return apikey;
+    }
+
+    // clear ImageView and EditText (just to be save)
+    public void clearImageViewAndEditText() {
+        ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
+        ImageView.setImageDrawable(null);
+
+        EditText EditText = (EditText) findViewById(R.id.editTextAnswer);
+        EditText.setText(null);
     }
 }
