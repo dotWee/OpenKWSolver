@@ -57,8 +57,9 @@ public class MainActivity extends Activity {
     }
 
     public void openConfirmActivity(View view) {
-        Intent intent = new Intent(MainActivity.this, ConfirmActivity.class);
-        startActivity(intent);
+        // Intent intent = new Intent(MainActivity.this, ConfirmActivity.class);
+        // startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Work in progress.", Toast.LENGTH_LONG).show();
     }
 
     // dialog for api key
