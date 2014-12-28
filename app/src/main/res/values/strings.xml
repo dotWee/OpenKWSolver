@@ -7,5 +7,16 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_confirm">ConfirmActivity</string>
     <string name="title_activity_click">ClickActivity</string>
-
+    <string name="error_no_api_key_available">No API Key available.</string>
+    <string name="error_no_api_key_found">No API Key found.</string>
+    <string name="error_api_key_has_been_deactivated">API Key has been deactivated by operator.</string>
+    <string name="error_no_captcha_found">No Captcha found.</string>
+    <string name="error_no_picture_found">No picture found.</string>
+    <string name="error_no_answer_received">No answer received.</string>
+    <string name="error_has_already_been_solved">Captcha has already been solved.</string>
+    <string name="error_to_quickly_sent">Captcha to quickly sent.</string>
+    <string name="error_unknown_problem">Unknown problem.</string>
+    <string name="error_no_id_found">No ID found.</string>
+    <string name="error_incorrect_answer">Incorrect answer.</string>
+    <string name="error_not_fast_enough_answered">Not fast enough answered (Wrong UserID).</string>
 </resources>
