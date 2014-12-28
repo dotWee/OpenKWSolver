@@ -8,9 +8,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dotwee.openkwsolver.ClickActivity">
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/imageViewClickCaptcha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:maxHeight="200dp"
+        android:minHeight="150dp" />
+
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageViewClickCaptcha" />
+
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imageViewClickCaptcha" />
+
+    <TextView
+        android:id="@+id/textViewTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/buttonRight"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textViewBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textViewTop"
+        android:layout_below="@+id/textViewTop"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
