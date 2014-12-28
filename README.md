@@ -32,3 +32,4 @@ Todo
 + Vibrate as soon as Captcha is displayed
 + Use 9kw's history API to view answered Captchas
 + Backport to lower Android API's
++ Add Confirm mode as well as Click mode
