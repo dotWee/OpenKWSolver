@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,7 +29,6 @@ public class MainActivity extends Activity {
 
     String coreurl = "http://www.9kw.eu:80/index.cgi";
     String actionsource = "&source=androidopenkws";
-    String debug = "1"; // 1 = wahr
     String regex = "^[0-9]+ .+";
 
     @Override
@@ -166,7 +166,7 @@ public class MainActivity extends Activity {
 
     // request CaptchaID (only text)
     public String pullCaptchaID() {
-        String CaptchaIDURL = (coreurl + "?action=usercaptchanew" + "&apikey=" + pullKeyFromFile() + actionsource + "&confirm=1&nocaptcha=1&debug=" + debug);
+        String CaptchaIDURL = (coreurl + "?action=usercaptchanew" + "&apikey=" + pullKeyFromFile() + actionsource + "&confirm=1&nocaptcha=1&debug=" + checkDebugCheckbox());
         String CaptchaID = null;
 
         try {
@@ -180,7 +180,7 @@ public class MainActivity extends Activity {
 
     // pull Captcha picture and display it
     public String pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
+        String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + checkDebugCheckbox() + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
 
         return CaptchaPictureURL;
@@ -190,7 +190,7 @@ public class MainActivity extends Activity {
     // send the Captcha answer
     public void sendCaptchaAnswerText(String CaptchaAnswer, String CaptchaID) {
 
-        String CaptchaAnswerURL = (coreurl + "?action=usercaptchacorrect" + actionsource + "&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
+        String CaptchaAnswerURL = (coreurl + "?action=usercaptchacorrect" + actionsource + "&debug=" + checkDebugCheckbox() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
 
         // spaces aren't allowed in URLs
         CaptchaAnswerURL = CaptchaAnswerURL.replaceAll(" ", "%20");
@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 
     // skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (coreurl + "?action=usercaptchaskip" + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile() + actionsource + "&debug=" + debug);
+        String CaptchaSkipURL = (coreurl + "?action=usercaptchaskip" + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile() + actionsource + "&debug=" + checkDebugCheckbox());
         String Code = null;
 
         try {
@@ -300,6 +300,16 @@ public class MainActivity extends Activity {
             });
 
         }
+    }
+
+    // debug Checkbox listener
+    public String checkDebugCheckbox() {
+        CheckBox DebugBox = (CheckBox) findViewById(R.id.DebugBox);
+        String debug;
+        if (((CheckBox) DebugBox).isChecked()) {
+            debug = "1";
+        } else debug = "0";
+        return debug;
     }
 
 }
