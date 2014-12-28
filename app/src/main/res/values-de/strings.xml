@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OpenKWSolver</string>
+    <string name="title_activity_text">Text Löser</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="title_activity_confirm">Bestätigungs Löser</string>
+    <string name="title_activity_click">Klick Löser</string>
+    <string name="error_no_api_key_available">Kein API Key vorhanden.</string>
+    <string name="error_no_api_key_found">Kein API Key gefunden.</string>
+    <string name="error_api_key_has_been_deactivated">API Key wurde vom Betreiber deaktiviert.</string>
+    <string name="error_no_captcha_found">Kein Captcha gefunden.</string>
+    <string name="error_no_picture_found">Kein Bild gefunden.</string>
+    <string name="error_no_answer_received">Keine Antwort enthalten.</string>
+    <string name="error_has_already_been_solved">Captcha bereits beantwortet.</string>
+    <string name="error_to_quickly_sent">Captcha zu schnell eingereicht.</string>
+    <string name="error_unknown_problem">Unbekanntes Problem.</string>
+    <string name="error_no_id_found">Keine ID gefunden.</string>
+    <string name="error_incorrect_answer">Fehlerhafte Antwort.</string>
+    <string name="error_not_fast_enough_answered">Nicht rechtzeitig eingereicht (Falsche UserID).</string>
+</resources>
