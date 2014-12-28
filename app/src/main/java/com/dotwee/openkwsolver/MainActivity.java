@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
                 Pattern pqueue = Pattern.compile("queue=(\\d+)");
 
                 try {
-                    tServercheck = new DownloadContentTask().execute("http://www.9kw.eu:80/index.cgi?action=userservercheck&source=javaapi").get();
+                    tServercheck = new DownloadContentTask().execute("http://www.9kw.eu:80/index.cgi?action=userservercheck&source=androidopenkws").get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -300,7 +300,7 @@ public class MainActivity extends Activity {
     // request CaptchaID
     public String pullCaptchaIDonlyText() {
 
-        String CaptchaIDURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchanew&source=javaapi&mouse=0&confirm=0&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
+        String CaptchaIDURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchanew&source=androidopenkws&mouse=0&confirm=0&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
         String CaptchaID = null;
 
         try {
@@ -315,7 +315,7 @@ public class MainActivity extends Activity {
     // request Captcha and display it on ImageView
     public String pullCaptchaPicture(String CaptchaID) {
 
-        String CaptchaPictureURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchashow&source=javaapi&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
+        String CaptchaPictureURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchashow&source=androidopenkws&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewReceivedCaptcha)).execute(CaptchaPictureURL);
 
 
@@ -344,7 +344,7 @@ public class MainActivity extends Activity {
     public String pullBalanceCount() {
 
         String Balance = null;
-        String BalanceURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchaguthaben&source=javaapi&apikey=" + pullKeyFromFile());
+        String BalanceURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchaguthaben&source=androidopenkws&apikey=" + pullKeyFromFile());
 
         try {
             Balance = new DownloadContentTask().execute(BalanceURL).get();
@@ -365,7 +365,7 @@ public class MainActivity extends Activity {
     // send the Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CurrentCaptchaID) {
 
-        String CaptchaAnswerURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchacorrect&source=javaapi&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CurrentCaptchaID + "&apikey=" + pullKeyFromFile());
+        String CaptchaAnswerURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchacorrect&source=androidopenkws&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CurrentCaptchaID + "&apikey=" + pullKeyFromFile());
 
         // Spaces aren't allowed in URLs
         CaptchaAnswerURL = CaptchaAnswerURL.replaceAll(" ", "%20");
