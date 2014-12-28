@@ -2,5 +2,10 @@
 <resources>
 
     <string name="app_name">OpenKWSolver</string>
+    <string name="title_activity_text">TextActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_confirm">ConfirmActivity</string>
+    <string name="title_activity_click">ClickActivity</string>
 
 </resources>
