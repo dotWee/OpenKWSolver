@@ -26,20 +26,21 @@
         android:layout_gravity="center_horizontal" />
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
         <TableRow
             android:id="@+id/TableRowBar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/buttonLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:layout_gravity="left" />
 
             <EditText
                 android:id="@+id/editTextAnswer"
@@ -53,7 +54,8 @@
                 android:id="@+id/buttonRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2" />
+                android:layout_column="2"
+                android:layout_gravity="right" />
 
         </TableRow>
 
