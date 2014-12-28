@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -51,6 +53,25 @@ public class MainActivity extends Activity {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
 
                     // TODO Progressbar Countdown
+
+                    final ProgressBar pProgressBar;
+                    CountDownTimer pCountDownTimer;
+                    final int i = 0;
+                    pProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    pProgressBar.setProgress(i);
+                    pCountDownTimer = new CountDownTimer(30000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            i++;
+                            pProgressBar.setProgress(i);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            buttonBeginn.performClick();
+                        }
+                    };
+                    pCountDownTimer.start();
 
                     Button buttonSend = (Button) findViewById(R.id.buttonRight);
                     buttonSend.setText("Send");
