@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class MainActivity extends Activity {
@@ -70,7 +73,7 @@ public class MainActivity extends Activity {
 
             final String keyfilename = "apikey.txt";
             final EditText input_key = new EditText(this);
-            input_key.setText(pullKeyFromFile()); // TODO read the key from file
+            input_key.setText(pullKeyFromFile());
 
             alert.setView(input_key);
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -137,4 +140,37 @@ public class MainActivity extends Activity {
         }
     }
 
+    // read the 9kw API-Key from saved file
+    private String pullKeyFromFile() {
+
+        String apikey = null;
+
+        try {
+
+            InputStream inputStream = openFileInput("apikey.txt");
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                apikey = stringBuilder.toString();
+            }
+
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "Housten, couldn't find API-Key. You may want to enter it again.", Toast.LENGTH_LONG).show();
+            DialogKey();
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return apikey;
+    }
 }
