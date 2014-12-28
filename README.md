@@ -26,10 +26,11 @@ Screenshots
 Todo
 ----
 
-+ Use Progressbar as 30s countdown
-+ Skip Captcha automatically after 30s
-+ Vibrate as soon as Captcha is displayed
++ <del>Use Progressbar as 30s countdown</del>
++ <del>Skip Captcha automatically after 30s</del>
++ <del>Vibrate as soon as Captcha is displayed</del>
 + Use 9kw's history API to view answered Captchas
 + Backport to lower Android API's
 + Add Confirm mode as well as Click mode
-+ Make Debug mode available as Checkbox on MainActivity
++ <del>Make Debug mode available as Checkbox on MainActivity</del>
++ Make it look beautiful and tidy up the code
