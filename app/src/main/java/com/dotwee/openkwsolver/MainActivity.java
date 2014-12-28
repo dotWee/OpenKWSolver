@@ -39,6 +39,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         pullKeyFromFile();
 
+        Button buttonKey = (Button) findViewById(R.id.buttonKey);
+        buttonKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogKey();
+            }
+        });
+
         final Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
 
         buttonBeginn.setText("Beginn");

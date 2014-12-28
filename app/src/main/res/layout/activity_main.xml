@@ -68,8 +68,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/buttonKey"
+            android:layout_toEndOf="@+id/buttonKey"
             android:text="Debug" />
+
+        <Button
+            android:id="@+id/buttonKey"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="Key" />
 
         <TextView
             android:id="@+id/textViewInQueue"
@@ -77,15 +87,15 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/DebugBox"
             android:layout_alignParentStart="true"
-            android:singleLine="true" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/textViewWorkers"
+            android:id="@+id/textViewWokers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/textViewInQueue"
             android:layout_alignParentStart="true"
-            android:singleLine="true" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
 </LinearLayout>
