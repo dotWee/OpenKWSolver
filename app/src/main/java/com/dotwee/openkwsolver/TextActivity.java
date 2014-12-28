@@ -1,5 +1,6 @@
 package com.dotwee.openkwsolver;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +19,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.ExecutionException;
 
 
-public class TextActivity extends ActionBarActivity {
+public class TextActivity extends Activity {
 
     String coreurl = "http://www.9kw.eu:80/index.cgi";
     String actionsource = "&source=androidopenkws";
