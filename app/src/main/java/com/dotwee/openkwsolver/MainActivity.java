@@ -66,14 +66,14 @@ public class MainActivity extends Activity {
 
                     final ProgressBar pProgressBar;
                     CountDownTimer pCountDownTimer;
-                    final int i = 0;
+                    final int[] i = {0};
                     pProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    pProgressBar.setProgress(i);
+                    pProgressBar.setProgress(i[0]);
                     pCountDownTimer = new CountDownTimer(30000, 1000) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            i++;
-                            pProgressBar.setProgress(i);
+                            i[0]++;
+                            pProgressBar.setProgress(i[0]);
                         }
 
                         @Override
