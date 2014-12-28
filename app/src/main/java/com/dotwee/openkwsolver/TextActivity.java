@@ -18,6 +18,11 @@ import java.io.InputStreamReader;
 
 public class TextActivity extends ActionBarActivity {
 
+    String coreurl = "http://www.9kw.eu:80/index.cgi";
+    String actionsource = "&source=androidopenkws";
+    String debug = "1"; // 1 = wahr
+    String regex = "^[0-9]+ .+";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
