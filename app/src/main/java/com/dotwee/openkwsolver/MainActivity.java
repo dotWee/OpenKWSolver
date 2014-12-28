@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
                 clearCaptchaAnswer();
                 clearCurrentCaptchaID();
 
-                final String CaptchaID = pullCaptchaID();
+                final String CaptchaID = pullCaptchaIDonlyText();
                 String TextCaptchaID = (getString(R.string.current_captcha_id));
 
                 TextView TextViewCurrentCaptchaID = (TextView) findViewById(R.id.textViewCurrentCaptchaID);
@@ -298,9 +298,9 @@ public class MainActivity extends Activity {
     }
 
     // request CaptchaID
-    public String pullCaptchaID() {
+    public String pullCaptchaIDonlyText() {
 
-        String CaptchaIDURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchanew&source=javaapi&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
+        String CaptchaIDURL = ("http://www.9kw.eu:80/index.cgi?action=usercaptchanew&source=javaapi&mouse=0&confirm=0&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
         String CaptchaID = null;
 
         try {
