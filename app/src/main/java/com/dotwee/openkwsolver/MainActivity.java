@@ -45,9 +45,19 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                clearImageViewAndEditText(); // First of all, clear the ImageView and EditText (just to be save)
+                clearImageViewAndEditText();
 
                 final String CaptchaID = pullOnlyTextCaptchaID();
+
+                Button buttonSkip = (Button) findViewById(R.id.buttonLeft);
+                buttonSkip.setText("Skip");
+                buttonSkip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        skipCaptcha(CaptchaID);
+                        buttonBeginn.performClick();
+                    }
+                });
 
                 if (!CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
@@ -201,6 +211,22 @@ public class MainActivity extends Activity {
         }
 
         Toast.makeText(getApplicationContext(), "Code: " + AnswerStatus, Toast.LENGTH_SHORT).show();
+    }
+
+    // skip Captcha
+    public void skipCaptcha(String CaptchaID) {
+        String CaptchaSkipURL = (coreurl + "?action=usercaptchaskip" + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile() + actionsource + "&debug=" + debug);
+        String Code = null;
+
+        try {
+            Code = new DownloadContentTask().execute(CaptchaSkipURL).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplicationContext(), "Skipped: " + Code, Toast.LENGTH_SHORT).show();
     }
 
     // dialog for api key
