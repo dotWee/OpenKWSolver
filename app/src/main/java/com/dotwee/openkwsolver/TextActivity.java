@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.ExecutionException;
 
 
 public class TextActivity extends ActionBarActivity {
@@ -124,5 +125,19 @@ public class TextActivity extends ActionBarActivity {
 
         EditText EditText = (EditText) findViewById(R.id.editTextAnswer);
         EditText.setText(null);
+    }
+
+    // request CaptchaID (only text)
+    public String pullOnlyTextCaptchaID() {
+        String CaptchaIDURL = (coreurl + "?action=usercaptchanew" + actionsource + "&mouse=0&confirm=0&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
+        String CaptchaID = null;
+
+        try {
+            CaptchaID = new DownloadContentTask().execute(CaptchaIDURL).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return CaptchaID;
     }
 }
