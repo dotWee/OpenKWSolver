@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dotwee.openkwsolver"
-    android:versionCode="1"
-    android:versionName="beta.1">
+    android:versionCode="2"
+    android:versionName="beta.2">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="21" />
     // .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
     <uses-permission android:name="android.permission.INTERNET" />
     // .VIBRATE is needed for future use, we'll let it vibrate when a new Captcha arrives
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".TextActivity"
             android:label="@string/title_activity_text"></activity>
