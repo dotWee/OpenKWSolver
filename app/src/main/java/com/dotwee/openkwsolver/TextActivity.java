@@ -4,6 +4,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,6 +22,39 @@ public class TextActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
+
+        Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
+
+        buttonBeginn.setText("Beginn");
+        buttonBeginn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clearImageViewAndEditText(); // First of all, clear the ImageView and EditText (just to be save)
+
+                final String CaptchaID = pullOnlyTextCaptchaID();
+
+                if (!CaptchaID.matches(regex)) {
+                    pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
+
+                    // TODO Progressbar Countdown
+
+                    Button buttonSend = (Button) findViewById(R.id.buttonRight);
+                    buttonSend.setText("Send");
+                    buttonSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
+                            String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
+                            sendCaptchaAnswerText(CaptchaAnswer, CaptchaID);
+                            clearImageViewAndEditText();
+                        }
+                    });
+
+                } else
+                    Toast.makeText(getApplicationContext(), "Housten, we got a problem with CaptchaID " + CaptchaID, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
