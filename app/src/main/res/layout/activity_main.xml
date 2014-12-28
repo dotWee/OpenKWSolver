@@ -25,40 +25,67 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
-    <TableLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:columnOrderPreserved="false">
+
+        <Button
+            android:id="@+id/buttonLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left|right"
+            android:layout_row="0" />
+
+        <EditText
+            android:id="@+id/editTextAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="left|right"
+            android:layout_row="0"
+            android:inputType="textNoSuggestions"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/buttonRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_row="0" />
+
+    </GridLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal">
 
-        <TableRow
-            android:id="@+id/TableRowBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/DebugBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="Debug" />
 
-            <Button
-                android:id="@+id/buttonLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_gravity="left" />
+        <TextView
+            android:id="@+id/textViewInQueue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/DebugBox"
+            android:layout_alignParentStart="true"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editTextAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:inputType="textNoSuggestions"
-                android:minWidth="150dp" />
-
-            <Button
-                android:id="@+id/buttonRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:layout_gravity="right" />
-
-        </TableRow>
-
-    </TableLayout>
+        <TextView
+            android:id="@+id/textViewWorkers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textViewInQueue"
+            android:layout_alignParentStart="true"
+            android:singleLine="true" />
+    </RelativeLayout>
 
 </LinearLayout>
