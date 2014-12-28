@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
@@ -29,13 +28,13 @@ public class MainActivity extends Activity {
 
     String coreurl = "http://www.9kw.eu:80/index.cgi";
     String actionsource = "&source=androidopenkws";
-    String debug = "0"; // 1 = wahr
+    String debug = "1"; // 1 = wahr
     String regex = "^[0-9]+ .+";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text);
+        setContentView(R.layout.activity_main);
         pullKeyFromFile();
 
         final Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
@@ -47,8 +46,9 @@ public class MainActivity extends Activity {
 
                 clearImageViewAndEditText();
 
-                final String CaptchaID = pullOnlyTextCaptchaID();
+                final String CaptchaID = pullCaptchaID();
 
+                /*
                 Button buttonSkip = (Button) findViewById(R.id.buttonLeft);
                 buttonSkip.setText("Skip");
                 buttonSkip.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
                         buttonBeginn.performClick();
                     }
                 });
+                */
 
                 if (!CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
@@ -103,7 +104,6 @@ public class MainActivity extends Activity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -125,11 +125,7 @@ public class MainActivity extends Activity {
 
     // read the 9kw API-Key from previously saved file
     private String pullKeyFromFile() {
-
         String apikey = null;
-
-        File MaybeExistingKey = new File("apikey.txt");
-        if (MaybeExistingKey.exists()) {
 
             try {
 
@@ -150,13 +146,10 @@ public class MainActivity extends Activity {
                 }
 
             } catch (FileNotFoundException e) {
-                Toast.makeText(getApplicationContext(), "Housten, couldn't find API-Key. You may want to enter it again.", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        } else DialogKey();
 
         return apikey;
     }
@@ -171,8 +164,8 @@ public class MainActivity extends Activity {
     }
 
     // request CaptchaID (only text)
-    public String pullOnlyTextCaptchaID() {
-        String CaptchaIDURL = (coreurl + "?action=usercaptchanew" + actionsource + "&confirm=1&nocaptcha=1&debug=" + debug + "&apikey=" + pullKeyFromFile());
+    public String pullCaptchaID() {
+        String CaptchaIDURL = (coreurl + "?action=usercaptchanew" + "&apikey=" + pullKeyFromFile() + actionsource + "&confirm=1&nocaptcha=1&debug=" + debug);
         String CaptchaID = null;
 
         try {
