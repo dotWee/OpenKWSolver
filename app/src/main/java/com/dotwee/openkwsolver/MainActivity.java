@@ -3,9 +3,11 @@ package com.dotwee.openkwsolver;
 import android.app.Activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -181,7 +183,8 @@ public class MainActivity extends Activity {
     public String pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + checkDebugCheckbox() + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
-
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(500);
         return CaptchaPictureURL;
 
     }

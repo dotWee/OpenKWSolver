@@ -6,7 +6,7 @@
 
     // .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
     <uses-permission android:name="android.permission.INTERNET" />
-    // .VIBRATE is needed for future use, we'll let it vibrate when a new Captcha arrives
+    // .VIBRATE is needed for vibrating the devices, as soon as a new captcha arrives
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
