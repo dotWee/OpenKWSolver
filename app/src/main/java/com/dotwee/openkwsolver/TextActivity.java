@@ -149,4 +149,24 @@ public class TextActivity extends ActionBarActivity {
         return CaptchaPictureURL;
 
     }
+
+    // send the Captcha answer
+    public void sendCaptchaAnswerText(String CaptchaAnswer, String CaptchaID) {
+
+        String CaptchaAnswerURL = (coreurl + "?action=usercaptchacorrect" + actionsource + "&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
+
+        // spaces aren't allowed in URLs
+        CaptchaAnswerURL = CaptchaAnswerURL.replaceAll(" ", "%20");
+
+        String AnswerStatus = null;
+        try {
+            AnswerStatus = new DownloadContentTask().execute(CaptchaAnswerURL).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(getApplicationContext(), "Code: " + AnswerStatus, Toast.LENGTH_SHORT).show();
+    }
 }
