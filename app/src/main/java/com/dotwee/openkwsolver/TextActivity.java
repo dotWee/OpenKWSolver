@@ -23,7 +23,7 @@ public class TextActivity extends Activity {
 
     String coreurl = "http://www.9kw.eu:80/index.cgi";
     String actionsource = "&source=androidopenkws";
-    String debug = "1"; // 1 = wahr
+    String debug = "0"; // 1 = wahr
     String regex = "^[0-9]+ .+";
     
     @Override
