@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
                         public void onClick(View v) {
                             EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextCaptchaAnswer);
                             String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
-                            sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
+                            sendCaptchaAnswerText(CaptchaAnswer, CaptchaID);
 
                             clearImageView();
                             clearCaptchaAnswer();
@@ -320,8 +320,6 @@ public class MainActivity extends Activity {
         String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + debug + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewReceivedCaptcha)).execute(CaptchaPictureURL);
 
-
-
         return CaptchaPictureURL;
 
 
@@ -365,7 +363,7 @@ public class MainActivity extends Activity {
     }
 
     // send the Captcha answer
-    public void sendCaptchaAnswer(String CaptchaAnswer, String CurrentCaptchaID) {
+    public void sendCaptchaAnswerText(String CaptchaAnswer, String CurrentCaptchaID) {
 
         String CaptchaAnswerURL = (coreurl + "?action=usercaptchacorrect" + actionsource + "&debug=" + debug + "&antwort=" + CaptchaAnswer + "&id=" + CurrentCaptchaID + "&apikey=" + pullKeyFromFile());
 
