@@ -2,9 +2,11 @@ package com.dotwee.openkwsolver;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +32,21 @@ public class MainActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void openTextActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, TextActivity.class);
+        startActivity(intent);
+    }
+
+    public void openClickActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, ClickActivity.class);
+        startActivity(intent);
+    }
+
+    public void openConfirmActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, ConfirmActivity.class);
+        startActivity(intent);
     }
 
 }
