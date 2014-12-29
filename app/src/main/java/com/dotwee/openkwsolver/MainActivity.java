@@ -222,15 +222,18 @@ public class MainActivity extends Activity {
         String CaptchaSkipURL = (coreurl + "?action=usercaptchaskip" + "&id=" + CaptchaID + "&apikey=" + pullKeyFromFile() + actionsource + "&debug=" + checkDebugCheckbox());
         String Code = null;
 
-        try {
-            Code = new DownloadContentTask().execute(CaptchaSkipURL).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        Toast.makeText(getApplicationContext(), "Skipped: " + Code, Toast.LENGTH_SHORT).show();
+        if (CaptchaID.matches(regex)) {
+            try {
+                Code = new DownloadContentTask().execute(CaptchaSkipURL).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(getApplicationContext(), "Skipped: " + Code, Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(getApplicationContext(), "Error, couldn't skip.", Toast.LENGTH_SHORT).show();
+        
     }
 
     // dialog for api key
