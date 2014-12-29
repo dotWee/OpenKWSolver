@@ -32,12 +32,13 @@
         android:columnOrderPreserved="false">
 
         <Button
-            android:id="@+id/buttonLeft"
+            android:id="@+id/buttonPull"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_gravity="left|right"
-            android:layout_row="0" />
+            android:layout_row="0"
+            android:text="Pull" />
 
         <EditText
             android:id="@+id/editTextAnswer"
@@ -50,11 +51,20 @@
             android:singleLine="true" />
 
         <Button
-            android:id="@+id/buttonRight"
+            android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="2"
-            android:layout_row="0" />
+            android:layout_row="0"
+            android:text="Send" />
+
+        <Button
+            android:id="@+id/buttonSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:text="Skip" />
 
     </GridLayout>
 
