@@ -58,17 +58,14 @@ public class MainActivity extends Activity {
 
                 final String CaptchaID = pullCaptchaID();
 
-                /*
-                Button buttonSkip = (Button) findViewById(R.id.buttonLeft);
-                buttonSkip.setText("Skip");
-                buttonSkip.setOnClickListener(new View.OnClickListener() {
+                buttonBeginn.setText("Skip");
+                buttonBeginn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         skipCaptcha(CaptchaID);
                         buttonBeginn.performClick();
                     }
                 });
-                */
 
                 if (!CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
