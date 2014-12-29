@@ -1,14 +1,12 @@
 package com.dotwee.openkwsolver;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ public class ClickActivity extends Activity {
     String actionsource = "&source=androidopenkws";
     String debug = "1"; // 1 = wahr
     String regex = "^[0-9]+ .+";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,7 @@ public class ClickActivity extends Activity {
 
                     // TODO Progressbar Countdown
 
-                    Button buttonSend = (Button) findViewById(R.id.buttonRight);
+                    Button buttonSend = (Button) findViewById(R.id.buttonSend);
                     buttonSend.setText("Send");
                     buttonSend.setOnClickListener(new View.OnClickListener() {
                         @Override

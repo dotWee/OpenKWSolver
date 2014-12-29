@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pullKeyFromFile();
 
         Button buttonKey = (Button) findViewById(R.id.buttonKey);
         buttonKey.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +45,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        final Button buttonBeginn = (Button) findViewById(R.id.buttonLeft);
+        final Button buttonBeginn = (Button) findViewById(R.id.buttonPull);
 
-        buttonBeginn.setText("Beginn");
         buttonBeginn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,15 +54,6 @@ public class MainActivity extends Activity {
                 clearImageViewAndEditText();
 
                 final String CaptchaID = pullCaptchaID();
-
-                buttonBeginn.setText("Skip");
-                buttonBeginn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        skipCaptcha(CaptchaID);
-                        buttonBeginn.performClick();
-                    }
-                });
 
                 if (!CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
@@ -90,8 +78,7 @@ public class MainActivity extends Activity {
                     };
                     pCountDownTimer.start();
 
-                    Button buttonSend = (Button) findViewById(R.id.buttonRight);
-                    buttonSend.setText("Send");
+                    Button buttonSend = (Button) findViewById(R.id.buttonSend);
                     buttonSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -102,6 +89,16 @@ public class MainActivity extends Activity {
                             buttonBeginn.setText("Continue");
                             buttonBeginn.performClick();
                             pCountDownTimer.cancel();
+                        }
+                    });
+
+                    Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
+                    buttonSkip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            skipCaptcha(CaptchaID);
+                            pCountDownTimer.cancel();
+                            buttonBeginn.performClick();
                         }
                     });
 
