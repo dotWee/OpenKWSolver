@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 
                 final String CaptchaID = pullCaptchaID();
 
-                if (!CaptchaID.matches(regex)) {
+                if (CaptchaID.matches(regex)) {
                     pullCaptchaPicture(CaptchaID); // Pull the Captcha picture and display it
 
                     final ProgressBar pProgressBar;
@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
                     });
 
                 } else
-                    Toast.makeText(getApplicationContext(), "Housten, we got a problem with CaptchaID " + CaptchaID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Housten, we got a problem: " + CaptchaID, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -183,10 +183,16 @@ public class MainActivity extends Activity {
 
     // pull Captcha picture and display it
     public String pullCaptchaPicture(String CaptchaID) {
+        clearImageViewAndEditText();
         String CaptchaPictureURL = (coreurl + "?action=usercaptchashow" + actionsource + "&debug=" + checkDebugCheckbox() + "&base64=0&id=" + CaptchaID + "&apikey=" + pullKeyFromFile());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(500);
+
+        ImageView imageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
+        if (imageViewCaptcha.getDrawable() != null) {
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(500);
+        }
+        
         return CaptchaPictureURL;
 
     }
