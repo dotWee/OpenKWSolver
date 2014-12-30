@@ -1,6 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_stop"
+        android:showAsAction="never"
+        android:title="Stop" />
+
+    <item
+        android:id="@+id/action_enter_api"
+        android:icon="@drawable/ic_key_white_48dp"
+        android:showAsAction="always|withText"
+        android:title="API-Key" />
 
 </menu>

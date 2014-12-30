@@ -1,10 +1,11 @@
 OpenKWSolver
 ============
 
-Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver.
+Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~970kb!)
 
 Using
 -----
+
 To work with it, you'll new an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key.
 The app won't work without API-Key. You can get the current Version beta.1 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.1/app-release.apk).
 
@@ -13,24 +14,38 @@ Building
 
 To build the app, just import OpenKWSolver into Android Studio.
 
+Used Permissions
+----------------
+
++ .INTERNET to request Captcha and download Image
++ .VIBRATE to signalize a new Captcha arrived
+
+Features
+--------
+
++ Vibrate as soon as new Captcha arrives
++ Auto-pull new Captcha
++ Captcha-debug mode
++ Self-only Captchas
+
 Screenshots
 -----------
 
 <table sytle="border: 0px;">
 <tr>
 <td><img width="200px" src="Screenshot1.png" /></td>
-<td><img width="200px" src="Screenshot2.png" /></td>
 </tr>
 </table>
 
 Todo
 ----
 
-+ <del>Use Progressbar as 30s countdown</del>
-+ <del>Skip Captcha automatically after 30s</del>
-+ <del>Vibrate as soon as Captcha is displayed</del>
 + Use 9kw's history API to view answered Captchas
-+ Backport to lower Android API's
-+ Add Confirm mode as well as Click mode
-+ <del>Make Debug mode available as Checkbox on MainActivity</del>
 + Make it look beautiful and tidy up the code
++ Servercheck in TextView on bottom
++ Backport to lower Android API's
++ Let user decide the loop mode
++ Add Checkboxes to menu
++ Log for better debug
++ Add Click mode
++ Documentation

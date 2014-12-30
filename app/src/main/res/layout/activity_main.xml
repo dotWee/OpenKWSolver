@@ -74,38 +74,45 @@
         android:layout_gravity="center_horizontal">
 
         <CheckBox
+            android:id="@+id/SelfOnlyBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:text="Self only" />
+
+        <CheckBox
             android:id="@+id/DebugBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignTop="@+id/buttonKey"
-            android:layout_toEndOf="@+id/buttonKey"
+            android:layout_above="@+id/SelfOnlyBox"
+            android:layout_alignParentStart="true"
             android:text="Debug" />
 
-        <Button
-            android:id="@+id/buttonKey"
-            style="?android:attr/buttonStyleSmall"
+        <TextView
+            android:id="@+id/textViewCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="Key" />
-
-        <TextView
-            android:id="@+id/textViewInQueue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/DebugBox"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/textViewWokers"
+            android:id="@+id/textViewQueue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/textViewInQueue"
-            android:layout_alignParentStart="true"
+            android:layout_above="@+id/textViewCurrent"
+            android:layout_alignParentEnd="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textViewWorker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textViewQueue"
+            android:layout_alignEnd="@+id/textViewQueue"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 
 </LinearLayout>

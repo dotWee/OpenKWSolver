@@ -1,9 +1,5 @@
 package com.dotwee.openkwsolver;
 
-/**
- * Created by lukas on 26.12.14.
- */
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;

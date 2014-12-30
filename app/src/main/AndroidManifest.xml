@@ -4,9 +4,7 @@
     android:versionCode="2"
     android:versionName="beta.2">
 
-    // .INTERNET is needed to pull CaptchaID, the actual Captcha picture and send answers
     <uses-permission android:name="android.permission.INTERNET" />
-    // .VIBRATE is needed for vibrating the devices, as soon as a new captcha arrives
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
@@ -28,15 +26,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".TextActivity"
-            android:label="@string/title_activity_text"></activity>
-        <activity
-            android:name=".ConfirmActivity"
-            android:label="@string/title_activity_confirm"></activity>
-        <activity
-            android:name=".ClickActivity"
-            android:label="@string/title_activity_click"></activity>
     </application>
 
 </manifest>
