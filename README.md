@@ -49,3 +49,4 @@ Todo
 + Log for better debug
 + Add Click mode
 + Documentation
++ Add an Icon
