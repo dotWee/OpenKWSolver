@@ -2,11 +2,10 @@
 <resources>
 
     <string name="app_name">OpenKWSolver</string>
+
     <string name="title_activity_text">Text Löser</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="title_activity_confirm">Bestätigungs Löser</string>
-    <string name="title_activity_click">Klick Löser</string>
+
     <string name="error_no_api_key_available">Kein API Key vorhanden.</string>
     <string name="error_no_api_key_found">Kein API Key gefunden.</string>
     <string name="error_api_key_has_been_deactivated">API Key wurde vom Betreiber deaktiviert.</string>
@@ -19,4 +18,11 @@
     <string name="error_no_id_found">Keine ID gefunden.</string>
     <string name="error_incorrect_answer">Fehlerhafte Antwort.</string>
     <string name="error_not_fast_enough_answered">Nicht rechtzeitig eingereicht (Falsche UserID).</string>
+
+    <string name="button_pull">Holen</string>
+    <string name="button_send">Senden</string>
+    <string name="button_skip">Überspringen</string>
+
+    <string name="checkbox_debug">Debug</string>
+    <string name="checkbox_selfonly">Nur eigene</string>
 </resources>

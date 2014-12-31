@@ -38,14 +38,14 @@
             android:layout_column="0"
             android:layout_gravity="left|right"
             android:layout_row="0"
-            android:text="Pull" />
+            android:text="@string/button_pull" />
 
         <EditText
             android:id="@+id/editTextAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_gravity="left|right"
+            android:layout_gravity="fill_horizontal|left|right"
             android:layout_row="0"
             android:inputType="textNoSuggestions"
             android:singleLine="true" />
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:layout_row="0"
-            android:text="Send" />
+            android:text="@string/button_send" />
 
         <Button
             android:id="@+id/buttonSkip"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_column="2"
             android:layout_row="1"
-            android:text="Skip" />
+            android:text="@string/button_skip" />
 
     </GridLayout>
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/SelfOnlyBox"
             android:layout_alignParentStart="true"
-            android:text="Debug" />
+            android:text="@string/checkbox_debug" />
 
         <TextView
             android:id="@+id/textViewCurrent"

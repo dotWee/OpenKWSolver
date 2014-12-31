@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 final String CaptchaID = requestCaptchaID();
 
-                if (!CaptchaID.matches(regex)) {
+                if (CaptchaID.matches(regex)) {
 
                     buttonPull.setEnabled(false);
 
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                         }
                     };
 
-                    if (CaptchaID.matches(regex)) {
+                    if (!CaptchaID.matches(regex)) {
                         CountDownTimer.start();
                     }
 
