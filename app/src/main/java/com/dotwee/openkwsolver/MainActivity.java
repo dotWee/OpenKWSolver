@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
-        buttonPull.setText("Start");
+        buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
                     buttonPull.setEnabled(false);
 
                     final TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-                    TextViewCurrent.setText("Current CaptchaID: " + CaptchaID);
+                    TextViewCurrent.setText(getString(R.string.current_captchaid) + CaptchaID);
 
                     final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                     pullCaptchaPicture(CaptchaID);
@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 
                             buttonPull.setEnabled(true);
 
-                            Toast.makeText(getApplicationContext(), "Next Captcha arrives in 3 secs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
                             Handler autoPull = new Handler();
                             autoPull.postDelayed(new Runnable() {
                                 @Override
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 
                             buttonPull.setEnabled(true);
 
-                            Toast.makeText(getApplicationContext(), "Next Captcha arrives in 3 secs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
                             Handler autoPull = new Handler();
                             autoPull.postDelayed(new Runnable() {
                                 @Override
@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
                         }
                     });
                 } else
-                    Toast.makeText(getApplicationContext(), "Code: " + CaptchaID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -204,7 +204,7 @@ public class MainActivity extends Activity {
         }
 
         if (CaptchaID.matches("NO CAPTCHA")) {
-            Toast.makeText(getApplicationContext(), "Code: " + CaptchaID + " AVAILABLE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID + getString(R.string.available), Toast.LENGTH_SHORT).show();
         }
 
         if (CaptchaID.matches(regex)) {
@@ -229,10 +229,10 @@ public class MainActivity extends Activity {
         }
 
         assert Status != null;
-        if (Status.matches("OK")) {
-            Toast.makeText(getApplicationContext(), "Code: " + Status, Toast.LENGTH_SHORT).show();
+        if (Status.matches(getString(R.string.ok))) {
+            Toast.makeText(getApplicationContext(), getString(R.string.code) + Status, Toast.LENGTH_SHORT).show();
         } else
-            Toast.makeText(getApplicationContext(), "Code: " + Status, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.code) + Status, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -284,7 +284,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        Toast.makeText(getApplicationContext(), "Skipped: " + Code, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.skipped) + Code, Toast.LENGTH_SHORT).show();
     }
 
     // pull Serverstatus // TODO put maybe in asynctask
@@ -304,14 +304,14 @@ public class MainActivity extends Activity {
         if (mQueue.find()) {
             TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
             TextViewQueue.setText(null);
-            TextViewQueue.setText("Captchas in queue: " + mQueue.group(1));
+            TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
         }
 
         Matcher mWorker = pWorker.matcher(tServercheck);
         if (mWorker.find()) {
             TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
             TextViewWorker.setText(null);
-            TextViewWorker.setText("Workers: " + mWorker.group(1));
+            TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
         }
     }
 
@@ -320,13 +320,13 @@ public class MainActivity extends Activity {
         AlertDialog.Builder AskDialog = new AlertDialog.Builder(this);
 
         AskDialog.setTitle("API-Key");
-        AskDialog.setMessage("Please enter a working key here:");
+        AskDialog.setMessage(getString(R.string.enter_captcha_here));
 
         final String filename = "apikey.txt";
         final EditText input_key = new EditText(this);
 
         AskDialog.setView(input_key);
-        AskDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        AskDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -348,11 +348,11 @@ public class MainActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getApplicationContext(), "Your API-Key is now saved.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
             }
         });
 
-        AskDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        AskDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

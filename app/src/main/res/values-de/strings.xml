@@ -25,4 +25,18 @@
 
     <string name="checkbox_debug">Debug</string>
     <string name="checkbox_selfonly">Nur eigene</string>
+
+    <string name="start">Start</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">OK</string>
+
+    <string name="current_captchaid">"Derzeitige CaptchaID: "</string>
+    <string name="next_captcha_arrives_soon">Neues Captcha kommt</string>
+    <string name="code">"Code: "</string>
+    <string name="available">" VERFÜGBAR"</string>
+    <string name="skipped">"Überspringen: "</string>
+    <string name="captchas_in_queue">"Captchas in Warteschlange: "</string>
+    <string name="workers">"Arbeiter: "</string>
+    <string name="enter_captcha_here">Gib hier deinen API-Key ein:</string>
+    <string name="apikey_now_saved">API-Key wurde gespeichert.</string>
 </resources>
