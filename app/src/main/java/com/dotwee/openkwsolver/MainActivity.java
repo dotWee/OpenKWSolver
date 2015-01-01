@@ -54,6 +54,10 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 final String CaptchaID = requestCaptchaID();
 
+                if (CaptchaID.matches("")) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID + getString(R.string.available), Toast.LENGTH_SHORT).show();
+                }
+
                 if (CaptchaID.matches(regex)) {
 
                     buttonPull.setEnabled(false);
@@ -79,9 +83,7 @@ public class MainActivity extends Activity {
                         }
                     };
 
-                    if (!CaptchaID.matches(regex)) {
-                        CountDownTimer.start();
-                    }
+                    CountDownTimer.start();
 
 
                     Button buttonSend = (Button) findViewById(R.id.buttonSend);
@@ -203,13 +205,6 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        if (CaptchaID.matches("NO CAPTCHA")) {
-            Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID + getString(R.string.available), Toast.LENGTH_SHORT).show();
-        }
-
-        if (CaptchaID.matches(regex)) {
-            return CaptchaID;
-        }
         return CaptchaID;
     }
 
