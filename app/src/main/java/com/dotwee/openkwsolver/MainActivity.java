@@ -441,13 +441,13 @@ public class MainActivity extends Activity {
         if (Type.equals("debug")) {
             if (ret.equals("true")) {
                 out = "&debug=1";
-            }
+            } else out = "";
         }
 
         if (Type.equals("selfonly")) {
             if (ret.equals("true")) {
                 out = "&selfonly=1";
-            }
+            } else out = "";
         } else out = "";
 
         return out;
