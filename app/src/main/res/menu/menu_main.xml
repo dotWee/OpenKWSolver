@@ -13,4 +13,13 @@
         android:showAsAction="always|withText"
         android:title="API-Key" />
 
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/action_debug"
+            android:title="Debug" />
+        <item
+            android:id="@+id/action_selfonly"
+            android:title="Self only" />
+    </group>
+
 </menu>

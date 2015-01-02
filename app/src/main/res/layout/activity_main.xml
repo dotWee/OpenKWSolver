@@ -73,22 +73,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal">
 
-        <CheckBox
-            android:id="@+id/SelfOnlyBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="Self only" />
-
-        <CheckBox
-            android:id="@+id/DebugBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/SelfOnlyBox"
-            android:layout_alignParentStart="true"
-            android:text="@string/checkbox_debug" />
-
         <TextView
             android:id="@+id/textViewCurrent"
             android:layout_width="wrap_content"

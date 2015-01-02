@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +47,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        File dir = getFilesDir();
+        File dfile = new File(dir, "debug.txt");
+        File sfile = new File(dir, "selfonly.txt");
+        boolean ddeleted = dfile.delete();
+        boolean sdeleted = sfile.delete();
+        
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +195,26 @@ public class MainActivity extends Activity {
                 finish();
                 System.exit(0);
                 return true;
+            case R.id.action_debug:
+                String sType = "debug";
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    writeState(sType, false);
+                } else {
+                    item.setChecked(true);
+                    writeState(sType, true);
+                }
+                return true;
+            case R.id.action_selfonly:
+                String aType = "selfonly";
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    writeState(aType, false);
+                } else {
+                    item.setChecked(true);
+                    writeState(aType, true);
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -196,7 +222,7 @@ public class MainActivity extends Activity {
 
     // CaptchaID anfragen
     public String requestCaptchaID() {
-        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + checkSelfOnlyCheckbox() + checkDebugCheckbox());
+        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
         String CaptchaID = null;
 
         try {
@@ -210,7 +236,7 @@ public class MainActivity extends Activity {
 
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
-        String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + checkDebugCheckbox() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+        String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
 
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
@@ -233,49 +259,21 @@ public class MainActivity extends Activity {
 
     // pull Captcha picture and display it
     public String pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + checkDebugCheckbox() + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
         new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
 
         return CaptchaPictureURL;
 
     }
 
-    // read DebugBox TODO add Checkbox to menu
-    public String checkDebugCheckbox() {
-        CheckBox DebugBox = (CheckBox) findViewById(R.id.DebugBox);
-        String result;
-
-        if ((DebugBox).isChecked()) {
-            result = "&debug=1"; // 1 = wahr
-        } else {
-            result = "&debug=0";
-        }
-        return result;
-    }
-
-    // read SelfOnlyBox TODO add Checkbox to menu
-    public String checkSelfOnlyCheckbox() {
-        CheckBox SelfOnlyBox = (CheckBox) findViewById(R.id.SelfOnlyBox);
-        String result;
-
-        if ((SelfOnlyBox).isChecked()) {
-            result = "&selfonly=1"; // 1 = wahr
-        } else {
-            result = "";
-        }
-        return result;
-    }
-
     // skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + checkDebugCheckbox());
+        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
         String Code = null;
 
         try {
             Code = new DownloadContentTask().execute(CaptchaSkipURL).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -389,4 +387,69 @@ public class MainActivity extends Activity {
 
     }
 
+    public void writeState(String Type, Boolean State) {
+        String FILENAME = (Type + ".txt");
+        // true = aktiviert
+
+        File dir = getFilesDir();
+        File file = new File(dir, FILENAME);
+        boolean deleted = file.delete();
+
+        OutputStreamWriter save = null;
+        try {
+            save = new OutputStreamWriter(openFileOutput(FILENAME, MODE_APPEND));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            assert save != null;
+            save.write(String.valueOf(State));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            save.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String readState(String Type) {
+        String FILENAME = (Type + ".txt");
+        String out = "";
+        String ret = "";
+
+        try {
+            InputStream inputStream = openFileInput(FILENAME);
+
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        } catch (IOException ignored) {
+        }
+
+        if (Type.equals("debug")) {
+            if (ret.equals("true")) {
+                out = "&debug=1";
+            }
+        }
+
+        if (Type.equals("selfonly")) {
+            if (ret.equals("true")) {
+                out = "&selfonly=1";
+            }
+        } else out = "";
+
+        return out;
+    }
 }
