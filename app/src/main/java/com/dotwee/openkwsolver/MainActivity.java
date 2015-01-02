@@ -389,7 +389,7 @@ public class MainActivity extends Activity {
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ((receiveString = bufferedReader.readLine()) != null) {
@@ -454,12 +454,11 @@ public class MainActivity extends Activity {
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
-                while ((receiveString = bufferedReader.readLine()) != null) {
+                while ((receiveString = bufferedReader.readLine()) != null)
                     stringBuilder.append(receiveString);
-                }
 
                 inputStream.close();
                 ret = stringBuilder.toString();
@@ -469,16 +468,11 @@ public class MainActivity extends Activity {
         }
 
         if (Type.equals("debug")) {
-            if (ret.equals("true")) {
-                out = "&debug=1";
-            } else out = "";
+            if (ret.equals("true")) out = "&debug=1";
         }
 
-        if (Type.equals("selfonly")) {
-            if (ret.equals("true")) {
-                out = "&selfonly=1";
-            } else out = "";
-        } else out = "";
+        if (Type.equals("selfonly")) if (ret.equals("true")) out = "&selfonly=1";
+        else out = "";
 
         Log.i("readState", "After Check: " + out);
         return out;
