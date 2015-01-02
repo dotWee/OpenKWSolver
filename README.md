@@ -49,3 +49,8 @@ Todo
 + Add Click mode
 + Documentation
 + Add an Icon
+
+Found a bug / had a force-close?
+--------------------------------
+
+Open a new Issue and include a logcat (also, maybe tell me how to reproduce)!
