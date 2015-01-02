@@ -239,8 +239,8 @@ public class MainActivity extends Activity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        if (CaptchaID == null) {
-            Log.i("requestCaptchaID", "CaptchaID = null");
+        if (CaptchaID == "") {
+            Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
         return CaptchaID;
     }
@@ -465,11 +465,9 @@ public class MainActivity extends Activity {
         } catch (IOException ignored) {
         }
 
-        if (Type.equals("debug")) {
-            if (ret.equals("true")) out = "&debug=1";
-        }
+        if (Type == "debug") if (ret == "true") out = "&debug=1";
 
-        if (Type.equals("selfonly")) if (ret.equals("true")) out = "&selfonly=1";
+        if (Type == "selfonly") if (ret == "true") out = "&selfonly=1";
         else out = "";
 
         Log.i("readState", "After Check: " + out);
