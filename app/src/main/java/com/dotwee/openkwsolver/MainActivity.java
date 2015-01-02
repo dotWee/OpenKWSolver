@@ -30,8 +30,8 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
 
+    public String regex = "^[0-9]+ .+";
     String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
-
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
     String actionConfirm = "&confirm=1";
@@ -40,8 +40,6 @@ public class MainActivity extends Activity {
     String actionShow = "?action=usercaptchashow";
     String actionSkipcaptcha = "?action=usercaptchaskip";
     String actionServercheck = "?action=userservercheck";
-
-    String regex = "^[0-9]+ .+";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +52,11 @@ public class MainActivity extends Activity {
         boolean ddeleted = dfile.delete();
         boolean sdeleted = sfile.delete();
 
-        if (ddeleted == true) {
+        if (ddeleted) {
             Log.i("onCreate", "Debugfile deleted");
         }
 
-        if (sdeleted == true) {
+        if (sdeleted) {
             Log.i("onCreate", "Selfonlyfile deleted");
         }
         
