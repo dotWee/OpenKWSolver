@@ -45,7 +45,6 @@ Todo
 + Servercheck in TextView on bottom
 + Backport to lower Android API's
 + Let user decide the loop mode
-+ Add Checkboxes to menu
 + Log for better debug
 + Add Click mode
 + Documentation
