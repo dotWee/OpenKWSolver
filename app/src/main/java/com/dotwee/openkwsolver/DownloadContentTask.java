@@ -1,6 +1,7 @@
 package com.dotwee.openkwsolver;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -11,7 +12,6 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
-
     protected String doInBackground(String... urls) {
         HttpResponse response = null;
         HttpGet httpGet = null;
@@ -32,7 +32,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.i("DownloadContenTask", "Return: " + output);
         return output;
     }
 
