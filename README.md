@@ -1,13 +1,13 @@
 OpenKWSolver
 ============
 
-Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~970kb!)
+Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~950kb!)
 
 Using
 -----
 
 To work with it, you'll new an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key.
-The app won't work without API-Key. You can get the current Version beta.2 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.2/app-release_SIGNED_beta-2.apk).
+The app won't work without API-Key. You can get the current Version beta.3 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.3/app-release_SIGNED_beta.3.apk).
 
 Building
 --------
