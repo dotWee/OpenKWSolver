@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,18 +53,22 @@ public class MainActivity extends Activity {
         File sfile = new File(dir, "selfonly.txt");
         boolean ddeleted = dfile.delete();
         boolean sdeleted = sfile.delete();
+
+        if (ddeleted == true) {
+            Log.i("onCreate", "Debugfile deleted");
+        }
+
+        if (sdeleted == true) {
+            Log.i("onCreate", "Selfonlyfile deleted");
+        }
         
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("OnClickPull", "Click recognized");
                 final String CaptchaID = requestCaptchaID();
-
-                if (CaptchaID.matches("")) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID + getString(R.string.available), Toast.LENGTH_SHORT).show();
-                }
-
                 if (CaptchaID.matches(regex)) {
 
                     buttonPull.setEnabled(false);
@@ -90,7 +95,7 @@ public class MainActivity extends Activity {
                     };
 
                     CountDownTimer.start();
-
+                    Log.i("OnClickPull", "Timer started");
 
                     Button buttonSend = (Button) findViewById(R.id.buttonSend);
                     buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +106,7 @@ public class MainActivity extends Activity {
                             sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
 
                             CountDownTimer.cancel();
+                            Log.i("OnClickSend", "Timer killed");
                             ProgressBar.setProgress(0);
 
                             ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
@@ -115,6 +121,7 @@ public class MainActivity extends Activity {
                             autoPull.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    Log.i("OnClickPull", "Auto-pull next Captcha");
                                     buttonPull.performClick();
                                 }
                             }, 3000); // three sec delay
@@ -125,6 +132,7 @@ public class MainActivity extends Activity {
                     buttonSkip.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Log.i("OnClickSkip", "Click recognized");
                             EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
                             EditTextCaptchaAnswer.setText(null);
 
@@ -144,12 +152,13 @@ public class MainActivity extends Activity {
                                 @Override
                                 public void run() {
                                     buttonPull.performClick();
+                                    Log.i("OnClickSkip", "Auto-pull next Captcha");
                                 }
                             }, 3000); // three sec delay
                         }
                     });
                 } else
-                    Toast.makeText(getApplicationContext(), getString(R.string.code) + CaptchaID, Toast.LENGTH_SHORT).show();
+                    Log.i("OnClickPull", "Error with ID: " + CaptchaID);
             }
         });
 
@@ -167,6 +176,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void run() {
                             pullStatus();
+                            Log.i("StatusUpdate", "Serverstatus updated");
                         }
                     });
                 }
@@ -180,7 +190,7 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
+        Log.i("onCreateOptionsMenu", "Return: " + true);
         return true;
     }
 
@@ -223,6 +233,7 @@ public class MainActivity extends Activity {
     // CaptchaID anfragen
     public String requestCaptchaID() {
         String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
+        Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = null;
 
         try {
@@ -230,16 +241,22 @@ public class MainActivity extends Activity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
+        if (CaptchaID == null) {
+            Log.i("requestCaptchaID", "CaptchaID = null");
+        } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
         return CaptchaID;
     }
 
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
-        String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
 
+        Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
+        Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
+        
+        String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
+        Log.i("sendCaptchaAnswer", "URL: " + CaptchaURL);
 
         String Status = null;
 
@@ -249,19 +266,21 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        assert Status != null;
-        if (Status.matches(getString(R.string.ok))) {
-            Toast.makeText(getApplicationContext(), getString(R.string.code) + Status, Toast.LENGTH_SHORT).show();
-        } else
-            Toast.makeText(getApplicationContext(), getString(R.string.code) + Status, Toast.LENGTH_SHORT).show();
+        Log.i("sendCaptchaAnswer", "Code: " + Status);
 
     }
 
     // pull Captcha picture and display it
     public String pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
-        new DownloadImageTask((ImageView) findViewById(R.id.imageViewCaptcha)).execute(CaptchaPictureURL);
+        Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
+        ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
+        new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
 
+        if (ImageV.getDrawable() == null) {
+            Log.i("pullCaptchaPicture", "After Downloadtask: UNUSED");
+        } else Log.i("pullCaptchaPicture", "After Downloadtask: USED");
+        
         return CaptchaPictureURL;
 
     }
@@ -269,6 +288,7 @@ public class MainActivity extends Activity {
     // skip Captcha
     public void skipCaptcha(String CaptchaID) {
         String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
+        Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String Code = null;
 
         try {
@@ -276,8 +296,7 @@ public class MainActivity extends Activity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
-        Toast.makeText(getApplicationContext(), getString(R.string.skipped) + Code, Toast.LENGTH_SHORT).show();
+        Log.i("skipCaptcha", "Result: " + Code);
     }
 
     // pull Serverstatus // TODO put maybe in asynctask
@@ -292,12 +311,15 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
+        Log.i("pullStatus", "Output: " + tServercheck);
+
         assert tServercheck != null;
         Matcher mQueue = pQueue.matcher(tServercheck);
         if (mQueue.find()) {
             TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
             TextViewQueue.setText(null);
             TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
+            Log.i("pullStatus", "Queue: " + mQueue.group(1));
         }
 
         Matcher mWorker = pWorker.matcher(tServercheck);
@@ -305,6 +327,7 @@ public class MainActivity extends Activity {
             TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
             TextViewWorker.setText(null);
             TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
+            Log.i("pullStatus", "Worker: " + mWorker.group(1));
         }
     }
 
@@ -333,6 +356,7 @@ public class MainActivity extends Activity {
                 try {
                     assert save != null;
                     save.write(apikey);
+                    Log.i("DialogAPI", "Saving API-Key successful");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -348,7 +372,7 @@ public class MainActivity extends Activity {
         AskDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Log.i("DialogAPI", "Canceled Dialog");
             }
         });
         AskDialog.show();
@@ -374,15 +398,18 @@ public class MainActivity extends Activity {
 
                 inputStream.close();
                 read = ("&apikey=" + stringBuilder.toString());
+                Log.i("pullKey", "Readed key: " + stringBuilder.toString());
             }
 
         } catch (FileNotFoundException e) {
+            Log.i("pullKey", "Couldn't read key. Ask for it.");
             DialogAPI();
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        Log.i("pullKey", "Return: " + read);
         return read;
 
     }
@@ -394,6 +421,7 @@ public class MainActivity extends Activity {
         File dir = getFilesDir();
         File file = new File(dir, FILENAME);
         boolean deleted = file.delete();
+        Log.i("writeState", "File deleted: " + deleted);
 
         OutputStreamWriter save = null;
         try {
@@ -406,6 +434,7 @@ public class MainActivity extends Activity {
             save.write(String.valueOf(State));
         } catch (IOException e) {
             e.printStackTrace();
+            Log.i("writeState", "Couldn't write file.");
         }
         try {
             save.close();
@@ -434,6 +463,7 @@ public class MainActivity extends Activity {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
+                Log.i("readState", "File-Output: " + ret);
             }
         } catch (IOException ignored) {
         }
@@ -450,6 +480,7 @@ public class MainActivity extends Activity {
             } else out = "";
         } else out = "";
 
+        Log.i("readState", "After Check: " + out);
         return out;
     }
 }
