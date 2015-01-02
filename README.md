@@ -12,7 +12,7 @@ The app won't work without API-Key. You can get the current Version beta.3 apk [
 Building
 --------
 
-To build the app, just import OpenKWSolver into Android Studio.
+Just clone that git-project, or download it as zip [here](https://github.com/dotWee/OpenKWSolver/archive/master-rewrite.zip) and import it to Android Studio!
 
 Used Permissions
 ----------------
