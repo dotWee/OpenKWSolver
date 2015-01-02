@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Log.i("OnClickPull", "Click recognized");
                 final String CaptchaID = requestCaptchaID();
-                if (CaptchaID.matches(regex)) {
+                if (!CaptchaID.matches(regex)) {
 
                     buttonPull.setEnabled(false);
 
