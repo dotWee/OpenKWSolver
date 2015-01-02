@@ -23,7 +23,6 @@ Used Permissions
 Features
 --------
 
-+ Vibrate as soon as new Captcha arrives
 + Auto-pull new Captcha
 + Captcha-debug mode
 + Self-only Captchas
@@ -42,6 +41,7 @@ Todo
 
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
++ Vibrate as soon as new Captcha arrives
 + Servercheck in TextView on bottom
 + Backport to lower Android API's
 + Let user decide the loop mode
