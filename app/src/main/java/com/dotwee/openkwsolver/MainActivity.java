@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
-    String actionConfirm = "&confirm=1";
+    String actionConfirm = ""; // &confirm=1
     String actionNocaptcha = "&nocaptcha=1"; // TODO check if no captcha
     String actionAnswer = "?action=usercaptchacorrect";
     String actionShow = "?action=usercaptchashow";
@@ -56,6 +56,33 @@ public class MainActivity extends Activity {
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
 
         buttonBalance.setEnabled(false);
+        Thread BalanceUpdate = new Thread() {
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            String Balance = pullBalance();
+                            buttonBalance.setText(Balance);
+                            Log.i("BalanceUpdate", Balance);
+                        }
+                    });
+                }
+
+            }
+        };
+
+        if (pullKey() != "") {
+            BalanceUpdate.start();
+        }
+        
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,31 +177,6 @@ public class MainActivity extends Activity {
                                 }, 3000); // three sec delay
                             }
                         });
-
-                        Thread BalanceUpdate = new Thread() {
-                            @Override
-                            public void run() {
-                                while (!isInterrupted()) {
-                                    try {
-                                        Thread.sleep(5000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            String Balance = pullBalance();
-                                            buttonBalance.setText("Balance: " + Balance);
-                                            Log.i("BalanceUpdate", "Balance: " + Balance);
-                                        }
-                                    });
-                                }
-
-                            }
-                        };
-                        BalanceUpdate.start();
-
 
                     } else Log.i("OnClickPull", "Error with ID: " + CaptchaID);
                 } else {
@@ -521,6 +523,7 @@ public class MainActivity extends Activity {
     public String pullBalance() {
         String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
         String tBalance = null;
+        String r = null;
 
         try {
             tBalance = new DownloadContentTask().execute(BalanceURL).get();
@@ -528,9 +531,9 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        if (tBalance.matches(regex)) {
-            return tBalance;
-        } else return tBalance = "";
+        if (!tBalance.matches(regex)) {
+            return r = ("Balance: " + tBalance);
+        } else return r = "";
     }
     
     private boolean isNetworkAvailable() {
