@@ -2,7 +2,10 @@ package com.dotwee.openkwsolver;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -181,6 +184,15 @@ public class MainActivity extends Activity {
 
             }
         };
+
+        if (isNetworkAvailable()) {
+            StatusUpdate.start();
+        }
+        if (!isNetworkAvailable()) {
+            TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
+            TextViewQueue.setText(null);
+            TextViewQueue.setText("No network available!");
+        }
 
     }
 
@@ -472,5 +484,12 @@ public class MainActivity extends Activity {
 
         Log.i("readState", "After Check: " + out);
         return out;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
