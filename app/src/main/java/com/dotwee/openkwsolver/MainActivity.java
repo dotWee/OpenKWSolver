@@ -556,14 +556,16 @@ public class MainActivity extends Activity {
         Dialog.show();
     }
 
+    // BalanceThread: Update the balance every 5 seconds
     public void balanceThread() {
         final Thread BalanceUpdate;
         BalanceUpdate = new Thread() {
+
             @Override
             public void run() {
                 while (!isInterrupted()) {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(5000); // 5000ms = 5s
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -571,7 +573,8 @@ public class MainActivity extends Activity {
                         @Override
                         public void run() {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
-                            buttonBalance.setText(pullBalance());
+                            Log.i("balanceThread", "Called.");
+                            buttonBalance.setText(pullBalance()); // set buttonBalance to current balance
                         }
                     });
                 }
@@ -579,7 +582,16 @@ public class MainActivity extends Activity {
             }
         };
 
-        if (BalanceUpdate.isAlive()) BalanceUpdate.stop();
-        else BalanceUpdate.start();
+        // check if thread isn't already running.
+        if (BalanceUpdate.isAlive()) {
+            BalanceUpdate.stop();
+            Log.i("balanceThread", "stopped");
+        }
+
+        // if not, start it
+        else {
+            BalanceUpdate.start();
+            Log.i("balanceThread", "started");
+        }
     }
 }
