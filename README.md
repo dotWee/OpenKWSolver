@@ -17,6 +17,7 @@ Just clone that git-project, or download it as zip [here](https://github.com/dot
 Used Permissions
 ----------------
 
++ .ACCESS_NETWORK_STATE to check if network is available
 + .INTERNET to request Captcha and download Image
 + .VIBRATE to signalize a new Captcha arrived
 
