@@ -57,34 +57,11 @@ public class MainActivity extends Activity {
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
 
         buttonBalance.setEnabled(false);
-        Thread BalanceUpdate;
-        BalanceUpdate = new Thread() {
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            String Balance = pullBalance();
-                            buttonBalance.setText(Balance);
-                            Log.i("BalanceUpdate", Balance);
-                        }
-                    });
-                }
-
-            }
-        };
 
         File dir = getFilesDir();
         File file = new File(dir, "apikey.txt");
         if (file.exists()) {
-            BalanceUpdate.start();
+            balanceThread();
         }
         
         buttonPull.setText(getString(R.string.start));
@@ -423,6 +400,8 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
                 Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
@@ -575,5 +554,32 @@ public class MainActivity extends Activity {
             }
         });
         Dialog.show();
+    }
+
+    public void balanceThread() {
+        final Thread BalanceUpdate;
+        BalanceUpdate = new Thread() {
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
+                            buttonBalance.setText(pullBalance());
+                        }
+                    });
+                }
+
+            }
+        };
+
+        if (BalanceUpdate.isAlive()) BalanceUpdate.stop();
+        else BalanceUpdate.start();
     }
 }
