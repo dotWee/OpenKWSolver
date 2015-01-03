@@ -47,7 +47,7 @@
             android:layout_column="1"
             android:layout_gravity="fill_horizontal|left|right"
             android:layout_row="0"
-            android:inputType="textNoSuggestions"
+            android:inputType="textVisiblePassword"
             android:singleLine="true" />
 
         <Button
@@ -57,14 +57,6 @@
             android:layout_column="2"
             android:layout_row="0"
             android:text="@string/button_send" />
-
-        <Button
-            android:id="@+id/buttonSkip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:text="@string/button_skip" />
 
     </GridLayout>
 
@@ -96,6 +88,17 @@
             android:layout_above="@+id/textViewQueue"
             android:layout_alignParentStart="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:text="@string/button_skip" />
 
     </RelativeLayout>
 
