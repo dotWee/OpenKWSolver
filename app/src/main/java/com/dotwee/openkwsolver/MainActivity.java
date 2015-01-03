@@ -167,7 +167,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        // TODO TextView Serverstatus
         Thread StatusUpdate = new Thread() {
             @Override
             public void run() {
@@ -495,5 +494,27 @@ public class MainActivity extends Activity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void DialogNetwork() {
+        AlertDialog.Builder AskDialog = new AlertDialog.Builder(this);
+
+        AskDialog.setTitle("No network available");
+        AskDialog.setMessage("Please connect to the internet!");
+
+        AskDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AskDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AskDialog.show();
     }
 }
