@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
     String actionShow = "?action=usercaptchashow";
     String actionSkipcaptcha = "?action=usercaptchaskip";
     String actionServercheck = "?action=userservercheck";
+    String actionBalance = "?action=usercaptchaguthaben";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
+        final Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
         final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
-        
+
+        buttonBalance.setEnabled(false);
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,8 +150,33 @@ public class MainActivity extends Activity {
                                 }, 3000); // three sec delay
                             }
                         });
-                    } else
-                        Log.i("OnClickPull", "Error with ID: " + CaptchaID);
+
+                        Thread BalanceUpdate = new Thread() {
+                            @Override
+                            public void run() {
+                                while (!isInterrupted()) {
+                                    try {
+                                        Thread.sleep(5000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            String Balance = pullBalance();
+                                            buttonBalance.setText("Balance: " + Balance);
+                                            Log.i("BalanceUpdate", "Balance: " + Balance);
+                                        }
+                                    });
+                                }
+
+                            }
+                        };
+                        BalanceUpdate.start();
+
+
+                    } else Log.i("OnClickPull", "Error with ID: " + CaptchaID);
                 } else {
                     DialogNetwork();
                 }
@@ -490,6 +518,21 @@ public class MainActivity extends Activity {
         return out;
     }
 
+    public String pullBalance() {
+        String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
+        String tBalance = null;
+
+        try {
+            tBalance = new DownloadContentTask().execute(BalanceURL).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if (tBalance.matches(regex)) {
+            return tBalance;
+        } else return tBalance = "";
+    }
+    
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
