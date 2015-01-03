@@ -10,8 +10,8 @@
     <item
         android:id="@+id/action_enter_api"
         android:icon="@drawable/ic_key_white_48dp"
-        android:showAsAction="always|withText"
-        android:title="API-Key" />
+        android:showAsAction="withText|ifRoom"
+        android:title="API" />
 
     <group android:checkableBehavior="all">
         <item
