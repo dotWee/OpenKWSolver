@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         if (file.exists()) {
             balanceThread();
         }
-        
+
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
                         if (b == true) {
                             buttonPull.performClick();
                         }
-                        
+
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
                         CountDownTimer = new CountDownTimer(30000, 1000) {
@@ -284,7 +284,7 @@ public class MainActivity extends Activity {
 
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
-        
+
         String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
@@ -526,7 +526,7 @@ public class MainActivity extends Activity {
             return r = ("Balance: " + tBalance);
         } else return r = "";
     }
-    
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
