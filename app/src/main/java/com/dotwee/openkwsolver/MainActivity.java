@@ -50,6 +50,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
+        final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
+        EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
+        
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +92,6 @@ public class MainActivity extends Activity {
                         buttonSend.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
                                 String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
                                 sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
 
