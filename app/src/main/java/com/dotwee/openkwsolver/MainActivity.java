@@ -52,11 +52,13 @@ public class MainActivity extends Activity {
 
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         final Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
+        final ImageView ImageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
         final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
 
         buttonBalance.setEnabled(false);
-        Thread BalanceUpdate = new Thread() {
+        Thread BalanceUpdate;
+        BalanceUpdate = new Thread() {
             @Override
             public void run() {
                 while (!isInterrupted()) {
@@ -79,7 +81,9 @@ public class MainActivity extends Activity {
             }
         };
 
-        if (pullKey() != "") {
+        File dir = getFilesDir();
+        File file = new File(dir, "apikey.txt");
+        if (file.exists()) {
             BalanceUpdate.start();
         }
         
@@ -98,7 +102,12 @@ public class MainActivity extends Activity {
                         TextViewCurrent.setText(getString(R.string.current_captchaid) + CaptchaID);
 
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                        pullCaptchaPicture(CaptchaID);
+
+                        boolean b = pullCaptchaPicture(CaptchaID);
+                        if (b == true) {
+                            buttonPull.performClick();
+                        }
+                        
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
                         CountDownTimer = new CountDownTimer(30000, 1000) {
@@ -115,8 +124,14 @@ public class MainActivity extends Activity {
                             }
                         };
 
-                        CountDownTimer.start();
-                        Log.i("OnClickPull", "Timer started");
+                        if (b == true) {
+                            buttonPull.performClick();
+                            Log.i("OnClickPull", "Timer started");
+                        }
+
+                        if (b == false) {
+                            CountDownTimer.start();
+                        }
 
                         Button buttonSend = (Button) findViewById(R.id.buttonSend);
                         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -129,8 +144,7 @@ public class MainActivity extends Activity {
                                 Log.i("OnClickSend", "Timer killed");
                                 ProgressBar.setProgress(0);
 
-                                ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
-                                ImageView.setImageDrawable(null);
+                                ImageViewCaptcha.setImageDrawable(null);
                                 EditTextCaptchaAnswer.setText(null);
                                 TextViewCurrent.setText(null);
 
@@ -312,7 +326,7 @@ public class MainActivity extends Activity {
     }
 
     // pull Captcha picture and display it
-    public String pullCaptchaPicture(String CaptchaID) {
+    public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
@@ -320,9 +334,11 @@ public class MainActivity extends Activity {
 
         if (ImageV.getDrawable() == null) {
             Log.i("pullCaptchaPicture", "After Downloadtask: UNUSED");
-        } else Log.i("pullCaptchaPicture", "After Downloadtask: USED");
-        
-        return CaptchaPictureURL;
+            return false;
+        } else {
+            Log.i("pullCaptchaPicture", "After Downloadtask: USED");
+            return true;
+        }
 
     }
 
@@ -442,10 +458,6 @@ public class MainActivity extends Activity {
                 Log.i("pullKey", "Readed key: " + stringBuilder.toString());
             }
 
-        } catch (FileNotFoundException e) {
-            Log.i("pullKey", "Couldn't read key. Ask for it.");
-            DialogAPI();
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
