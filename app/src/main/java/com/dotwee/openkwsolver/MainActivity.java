@@ -69,97 +69,101 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.i("OnClickPull", "Click recognized");
-                final String CaptchaID = requestCaptchaID();
-                if (!CaptchaID.matches(regex)) {
+                if (isNetworkAvailable()) {
+                    final String CaptchaID = requestCaptchaID();
+                    if (!CaptchaID.matches(regex)) {
 
-                    buttonPull.setEnabled(false);
+                        buttonPull.setEnabled(false);
 
-                    final TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-                    TextViewCurrent.setText(getString(R.string.current_captchaid) + CaptchaID);
+                        final TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
+                        TextViewCurrent.setText(getString(R.string.current_captchaid) + CaptchaID);
 
-                    final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    pullCaptchaPicture(CaptchaID);
-                    final int[] i = {0};
-                    final CountDownTimer CountDownTimer;
-                    CountDownTimer = new CountDownTimer(30000, 1000) {
+                        final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                        pullCaptchaPicture(CaptchaID);
+                        final int[] i = {0};
+                        final CountDownTimer CountDownTimer;
+                        CountDownTimer = new CountDownTimer(30000, 1000) {
 
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            i[0]++;
-                            ProgressBar.setProgress(i[0]);
-                        }
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                i[0]++;
+                                ProgressBar.setProgress(i[0]);
+                            }
 
-                        @Override
-                        public void onFinish() {
+                            @Override
+                            public void onFinish() {
 
-                        }
-                    };
+                            }
+                        };
 
-                    CountDownTimer.start();
-                    Log.i("OnClickPull", "Timer started");
+                        CountDownTimer.start();
+                        Log.i("OnClickPull", "Timer started");
 
-                    Button buttonSend = (Button) findViewById(R.id.buttonSend);
-                    buttonSend.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
-                            String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
-                            sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
+                        Button buttonSend = (Button) findViewById(R.id.buttonSend);
+                        buttonSend.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
+                                String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
+                                sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
 
-                            CountDownTimer.cancel();
-                            Log.i("OnClickSend", "Timer killed");
-                            ProgressBar.setProgress(0);
+                                CountDownTimer.cancel();
+                                Log.i("OnClickSend", "Timer killed");
+                                ProgressBar.setProgress(0);
 
-                            ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
-                            ImageView.setImageDrawable(null);
-                            EditTextCaptchaAnswer.setText(null);
-                            TextViewCurrent.setText(null);
+                                ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
+                                ImageView.setImageDrawable(null);
+                                EditTextCaptchaAnswer.setText(null);
+                                TextViewCurrent.setText(null);
 
-                            buttonPull.setEnabled(true);
+                                buttonPull.setEnabled(true);
 
-                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                            Handler autoPull = new Handler();
-                            autoPull.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.i("OnClickPull", "Auto-pull next Captcha");
-                                    buttonPull.performClick();
-                                }
-                            }, 3000); // three sec delay
-                        }
-                    });
+                                Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
+                                Handler autoPull = new Handler();
+                                autoPull.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.i("OnClickPull", "Auto-pull next Captcha");
+                                        buttonPull.performClick();
+                                    }
+                                }, 3000); // three sec delay
+                            }
+                        });
 
-                    Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
-                    buttonSkip.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.i("OnClickSkip", "Click recognized");
-                            EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
-                            EditTextCaptchaAnswer.setText(null);
+                        Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
+                        buttonSkip.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.i("OnClickSkip", "Click recognized");
+                                EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
+                                EditTextCaptchaAnswer.setText(null);
 
-                            skipCaptcha(CaptchaID);
+                                skipCaptcha(CaptchaID);
 
-                            CountDownTimer.cancel();
-                            ProgressBar.setProgress(0);
+                                CountDownTimer.cancel();
+                                ProgressBar.setProgress(0);
 
-                            ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
-                            ImageView.setImageDrawable(null);
+                                ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
+                                ImageView.setImageDrawable(null);
 
-                            buttonPull.setEnabled(true);
+                                buttonPull.setEnabled(true);
 
-                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                            Handler autoPull = new Handler();
-                            autoPull.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    buttonPull.performClick();
-                                    Log.i("OnClickSkip", "Auto-pull next Captcha");
-                                }
-                            }, 3000); // three sec delay
-                        }
-                    });
-                } else
-                    Log.i("OnClickPull", "Error with ID: " + CaptchaID);
+                                Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
+                                Handler autoPull = new Handler();
+                                autoPull.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        buttonPull.performClick();
+                                        Log.i("OnClickSkip", "Auto-pull next Captcha");
+                                    }
+                                }, 3000); // three sec delay
+                            }
+                        });
+                    } else
+                        Log.i("OnClickPull", "Error with ID: " + CaptchaID);
+                } else {
+                    // TODO AlertDialog no Internet connection available
+                }
             }
         });
 
