@@ -49,20 +49,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        File dir = getFilesDir();
-        File dfile = new File(dir, "debug.txt");
-        File sfile = new File(dir, "selfonly.txt");
-        boolean ddeleted = dfile.delete();
-        boolean sdeleted = sfile.delete();
-
-        if (ddeleted) {
-            Log.i("onCreate", "Debugfile deleted");
-        }
-
-        if (sdeleted) {
-            Log.i("onCreate", "Selfonlyfile deleted");
-        }
-        
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +222,16 @@ public class MainActivity extends Activity {
                 } else {
                     item.setChecked(true);
                     writeState(aType, true);
+                }
+                return true;
+            case R.id.action_loop:
+                String lType = "loop";
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    writeState(lType, false);
+                } else {
+                    item.setChecked(true);
+                    writeState(lType, true);
                 }
                 return true;
             default:
@@ -429,12 +425,14 @@ public class MainActivity extends Activity {
 
     public void writeState(String Type, Boolean State) {
         String FILENAME = (Type + ".txt");
-        // true = aktiviert
 
         File dir = getFilesDir();
         File file = new File(dir, FILENAME);
         boolean deleted = file.delete();
-        Log.i("writeState", "File deleted: " + deleted);
+
+        if (deleted) {
+            Log.i("writeState", "File deleted: " + FILENAME);
+        } else Log.i("writeState", "Not deleted: " + FILENAME);
 
         OutputStreamWriter save = null;
         try {
@@ -447,7 +445,8 @@ public class MainActivity extends Activity {
             save.write(String.valueOf(State));
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i("writeState", "Couldn't write file.");
+            Log.i("writeState", "Couldn't write " + Type);
+            Log.i("writeState", "Error " + e);
         }
         try {
             save.close();

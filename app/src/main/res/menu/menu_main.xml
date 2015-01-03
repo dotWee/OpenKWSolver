@@ -20,6 +20,9 @@
         <item
             android:id="@+id/action_selfonly"
             android:title="Self only" />
+        <item
+            android:id="@+id/action_loop"
+            android:title="Auto pull" />
     </group>
 
 </menu>
