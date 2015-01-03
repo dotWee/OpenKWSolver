@@ -6,7 +6,9 @@ Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~950kb!)
 Using
 -----
 
-To work with it, you'll new an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key.
+targetSDK: 21 (5.0 Lollipop)
+minSDK: 14 (+4.0 Ice Cream Sandwich) Untested on 4.4 and below!
+To work with it, you'll need a device with Android 4.0 and above. 5.0 would be best. Also, an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key would be an advantage.
 The app won't work without API-Key. You can get the current Version beta.3 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.3/app-release_SIGNED_beta.3.apk).
 
 Building
