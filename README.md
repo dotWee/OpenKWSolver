@@ -9,7 +9,7 @@ Using
 targetSDK: 21 (5.0 Lollipop)
 minSDK: 14 (+4.0 Ice Cream Sandwich) Untested on 4.4 and below!
 To work with it, you'll need a device with Android 4.0 and above. 5.0 would be best. Also, an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key would be an advantage.
-The app won't work without API-Key. You can get the current Version beta.3 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.3/app-release_SIGNED_beta.3.apk).
+The app won't work without API-Key. You can get the current Version beta.4 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.4/app-release_SIGNED_beta.4.apk).
 
 Building
 --------
@@ -47,7 +47,7 @@ Todo
 + Make it look beautiful and tidy up the code
 + Vibrate as soon as new Captcha arrives
 + Backport to lower Android API's
-+ Let user decide the loop mode
++ Let user decide the loop mode (in work)
 + Log for better debug
 + Add Click mode
 + Documentation
