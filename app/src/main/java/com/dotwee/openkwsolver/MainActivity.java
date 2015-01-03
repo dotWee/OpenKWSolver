@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
                     } else
                         Log.i("OnClickPull", "Error with ID: " + CaptchaID);
                 } else {
-                    // TODO AlertDialog no Internet connection available
+                    DialogNetwork();
                 }
             }
         });
@@ -172,7 +172,7 @@ public class MainActivity extends Activity {
             public void run() {
                 while (!isInterrupted()) {
                     try {
-                        Thread.sleep(4000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -497,24 +497,24 @@ public class MainActivity extends Activity {
     }
 
     public void DialogNetwork() {
-        AlertDialog.Builder AskDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder Dialog = new AlertDialog.Builder(this);
 
-        AskDialog.setTitle("No network available");
-        AskDialog.setMessage("Please connect to the internet!");
+        Dialog.setTitle("No network available");
+        Dialog.setMessage("Please connect to the internet!");
 
-        AskDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        Dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
 
-        AskDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        Dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
-        AskDialog.show();
+        Dialog.show();
     }
 }
