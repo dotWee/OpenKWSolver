@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:contentDescription="none"
         android:maxWidth="200dp"
         android:minHeight="150dp" />
 
@@ -61,8 +62,8 @@
     </GridLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal">
 
         <TextView
@@ -97,6 +98,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="@string/button_skip" />
+
+        <Button
+            android:id="@+id/buttonBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
     </RelativeLayout>
 
