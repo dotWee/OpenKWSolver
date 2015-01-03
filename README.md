@@ -24,6 +24,7 @@ Used Permissions
 Features
 --------
 
++ Servercheck (Current worker-count, Captchas in Queue)
 + Auto-pull new Captcha
 + Captcha-debug mode
 + Self-only Captchas
