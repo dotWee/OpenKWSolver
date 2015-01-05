@@ -262,7 +262,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    // CaptchaID anfragen
+    // Request CaptchaID
     public String requestCaptchaID() {
         String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
@@ -302,7 +302,7 @@ public class MainActivity extends Activity {
 
     }
 
-    // pull Captcha picture and display it
+    // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
@@ -319,7 +319,7 @@ public class MainActivity extends Activity {
 
     }
 
-    // skip Captcha
+    // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
         String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
@@ -333,7 +333,7 @@ public class MainActivity extends Activity {
         Log.i("skipCaptcha", "Result: " + Code);
     }
 
-    // pull Serverstatus // TODO put maybe in asynctask
+    // Pull Serverstatus // TODO put maybe in asynctask
     public void pullStatus() {
         Pattern pQueue = Pattern.compile("queue=(\\d+)");
         Pattern pWorker = Pattern.compile("worker=(\\d+)");
@@ -414,7 +414,7 @@ public class MainActivity extends Activity {
         AskDialog.show();
     }
 
-    // read API-Key from Dialog
+    // Read API-Key from Dialog
     private String pullKey() {
         String read = null;
 
@@ -446,6 +446,7 @@ public class MainActivity extends Activity {
 
     }
 
+    // Write states (Debug and self-only)
     public void writeState(String Type, Boolean State) {
         String FILENAME = (Type + ".txt");
 
@@ -478,6 +479,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    // Read written states
     public String readState(String Type) {
         String FILENAME = (Type + ".txt");
         String out = "";
@@ -511,6 +513,7 @@ public class MainActivity extends Activity {
         return out;
     }
 
+    // Pull balance
     public String pullBalance() {
         String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
         String tBalance = null;
@@ -527,6 +530,7 @@ public class MainActivity extends Activity {
         } else return r = "";
     }
 
+    // Check if network is available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -534,6 +538,7 @@ public class MainActivity extends Activity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    // Notify the user about now working network
     public void DialogNetwork() {
         AlertDialog.Builder Dialog = new AlertDialog.Builder(this);
 
