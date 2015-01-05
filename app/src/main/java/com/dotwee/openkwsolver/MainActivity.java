@@ -80,7 +80,8 @@ public class MainActivity extends Activity {
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
                         boolean b = pullCaptchaPicture(CaptchaID);
-                        if (b == true) {
+
+                        if (b) {
                             buttonPull.performClick();
                         }
 
@@ -100,12 +101,12 @@ public class MainActivity extends Activity {
                             }
                         };
 
-                        if (b == true) {
+                        if (b) {
                             buttonPull.performClick();
                             Log.i("OnClickPull", "Timer started");
                         }
 
-                        if (b == false) {
+                        if (!b) {
                             CountDownTimer.start();
                         }
 
@@ -123,7 +124,8 @@ public class MainActivity extends Activity {
                                 ImageViewCaptcha.setImageDrawable(null);
                                 EditTextCaptchaAnswer.setText(null);
 
-                                TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
+                                TextView TextViewCurrent;
+                                TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
                                 TextViewCurrent.setText(null);
 
                                 buttonPull.setEnabled(true);
