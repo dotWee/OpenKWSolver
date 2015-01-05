@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
     String actionConfirm = ""; // &confirm=1
-    String actionNocaptcha = "&nocaptcha=1"; // TODO check if no captcha
+    String actionNocaptcha = "&nocaptcha=1";
     String actionAnswer = "?action=usercaptchacorrect";
     String actionShow = "?action=usercaptchashow";
     String actionSkipcaptcha = "?action=usercaptchaskip";
