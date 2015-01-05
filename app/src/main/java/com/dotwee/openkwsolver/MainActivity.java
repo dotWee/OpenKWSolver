@@ -77,11 +77,6 @@ public class MainActivity extends Activity {
                     final String CaptchaID = requestCaptchaID();
                     if (!CaptchaID.matches(regex)) {
 
-                        buttonPull.setEnabled(false);
-
-                        final TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-                        TextViewCurrent.setText(getString(R.string.current_captchaid) + CaptchaID);
-
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
                         boolean b = pullCaptchaPicture(CaptchaID);
@@ -127,6 +122,8 @@ public class MainActivity extends Activity {
 
                                 ImageViewCaptcha.setImageDrawable(null);
                                 EditTextCaptchaAnswer.setText(null);
+
+                                TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
                                 TextViewCurrent.setText(null);
 
                                 buttonPull.setEnabled(true);
@@ -153,6 +150,9 @@ public class MainActivity extends Activity {
 
                                 skipCaptcha(CaptchaID);
 
+                                TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
+                                TextViewCurrent.setText(null);
+                                
                                 CountDownTimer.cancel();
                                 ProgressBar.setProgress(0);
 
@@ -250,6 +250,10 @@ public class MainActivity extends Activity {
         if (CaptchaID == "") {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
+
+        TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
+        TextViewCurrent.setText(CaptchaID);
+        
         return CaptchaID;
     }
 
@@ -283,13 +287,9 @@ public class MainActivity extends Activity {
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
 
-        if (ImageV.getDrawable() == null) {
-            Log.i("pullCaptchaPicture", "After Downloadtask: UNUSED");
+        if (CaptchaID != "") {
             return false;
-        } else {
-            Log.i("pullCaptchaPicture", "After Downloadtask: USED");
-            return true;
-        }
+        } else return true; // true =
 
     }
 
