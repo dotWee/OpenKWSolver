@@ -64,6 +64,10 @@ public class MainActivity extends Activity {
             balanceThread();
         }
 
+        if (isNetworkAvailable()) {
+            servercheckThread();
+        }
+
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,36 +179,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
-        Thread StatusUpdate = new Thread() {
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            pullStatus();
-                            Log.i("StatusUpdate", "Serverstatus updated");
-                        }
-                    });
-                }
-
-            }
-        };
-
-        if (isNetworkAvailable()) {
-            StatusUpdate.start();
-        }
-        if (!isNetworkAvailable()) {
-            TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
-            TextViewQueue.setText(null);
-            TextViewQueue.setText("No network available!");
-        }
 
     }
 
@@ -331,38 +305,6 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
         Log.i("skipCaptcha", "Result: " + Code);
-    }
-
-    // Pull Serverstatus // TODO put maybe in asynctask
-    public void pullStatus() {
-        Pattern pQueue = Pattern.compile("queue=(\\d+)");
-        Pattern pWorker = Pattern.compile("worker=(\\d+)");
-        String tServercheck = null;
-
-        try {
-            tServercheck = new DownloadContentTask().execute(kwCoreurl + actionServercheck + actionSource).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("pullStatus", "Output: " + tServercheck);
-
-        assert tServercheck != null;
-        Matcher mQueue = pQueue.matcher(tServercheck);
-        if (mQueue.find()) {
-            TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
-            TextViewQueue.setText(null);
-            TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
-            Log.i("pullStatus", "Queue: " + mQueue.group(1));
-        }
-
-        Matcher mWorker = pWorker.matcher(tServercheck);
-        if (mWorker.find()) {
-            TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
-            TextViewWorker.setText(null);
-            TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
-            Log.i("pullStatus", "Worker: " + mWorker.group(1));
-        }
     }
 
     // Dialog for API key
@@ -513,23 +455,6 @@ public class MainActivity extends Activity {
         return out;
     }
 
-    // Pull balance
-    public String pullBalance() {
-        String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
-        String tBalance = null;
-        String r = null;
-
-        try {
-            tBalance = new DownloadContentTask().execute(BalanceURL).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        if (!tBalance.matches(regex)) {
-            return r = ("Balance: " + tBalance);
-        } else return r = "";
-    }
-
     // Check if network is available
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -579,7 +504,16 @@ public class MainActivity extends Activity {
                         public void run() {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
                             Log.i("balanceThread", "Called.");
-                            buttonBalance.setText(pullBalance()); // set buttonBalance to current balance
+                            String tBalance = null;
+
+                            try {
+                                tBalance = new DownloadContentTask().execute(kwCoreurl + actionBalance + actionSource + pullKey()).get();
+                            } catch (InterruptedException | ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                            buttonBalance.setText(tBalance);
+                            
                         }
                     });
                 }
@@ -597,6 +531,68 @@ public class MainActivity extends Activity {
         else {
             BalanceUpdate.start();
             Log.i("balanceThread", "started");
+        }
+    }
+
+    // ServercheckThread: Update the server-stats every 5 seconds
+    public void servercheckThread() {
+        final Thread ServercheckUpdate;
+        ServercheckUpdate = new Thread() {
+
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        Thread.sleep(5000); // 5000ms = 5s
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i("servercheckThread", "Called.");
+                            Pattern pQueue = Pattern.compile("queue=(\\d+)");
+                            Pattern pWorker = Pattern.compile("worker=(\\d+)");
+                            String tServercheck = null;
+
+                            try {
+                                tServercheck = new DownloadContentTask().execute(kwCoreurl + actionServercheck + actionSource).get();
+                            } catch (InterruptedException | ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                            Matcher mQueue = pQueue.matcher(tServercheck);
+                            if (mQueue.find()) {
+                                TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
+                                TextViewQueue.setText(null);
+                                TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
+                                Log.i("pullStatus", "Queue: " + mQueue.group(1));
+                            }
+
+                            Matcher mWorker = pWorker.matcher(tServercheck);
+                            if (mWorker.find()) {
+                                TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
+                                TextViewWorker.setText(null);
+                                TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
+                                Log.i("pullStatus", "Worker: " + mWorker.group(1));
+                            }
+                        }
+                    });
+                }
+
+            }
+        };
+
+        // check if thread isn't already running.
+        if (ServercheckUpdate.isAlive()) {
+            ServercheckUpdate.stop();
+            Log.i("servercheckThread", "stopped");
+        }
+
+        // if not, start it
+        else {
+            ServercheckUpdate.start();
+            Log.i("servercheckThread", "started");
         }
     }
 }
