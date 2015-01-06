@@ -62,6 +62,7 @@ public class MainActivity extends Activity {
         File file = new File(dir, "apikey.txt");
         if (file.exists()) {
             balanceThread();
+            buttonBalance.setVisibility(View.VISIBLE);
         }
 
         if (isNetworkAvailable()) {
