@@ -53,10 +53,8 @@ public class MainActivity extends Activity {
 
         buttonBalance.setEnabled(false);
 
-        /**
-        File dir = getFilesDir();
-        File file = new File(dir, "apikey.txt");
-        if (file.exists()) {
+        String checkAPI = prefs.getString("apikey", null);
+        if (checkAPI == null) {
             balanceThread();
             buttonBalance.setVisibility(View.VISIBLE);
         }
@@ -64,7 +62,6 @@ public class MainActivity extends Activity {
         if (isNetworkAvailable()) {
             servercheckThread();
         }
-         **/
 
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
