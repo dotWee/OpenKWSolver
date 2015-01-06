@@ -194,10 +194,8 @@ public class MainActivity extends Activity {
                 DialogAPI();
                 return true;
             case R.id.action_stop:
-                // finish();
-                // System.exit(0);
-                
-                Toast.makeText(getApplicationContext(), readState("debug"), Toast.LENGTH_SHORT).show();
+                finish();
+                System.exit(0);
                 return true;
             case R.id.action_debug:
                 String sType = "debug";
@@ -246,7 +244,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        if (CaptchaID.equals("")) {
+        if (CaptchaID.trim().equals("")) {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
 
@@ -357,18 +355,22 @@ public class MainActivity extends Activity {
     }
 
     // Read written states
-    public String readState(String Type) {
+    public String readState(String rType) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        boolean b = prefs.getBoolean(Type, false);
+        boolean b = prefs.getBoolean(rType, false);
+
+        Log.i("readState", "Type: " + rType);
+        Log.i("readState", "State: " + b);
+        
         String r = "";
 
-        if (Type == ("debug")) {
+        if (rType.trim().equals("debug")) {
             if (b) {
                 r = "&debug=1";
             }
         }
 
-        if (Type == ("selfonly")) {
+        if (rType.trim().equals("selfonly")) {
             if (b) {
                 r = "&selfonly=1";
             }
