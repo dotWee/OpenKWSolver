@@ -336,7 +336,7 @@ public class MainActivity extends Activity {
     // Read API-Key from Dialog
     private String pullKey() {
         String read;
-        read = prefs.getString("apikey", "");
+        read = prefs.getString("apikey", null);
         Log.i("pullKey", "Return: " + read);
         return read;
 
