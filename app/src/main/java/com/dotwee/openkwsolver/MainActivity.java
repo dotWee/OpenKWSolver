@@ -194,8 +194,10 @@ public class MainActivity extends Activity {
                 DialogAPI();
                 return true;
             case R.id.action_stop:
-                finish();
-                System.exit(0);
+                // finish();
+                // System.exit(0);
+                
+                Toast.makeText(getApplicationContext(), readState("debug"), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_debug:
                 String sType = "debug";
