@@ -282,7 +282,7 @@ public class MainActivity extends Activity {
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
 
-        return CaptchaID.equals("");
+        return ImageV.getDrawable() == null;
 
     }
 
