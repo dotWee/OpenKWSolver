@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends Activity {
 
     public String regex = "^[0-9]+ .+";
-    SharedPreferences prefs = this.getSharedPreferences("com.dotwee.openkwsolver", Context.MODE_PRIVATE);
+
     String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
@@ -51,8 +51,9 @@ public class MainActivity extends Activity {
         final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
 
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         String checkAPI = prefs.getString("apikey", null);
-        if (checkAPI == null) {
+        if (checkAPI != null) {
             balanceThread();
             buttonBalance.setVisibility(View.VISIBLE);
         }
@@ -315,6 +316,7 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
 
                 String input = input_key.getText().toString();
+                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                 prefs.edit().putString("apikey", input).apply();
                 Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
 
@@ -334,6 +336,7 @@ public class MainActivity extends Activity {
     // Read API-Key from Dialog
     private String pullKey() {
         String read;
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         read = prefs.getString("apikey", null);
         Log.i("pullKey", "Return: " + read);
         return read;
@@ -342,6 +345,7 @@ public class MainActivity extends Activity {
 
     // Write states (Debug and self-only)
     public void writeState(String Type, Boolean State) {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         prefs.edit().putBoolean(Type, State).apply();
         Log.i("writeState", "Type: " + Type);
         Log.i("writeState", "State: " + State);
@@ -349,6 +353,7 @@ public class MainActivity extends Activity {
 
     // Read written states
     public String readState(String Type) {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         boolean b = prefs.getBoolean(Type, false);
         String r = "";
 
