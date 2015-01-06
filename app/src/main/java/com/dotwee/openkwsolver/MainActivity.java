@@ -242,7 +242,7 @@ public class MainActivity extends Activity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        if (CaptchaID == "") {
+        if (CaptchaID.equals("")) {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
 
@@ -282,9 +282,7 @@ public class MainActivity extends Activity {
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
 
-        if (CaptchaID != "") {
-            return false;
-        } else return true; // true =
+        return CaptchaID.equals("");
 
     }
 
@@ -355,13 +353,13 @@ public class MainActivity extends Activity {
         String r = "";
 
         if (Type.equals("debug")) {
-            if (b == true) {
+            if (b) {
                 r = "&debug=1";
             }
         }
 
         if (Type.equals("selfonly")) {
-            if (b == true) {
+            if (b) {
                 r = "&selfonly=1";
             }
         } else r = "";
