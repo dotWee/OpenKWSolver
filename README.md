@@ -35,7 +35,7 @@ Screenshots
 
 <table sytle="border: 0px;">
 <tr>
-<td><img width="200px" src="Screenshot1.png" /></td>
+<td><img width="200px" src="Screenshot.png" /></td>
 </tr>
 </table>
 
