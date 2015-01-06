@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
+        Log.i("DownloadContentTaskOutput", urls[0]); // log input
         HttpResponse response = null;
         HttpGet httpGet = null;
         HttpClient mHttpClient = null;
@@ -32,7 +33,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("DownloadContenTask", "Return: " + output);
+        Log.i("DownloadContentTaskOutput", output); // log output
         return output;
     }
 
