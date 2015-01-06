@@ -47,7 +47,6 @@ Todo
 + Vibrate as soon as new Captcha arrives
 + Backport to lower Android API's
 + Let user decide the loop mode (in work)
-+ Log for better debug
 + Add Click mode
 + Documentation
 + Add an Icon
