@@ -243,6 +243,7 @@ public class MainActivity extends Activity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
         if (CaptchaID.equals("")) {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
@@ -338,8 +339,10 @@ public class MainActivity extends Activity {
         String read;
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         read = prefs.getString("apikey", null);
+
+        String r = ("&apikey=" + read);
         Log.i("pullKey", "Return: " + read);
-        return read;
+        return r;
 
     }
 
@@ -357,17 +360,20 @@ public class MainActivity extends Activity {
         boolean b = prefs.getBoolean(Type, false);
         String r = "";
 
-        if (Type.equals("debug")) {
+        if (Type == ("debug")) {
             if (b) {
                 r = "&debug=1";
             }
         }
 
-        if (Type.equals("selfonly")) {
+        if (Type == ("selfonly")) {
             if (b) {
                 r = "&selfonly=1";
             }
-        } else r = "";
+        } else {
+            r = "";
+            Log.i("readState", "No Type discovered");
+        }
 
         Log.i("readState", "Return: " + r);
         return r;
@@ -422,10 +428,14 @@ public class MainActivity extends Activity {
                         public void run() {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
                             Log.i("balanceThread", "Called.");
+
+                            String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
+                            Log.i("balanceThread", "BalanceURL: " + BalanceURL);
+                            
                             String tBalance = null;
 
                             try {
-                                tBalance = new DownloadContentTask().execute(kwCoreurl + actionBalance + actionSource + pullKey()).get();
+                                tBalance = new DownloadContentTask().execute(BalanceURL).get();
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }
