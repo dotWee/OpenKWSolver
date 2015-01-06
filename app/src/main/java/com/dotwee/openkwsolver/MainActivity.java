@@ -51,8 +51,6 @@ public class MainActivity extends Activity {
         final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
 
-        buttonBalance.setEnabled(false);
-
         String checkAPI = prefs.getString("apikey", null);
         if (checkAPI == null) {
             balanceThread();
@@ -149,7 +147,7 @@ public class MainActivity extends Activity {
 
                                 TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
                                 TextViewCurrent.setText(null);
-                                
+
                                 CountDownTimer.cancel();
                                 ProgressBar.setProgress(0);
 
@@ -250,7 +248,7 @@ public class MainActivity extends Activity {
 
         TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
         TextViewCurrent.setText(CaptchaID);
-        
+
         return CaptchaID;
     }
 
@@ -430,7 +428,7 @@ public class MainActivity extends Activity {
                             }
 
                             buttonBalance.setText(tBalance);
-                            
+
                         }
                     });
                 }
