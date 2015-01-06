@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends Activity {
 
     public String regex = "^[0-9]+ .+";
+    SharedPreferences prefs = this.getSharedPreferences("com.dotwee.openkwsolver", Context.MODE_PRIVATE);
     String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
@@ -393,69 +395,30 @@ public class MainActivity extends Activity {
 
     // Write states (Debug and self-only)
     public void writeState(String Type, Boolean State) {
-        String FILENAME = (Type + ".txt");
-
-        File dir = getFilesDir();
-        File file = new File(dir, FILENAME);
-        boolean deleted = file.delete();
-
-        if (deleted) {
-            Log.i("writeState", "File deleted: " + FILENAME);
-        } else Log.i("writeState", "Not deleted: " + FILENAME);
-
-        OutputStreamWriter save = null;
-        try {
-            save = new OutputStreamWriter(openFileOutput(FILENAME, MODE_APPEND));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            assert save != null;
-            save.write(String.valueOf(State));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i("writeState", "Couldn't write " + Type);
-            Log.i("writeState", "Error " + e);
-        }
-        try {
-            save.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        prefs.edit().putBoolean(Type, State).apply();
+        Log.i("writeState", "Type: " + Type);
+        Log.i("writeState", "State: " + State);
     }
 
     // Read written states
     public String readState(String Type) {
-        String FILENAME = (Type + ".txt");
-        String out = "";
-        String ret = "";
+        boolean b = prefs.getBoolean(Type, false);
+        String r = "";
 
-        try {
-            InputStream inputStream = openFileInput(FILENAME);
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString;
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receiveString = bufferedReader.readLine()) != null)
-                    stringBuilder.append(receiveString);
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-                Log.i("readState", "File-Output: " + ret);
+        if (Type.equals("debug")) {
+            if (b == true) {
+                r = "&debug=1";
             }
-        } catch (IOException ignored) {
         }
 
-        if (Type == "debug") if (ret == "true") out = "&debug=1";
+        if (Type.equals("selfonly")) {
+            if (b == true) {
+                r = "&selfonly=1";
+            }
+        } else r = "";
 
-        if (Type == "selfonly") if (ret == "true") out = "&selfonly=1";
-        else out = "";
-
-        Log.i("readState", "After Check: " + out);
-        return out;
+        Log.i("readState", "Return: " + r);
+        return r;
     }
 
     // Check if network is available
