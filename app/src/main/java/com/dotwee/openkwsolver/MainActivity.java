@@ -21,13 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +53,7 @@ public class MainActivity extends Activity {
 
         buttonBalance.setEnabled(false);
 
+        /**
         File dir = getFilesDir();
         File file = new File(dir, "apikey.txt");
         if (file.exists()) {
@@ -70,6 +64,7 @@ public class MainActivity extends Activity {
         if (isNetworkAvailable()) {
             servercheckThread();
         }
+         **/
 
         buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
@@ -319,7 +314,6 @@ public class MainActivity extends Activity {
         AskDialog.setTitle("API-Key");
         AskDialog.setMessage(getString(R.string.enter_captcha_here));
 
-        final String filename = "apikey.txt";
         final EditText input_key = new EditText(this);
 
         AskDialog.setView(input_key);
@@ -327,25 +321,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                OutputStreamWriter save = null;
-                try {
-                    save = new OutputStreamWriter(openFileOutput(filename, MODE_APPEND));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                String apikey = input_key.getText().toString();
-                try {
-                    assert save != null;
-                    save.write(apikey);
-                    Log.i("DialogAPI", "Saving API-Key successful");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    save.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String input = input_key.getText().toString();
+                prefs.edit().putString("apikey", input).apply();
                 Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
 
 
@@ -363,31 +340,8 @@ public class MainActivity extends Activity {
 
     // Read API-Key from Dialog
     private String pullKey() {
-        String read = null;
-
-        try {
-
-            InputStream inputStream = openFileInput("apikey.txt");
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString;
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receiveString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                read = ("&apikey=" + stringBuilder.toString());
-                Log.i("pullKey", "Readed key: " + stringBuilder.toString());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        String read;
+        read = prefs.getString("apikey", "");
         Log.i("pullKey", "Return: " + read);
         return read;
 
