@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="none"
         android:maxWidth="200dp"
         android:minHeight="150dp" />
 
