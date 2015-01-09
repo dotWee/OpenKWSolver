@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
                     if (!CaptchaID.matches(regex)) {
 
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-
+                        buttonPull.setEnabled(false);
                         pullCaptchaPicture(CaptchaID);
 
                         Handler checkImageView = new Handler();
