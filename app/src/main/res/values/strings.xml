@@ -30,13 +30,13 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
 
-    <string name="current_captchaid">"Current CaptchaID: "</string>
+    <string name="current_captchaid">Current CaptchaID: </string>
     <string name="next_captcha_arrives_soon">Next Captcha arrives soon</string>
-    <string name="code">"Code: "</string>
-    <string name="available">" AVAILABLE"</string>
-    <string name="skipped">"Skipped: "</string>
-    <string name="captchas_in_queue">"Captchas in queue: "</string>
-    <string name="workers">"Workers: "</string>
+    <string name="code">Code: </string>
+    <string name="available"> AVAILABLE</string>
+    <string name="skipped">Skipped: </string>
+    <string name="captchas_in_queue">Captchas in queue: </string>
+    <string name="workers">Workers: </string>
     <string name="enter_captcha_here">Please enter a working key here:</string>
     <string name="apikey_now_saved">Your API-Key is now saved.</string>
 </resources>
