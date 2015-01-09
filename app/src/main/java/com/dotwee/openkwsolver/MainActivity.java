@@ -385,9 +385,11 @@ public class MainActivity extends Activity {
 
     // Check if network is available
     private boolean isNetworkAvailable() {
+        Log.i("isNetworkAvailable", "Called");
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        Log.i("isNetworkAvailable", activeNetworkInfo.toString());
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
