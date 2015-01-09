@@ -339,7 +339,7 @@ public class MainActivity extends Activity {
     private String pullKey() {
         String r;
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        r = (prefs.getString("apikey", null) + "&apikey=");
+        r = ("&apikey=" + prefs.getString("apikey", null));
 
         Log.i("pullKey", "Return: " + r);
         return r;
