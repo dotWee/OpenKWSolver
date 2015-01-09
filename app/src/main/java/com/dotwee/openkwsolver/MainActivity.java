@@ -393,6 +393,7 @@ public class MainActivity extends Activity {
 
     // Notify the user about now working network
     public void DialogNetwork() {
+        Log.i("DialogNetwork", "Called");
         AlertDialog.Builder Dialog = new AlertDialog.Builder(this);
 
         Dialog.setTitle("No network available");
@@ -401,14 +402,14 @@ public class MainActivity extends Activity {
         Dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Log.i("DialogNetwork", "OK");
             }
         });
 
         Dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Log.i("DialogNetwork", "Canceled");
             }
         });
         Dialog.show();
@@ -431,7 +432,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void run() {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
-                            Log.i("balanceThread", "Called.");
+                            Log.i("balanceThread", "Called");
 
                             String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
@@ -443,7 +444,7 @@ public class MainActivity extends Activity {
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }
-
+                            Log.i("balanceThread", "Balance: " + tBalance);
                             buttonBalance.setText(tBalance);
 
                         }
@@ -482,7 +483,7 @@ public class MainActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.i("servercheckThread", "Called.");
+                            Log.i("servercheckThread", "Called");
                             Pattern pQueue = Pattern.compile("queue=(\\d+)");
                             Pattern pWorker = Pattern.compile("worker=(\\d+)");
                             String tServercheck = null;
@@ -498,7 +499,7 @@ public class MainActivity extends Activity {
                                 TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
                                 TextViewQueue.setText(null);
                                 TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
-                                Log.i("pullStatus", "Queue: " + mQueue.group(1));
+                                Log.i("servercheckThread", "Queue: " + mQueue.group(1));
                             }
 
                             Matcher mWorker = pWorker.matcher(tServercheck);
@@ -506,7 +507,7 @@ public class MainActivity extends Activity {
                                 TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
                                 TextViewWorker.setText(null);
                                 TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
-                                Log.i("pullStatus", "Worker: " + mWorker.group(1));
+                                Log.i("servercheckThread", "Workers: " + mWorker.group(1));
                             }
                         }
                     });
