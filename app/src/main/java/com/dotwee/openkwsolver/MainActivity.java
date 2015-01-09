@@ -361,7 +361,7 @@ public class MainActivity extends Activity {
 
         Log.i("readState", "input Type: " + rType);
         Log.i("readState", "input State: " + b);
-        
+
         String r = "";
 
         if (rType.trim().equals("debug")) {
@@ -389,7 +389,6 @@ public class MainActivity extends Activity {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        Log.i("isNetworkAvailable", activeNetworkInfo.toString());
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
@@ -438,7 +437,7 @@ public class MainActivity extends Activity {
 
                             String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
-                            
+
                             String tBalance = null;
 
                             try {
