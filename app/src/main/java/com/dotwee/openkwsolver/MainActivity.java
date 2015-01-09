@@ -74,17 +74,6 @@ public class MainActivity extends Activity {
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                         buttonPull.setEnabled(false);
                         pullCaptchaPicture(CaptchaID);
-
-                        Handler checkImageView = new Handler();
-                        checkImageView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (ImageViewCaptcha.getDrawable() == null) {
-                                    Log.i("Handler checkImageView", "Auto-pull next Captcha");
-                                    buttonPull.performClick();
-                                }
-                            }
-                        }, 3000); // three sec delay
                         
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
@@ -101,6 +90,17 @@ public class MainActivity extends Activity {
 
                             }
                         };
+
+                        Handler checkImageView = new Handler();
+                        checkImageView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (ImageViewCaptcha.getDrawable() == null) {
+                                    Log.i("Handler checkImageView", "Auto-pull next Captcha");
+                                    buttonPull.performClick();
+                                } else CountDownTimer.start();
+                            }
+                        }, 3000); // three sec delay
 
                         Button buttonSend = (Button) findViewById(R.id.buttonSend);
                         buttonSend.setOnClickListener(new View.OnClickListener() {
