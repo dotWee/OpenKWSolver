@@ -10,7 +10,7 @@ minSDK: 21 (5.0 Lollipop)
 To work with it, you'll need a device with Android 5.0 and above. Also, an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key would be an advantage.
 The app won't work without API-Key. 
 You can grab the latest Version beta.5 apk [here](https://github.com/dotWee/OpenKWSolver/releases/download/beta.5/app-release_SIGNED_beta.5.apk).
-md5sum: <code>b88473a9fe5b88782938a86073325573</code
+md5sum: <code>b88473a9fe5b88782938a86073325573</code>
 
 Building
 --------
