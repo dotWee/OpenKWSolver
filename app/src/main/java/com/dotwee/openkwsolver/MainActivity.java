@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
                         
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
-                        CountDownTimer = new CountDownTimer(30000, 1000) {
+                        CountDownTimer = new CountDownTimer(26000, 1000) {
 
                             @Override
                             public void onTick(long millisUntilFinished) {
