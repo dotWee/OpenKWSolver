@@ -26,6 +26,7 @@ Features
 --------
 
 + Servercheck (Current worker-count, Captchas in Queue)
++ Vibrate on Captcha-arrival
 + Auto-pull new Captcha
 + Captcha-debug mode
 + Self-only Captchas
@@ -44,9 +45,8 @@ Todo
 
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
-+ Vibrate as soon as new Captcha arrives
-+ Backport to lower Android API's
 + Let user decide the loop mode (in work)
++ Backport to lower Android API's
 + Add Click mode
 + Documentation
 + Add an Icon
@@ -54,4 +54,4 @@ Todo
 Found a bug / had a force-close?
 --------------------------------
 
-Open a new Issue and include a logcat (also, maybe tell me how to reproduce)!
+Open a new Issue and provide a logcat.
