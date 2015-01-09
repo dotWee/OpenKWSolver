@@ -75,10 +75,6 @@ public class MainActivity extends Activity {
 
                         boolean b = pullCaptchaPicture(CaptchaID);
 
-                        if (b) {
-                            buttonPull.performClick();
-                        }
-
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
                         CountDownTimer = new CountDownTimer(30000, 1000) {
@@ -95,6 +91,7 @@ public class MainActivity extends Activity {
                             }
                         };
 
+                        /*
                         if (b) {
                             buttonPull.performClick();
                             Log.i("OnClickPull", "Timer started");
@@ -103,6 +100,7 @@ public class MainActivity extends Activity {
                         if (!b) {
                             CountDownTimer.start();
                         }
+                        */
 
                         Button buttonSend = (Button) findViewById(R.id.buttonSend);
                         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -234,7 +232,7 @@ public class MainActivity extends Activity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
+        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + "&debug=1");
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = null;
 
@@ -279,7 +277,7 @@ public class MainActivity extends Activity {
 
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + "&debug=1" + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
@@ -290,7 +288,7 @@ public class MainActivity extends Activity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
+        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + "&debug=1");
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -339,11 +337,13 @@ public class MainActivity extends Activity {
     private String pullKey() {
         String r;
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        r = ("&apikey=" + prefs.getString("apikey", null));
+        String k = prefs.getString("apikey", null);
+        Log.i("pullKey", "Readed key: " + k);
 
-        Log.i("pullKey", "Return: " + r);
-        return r;
-
+        if (k != null) {
+            r = ("&apikey=" + k);
+            return r;
+        } else return r = "";
     }
 
     // Write states (Debug and self-only)
