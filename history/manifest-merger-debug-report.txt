@@ -16,9 +16,9 @@ ADDED from AndroidManifest.xml:2:1
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from AndroidManifest.xml:7:1
+ADDED from AndroidManifest.xml:7:5
 	android:name
-		ADDED from AndroidManifest.xml:7:18
+		ADDED from AndroidManifest.xml:7:22
 uses-permission#android.permission.INTERNET
 ADDED from AndroidManifest.xml:8:5
 	android:name
