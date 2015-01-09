@@ -263,7 +263,7 @@ public class MainActivity extends Activity {
         String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
-        Log.i("sendCaptchaAnswer", "URL: " + CaptchaURL);
+        Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
 
         String Status = null;
 
@@ -292,14 +292,14 @@ public class MainActivity extends Activity {
     public void skipCaptcha(String CaptchaID) {
         String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
-        String Code = null;
+        String r = null;
 
         try {
-            Code = new DownloadContentTask().execute(CaptchaSkipURL).get();
+            r = new DownloadContentTask().execute(CaptchaSkipURL).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        Log.i("skipCaptcha", "Result: " + Code);
+        Log.i("skipCaptcha", "Result: " + r);
     }
 
     // Dialog for API key
@@ -315,8 +315,9 @@ public class MainActivity extends Activity {
         AskDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Log.i("DialogAPI", "OK");
                 String input = input_key.getText().toString();
+                Log.i("DialogAPI", "Input: " + input);
                 SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                 prefs.edit().putString("apikey", input).apply();
                 Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
@@ -336,22 +337,21 @@ public class MainActivity extends Activity {
 
     // Read API-Key from Dialog
     private String pullKey() {
-        String read;
+        String r;
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        read = prefs.getString("apikey", null);
+        r = (prefs.getString("apikey", null) + "&apikey=");
 
-        String r = ("&apikey=" + read);
-        Log.i("pullKey", "Return: " + read);
+        Log.i("pullKey", "Return: " + r);
         return r;
 
     }
 
     // Write states (Debug and self-only)
-    public void writeState(String Type, Boolean State) {
+    public void writeState(String rType, Boolean State) {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        prefs.edit().putBoolean(Type, State).apply();
-        Log.i("writeState", "Type: " + Type);
-        Log.i("writeState", "State: " + State);
+        prefs.edit().putBoolean(rType, State).apply();
+        Log.i("writeState", "input Type: " + rType);
+        Log.i("writeState", "input State: " + State);
     }
 
     // Read written states
@@ -359,8 +359,8 @@ public class MainActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         boolean b = prefs.getBoolean(rType, false);
 
-        Log.i("readState", "Type: " + rType);
-        Log.i("readState", "State: " + b);
+        Log.i("readState", "input Type: " + rType);
+        Log.i("readState", "input State: " + b);
         
         String r = "";
 
