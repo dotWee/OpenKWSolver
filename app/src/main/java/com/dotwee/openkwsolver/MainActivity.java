@@ -73,8 +73,19 @@ public class MainActivity extends Activity {
 
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-                        boolean b = pullCaptchaPicture(CaptchaID);
+                        pullCaptchaPicture(CaptchaID);
 
+                        Handler checkImageView = new Handler();
+                        checkImageView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (ImageViewCaptcha.getDrawable() == null) {
+                                    Log.i("Handler checkImageView", "Auto-pull next Captcha");
+                                    buttonPull.performClick();
+                                }
+                            }
+                        }, 3000); // three sec delay
+                        
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
                         CountDownTimer = new CountDownTimer(30000, 1000) {
@@ -90,17 +101,6 @@ public class MainActivity extends Activity {
 
                             }
                         };
-
-                        /*
-                        if (b) {
-                            buttonPull.performClick();
-                            Log.i("OnClickPull", "Timer started");
-                        }
-
-                        if (!b) {
-                            CountDownTimer.start();
-                        }
-                        */
 
                         Button buttonSend = (Button) findViewById(R.id.buttonSend);
                         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -276,13 +276,11 @@ public class MainActivity extends Activity {
     }
 
     // Pull Captcha picture and display it
-    public boolean pullCaptchaPicture(String CaptchaID) {
+    public void pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + "&debug=1" + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
-
-        return ImageV.getDrawable() == null;
 
     }
 
