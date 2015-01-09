@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,7 +99,13 @@ public class MainActivity extends Activity {
                                 if (ImageViewCaptcha.getDrawable() == null) {
                                     Log.i("Handler checkImageView", "Auto-pull next Captcha");
                                     buttonPull.performClick();
-                                } else CountDownTimer.start();
+                                } else {
+                                    Context rContext = null;
+                                    CountDownTimer.start();
+
+                                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                    v.vibrate(500);
+                                }
                             }
                         }, 3000); // three sec delay
 
