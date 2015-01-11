@@ -239,7 +239,7 @@ public class MainActivity extends Activity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + "&debug=1");
+        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = null;
 
@@ -284,7 +284,7 @@ public class MainActivity extends Activity {
 
     // Pull Captcha picture and display it
     public void pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + "&debug=1" + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
@@ -293,7 +293,7 @@ public class MainActivity extends Activity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + "&debug=1");
+        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -371,7 +371,7 @@ public class MainActivity extends Activity {
 
         if (rType.trim().equals("debug")) {
             if (b) {
-                r = "&debug=1";
+                r = readState("debug");
             }
         }
 
