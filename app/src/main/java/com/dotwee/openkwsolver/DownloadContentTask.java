@@ -22,9 +22,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 
         if (URLUtil.isValidUrl(urls[0])) {
             try {
-                if (mHttpClient == null) {
-                    mHttpClient = new DefaultHttpClient();
-                }
+                mHttpClient = new DefaultHttpClient();
 
                 httpGet = new HttpGet(urls[0]);
 
