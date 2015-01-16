@@ -1,4 +1,4 @@
-package com.dotwee.openkwsolver;
+package de.dotwee.openkwsolver;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

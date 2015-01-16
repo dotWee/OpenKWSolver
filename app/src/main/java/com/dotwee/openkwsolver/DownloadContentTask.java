@@ -1,4 +1,4 @@
-package com.dotwee.openkwsolver;
+package de.dotwee.openkwsolver;
 
 import android.os.AsyncTask;
 import android.util.Log;

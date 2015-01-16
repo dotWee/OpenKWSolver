@@ -51,7 +51,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:17:9
 	android:theme
 		ADDED from AndroidManifest.xml:19:9
-activity#com.dotwee.openkwsolver.MainActivity
+activity#de.dotwee.openkwsolver.MainActivity
 ADDED from AndroidManifest.xml:20:5
 	android:label
 		ADDED from AndroidManifest.xml:22:13

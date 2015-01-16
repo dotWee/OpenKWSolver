@@ -1,4 +1,4 @@
-package com.dotwee.openkwsolver;
+package de.dotwee.openkwsolver;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                         buttonPull.setEnabled(false);
                         pullCaptchaPicture(CaptchaID);
-                        
+
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
                         CountDownTimer = new CountDownTimer(26000, 1000) {
