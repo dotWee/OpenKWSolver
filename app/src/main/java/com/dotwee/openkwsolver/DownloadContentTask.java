@@ -2,6 +2,7 @@ package com.dotwee.openkwsolver;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.webkit.URLUtil;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -19,21 +20,23 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
         HttpClient mHttpClient = null;
         String output = "";
 
-        try {
-            if (mHttpClient == null) {
-                mHttpClient = new DefaultHttpClient();
+        if (URLUtil.isValidUrl(urls[0])) {
+            try {
+                if (mHttpClient == null) {
+                    mHttpClient = new DefaultHttpClient();
+                }
+
+                httpGet = new HttpGet(urls[0]);
+
+                response = mHttpClient.execute(httpGet);
+                output = EntityUtils.toString(response.getEntity(), "UTF-8");
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            httpGet = new HttpGet(urls[0]);
-
-            response = mHttpClient.execute(httpGet);
-            output = EntityUtils.toString(response.getEntity(), "UTF-8");
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d("DownloadContentTask", "output: " + output); // log output
+            Log.d("DownloadContentTask", "output: " + output); // log output
+        } else output = "";
         return output;
     }
 
