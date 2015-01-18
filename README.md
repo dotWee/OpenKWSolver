@@ -9,8 +9,9 @@ Using
 minSDK: 21 (5.0 Lollipop)
 To work with it, you'll need a device with Android 5.0 and above. Also, an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key would be an advantage.
 The app won't work without API-Key. 
-You can grab the latest release [here](https://github.com/dotwee/OpenKWSolver/releases/download/beta.5/app-release_SIGNED_beta.5.apk).
-md5sum: <code>b88473a9fe5b88782938a86073325573</code>
+You can grab the latest release [here](https://github.com/dotWee/OpenKWSolver/blob/master-rewrite/app-release.apk?raw=true) or the debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master-rewrite/app-debug.apk?raw=true) .
+md5sum (release): <code>633eef67638a62b6b69d036d2f9be662</code>
+md5sum (debug): <code>4959a35ea155c9fbd7e1839585e88752</code>
 
 Building
 --------
@@ -45,9 +46,9 @@ Screenshots
 Todo
 ----
 
++ Let user decide the loop mode (currently in work)
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
-+ Let user decide the loop mode (in work)
 + Backport to lower Android API's
 + Add Click mode
 + Documentation
