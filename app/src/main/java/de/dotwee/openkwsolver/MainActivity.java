@@ -26,6 +26,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.dotwee.openkwsolver.Tools.DownloadContentTask;
+import de.dotwee.openkwsolver.Tools.DownloadImageTask;
+
 public class MainActivity extends Activity {
 
     public String regex = "^[0-9]+ .+";
@@ -228,12 +231,12 @@ public class MainActivity extends Activity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_NEW + pullKey() + Config.URL_PARAMETER_SOURCE + Config.URL_PARAMETER_TYPE_CONFIRM + Config.URL_PARAMETER_NOCAPTCHA + readState("selfonly") + readState("debug"));
+        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_NEW + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + SourceConfig.URL_PARAMETER_TYPE_CONFIRM + SourceConfig.URL_PARAMETER_NOCAPTCHA + readState("selfonly") + readState("debug"));
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = null;
 
         try {
-            CaptchaID = new de.dotwee.openkwsolver.DownloadContentTask().execute(CaptchaURL).get();
+            CaptchaID = new DownloadContentTask().execute(CaptchaURL).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -255,7 +258,7 @@ public class MainActivity extends Activity {
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
-        String CaptchaURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_ANSWER + Config.URL_PARAMETER_SOURCE + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_ANSWER + SourceConfig.URL_PARAMETER_SOURCE + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
         Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
@@ -274,7 +277,7 @@ public class MainActivity extends Activity {
 
     // Pull Captcha picture and display it
     public void pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_SHOW + Config.URL_PARAMETER_SOURCE + readState("debug") + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SHOW + SourceConfig.URL_PARAMETER_SOURCE + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
@@ -283,7 +286,7 @@ public class MainActivity extends Activity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + Config.URL_PARAMETER_SOURCE + readState("debug"));
+        String CaptchaSkipURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + readState("debug"));
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -430,7 +433,7 @@ public class MainActivity extends Activity {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
                             Log.i("balanceThread", "Called");
 
-                            String BalanceURL = (Config.URL + Config.URL_PARAMETER_SERVER_BALANCE + Config.URL_PARAMETER_SOURCE + pullKey());
+                            String BalanceURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_BALANCE + SourceConfig.URL_PARAMETER_SOURCE + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
                             String tBalance = null;
@@ -485,7 +488,7 @@ public class MainActivity extends Activity {
                             String tServercheck = null;
 
                             try {
-                                tServercheck = new DownloadContentTask().execute(Config.URL + Config.URL_PARAMETER_SERVER_CKECK + Config.URL_PARAMETER_SOURCE).get();
+                                tServercheck = new DownloadContentTask().execute(SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_CKECK + SourceConfig.URL_PARAMETER_SOURCE).get();
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }

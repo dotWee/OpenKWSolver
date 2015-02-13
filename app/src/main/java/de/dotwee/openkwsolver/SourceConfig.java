@@ -1,6 +1,6 @@
 package de.dotwee.openkwsolver;
 
-public class Config {
+public class SourceConfig {
     public static final String URL = "http://www.9kw.eu:80/index.cgi";
 
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
