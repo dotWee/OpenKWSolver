@@ -29,16 +29,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends Activity {
 
     public String regex = "^[0-9]+ .+";
-    String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
-    String actionCaptchanewok = "?action=usercaptchanew";
-    String actionSource = "&source=androidopenkws";
-    String actionConfirm = ""; // &confirm=1
-    String actionNocaptcha = "&nocaptcha=1";
-    String actionAnswer = "?action=usercaptchacorrect";
-    String actionShow = "?action=usercaptchashow";
-    String actionSkipcaptcha = "?action=usercaptchaskip";
-    String actionServercheck = "?action=userservercheck";
-    String actionBalance = "?action=usercaptchaguthaben";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,7 +229,7 @@ public class MainActivity extends Activity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (kwCoreurl + actionCaptchanewok + pullKey() + actionSource + actionConfirm + actionNocaptcha + readState("selfonly") + readState("debug"));
+        String CaptchaURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_NEW + pullKey() + Config.URL_PARAMETER_SOURCE + Config.URL_PARAMETER_TYPE_CONFIRM + Config.URL_PARAMETER_NOCAPTCHA + readState("selfonly") + readState("debug"));
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = null;
 
@@ -264,7 +255,7 @@ public class MainActivity extends Activity {
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
-        String CaptchaURL = (kwCoreurl + actionAnswer + actionSource + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+        String CaptchaURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_ANSWER + Config.URL_PARAMETER_SOURCE + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
         // remove Spaces
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
         Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
@@ -283,7 +274,7 @@ public class MainActivity extends Activity {
 
     // Pull Captcha picture and display it
     public void pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (kwCoreurl + actionShow + actionSource + readState("debug") + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_SHOW + Config.URL_PARAMETER_SOURCE + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
@@ -292,7 +283,7 @@ public class MainActivity extends Activity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (kwCoreurl + actionSkipcaptcha + "&id=" + CaptchaID + pullKey() + actionSource + readState("debug"));
+        String CaptchaSkipURL = (Config.URL + Config.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + Config.URL_PARAMETER_SOURCE + readState("debug"));
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -439,7 +430,7 @@ public class MainActivity extends Activity {
                             Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
                             Log.i("balanceThread", "Called");
 
-                            String BalanceURL = (kwCoreurl + actionBalance + actionSource + pullKey());
+                            String BalanceURL = (Config.URL + Config.URL_PARAMETER_SERVER_BALANCE + Config.URL_PARAMETER_SOURCE + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
                             String tBalance = null;
@@ -494,7 +485,7 @@ public class MainActivity extends Activity {
                             String tServercheck = null;
 
                             try {
-                                tServercheck = new DownloadContentTask().execute(kwCoreurl + actionServercheck + actionSource).get();
+                                tServercheck = new DownloadContentTask().execute(Config.URL + Config.URL_PARAMETER_SERVER_CKECK + Config.URL_PARAMETER_SOURCE).get();
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }
