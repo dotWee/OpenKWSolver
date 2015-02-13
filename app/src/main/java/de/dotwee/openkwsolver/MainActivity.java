@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 public class MainActivity extends Activity {
 
     public String regex = "^[0-9]+ .+";
-
     String kwCoreurl = "http://www.9kw.eu:80/index.cgi";
     String actionCaptchanewok = "?action=usercaptchanew";
     String actionSource = "&source=androidopenkws";
@@ -244,7 +243,7 @@ public class MainActivity extends Activity {
         String CaptchaID = null;
 
         try {
-            CaptchaID = new DownloadContentTask().execute(CaptchaURL).get();
+            CaptchaID = new de.dotwee.openkwsolver.DownloadContentTask().execute(CaptchaURL).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
