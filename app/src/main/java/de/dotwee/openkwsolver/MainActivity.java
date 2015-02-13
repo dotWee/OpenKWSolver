@@ -1,6 +1,5 @@
 package de.dotwee.openkwsolver;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     public String regex = "^[0-9]+ .+";
 
