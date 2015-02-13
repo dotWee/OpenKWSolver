@@ -28,7 +28,7 @@ Used Permissions
 Features
 --------
 
-+ Servercheck (Current worker-count, Captchas in Queue)
++ View current quantity of workers and Captchas in queue
 + Vibrate on Captcha-arrival
 + Auto-pull new Captcha
 + Captcha-debug mode
@@ -37,7 +37,7 @@ Features
 Screenshots
 -----------
 
-<table sytle="border: 0px;">
+<table style="border: 0px;">
 <tr>
 <td><img width="200px" src="Screenshot.png" /></td>
 </tr>
@@ -49,7 +49,6 @@ Todo
 + Let user decide the loop mode (currently in work)
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
-+ Backport to lower Android API's
 + Add Click mode
 + Documentation
 + Add an Icon
