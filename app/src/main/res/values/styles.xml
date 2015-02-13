@@ -1,7 +1,7 @@
 <resources>
 
     <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">@color/primary</item>
