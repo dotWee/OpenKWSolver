@@ -7,8 +7,8 @@ android {
         applicationId "de.dotwee.openkwsolver"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 5
-        versionName "beta.5"
+        versionCode 6
+        versionName "beta.6"
     }
     buildTypes {
         release {
