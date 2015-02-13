@@ -6,17 +6,18 @@ Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~970kb!)
 Using
 -----
 
-minSDK: 21 (5.0 Lollipop)
-To work with it, you'll need a device with Android 5.0 and above. Also, an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key would be an advantage.
-The app won't work without API-Key. 
-You can grab the latest release [here](https://github.com/dotWee/OpenKWSolver/blob/master-rewrite/app-release.apk?raw=true) or the debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master-rewrite/app-debug.apk?raw=true) .
-md5sum (release): <code>633eef67638a62b6b69d036d2f9be662</code>
-md5sum (debug): <code>4959a35ea155c9fbd7e1839585e88752</code>
+minSDK: 16 (4.0 Ice Cream Sandwich)
+targetSDK: 21 (5.0 Lollipop)
+
+To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
+Latest release (beta.6) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true).
+md5sum (release): <code>11fd4512ed0c633234bab7c848790c98</code>
+md5sum (debug): <code>3eed81fd869772eec9e6cea6b9c12012</code>
 
 Building
 --------
 
-Just clone that git-project, or download it as zip [here](https://github.com/dotwee/OpenKWSolver/archive/master-rewrite.zip) and import it to Android Studio!
+Just clone that git-project, or download it as zip [here](https://github.com/dotwee/OpenKWSolver/archive/master.zip), extract and import it into Android Studio!
 
 Used Permissions
 ----------------
