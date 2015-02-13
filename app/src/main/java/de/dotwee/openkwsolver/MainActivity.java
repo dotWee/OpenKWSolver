@@ -90,7 +90,6 @@ public class MainActivity extends Activity {
                                     Log.i("Handler checkImageView", "Auto-pull next Captcha");
                                     buttonPull.performClick();
                                 } else {
-                                    Context rContext = null;
                                     CountDownTimer.start();
 
                                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -239,6 +238,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
+        assert CaptchaID != null;
         if (CaptchaID.trim().equals("")) {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
@@ -338,7 +338,7 @@ public class MainActivity extends Activity {
         if (k != null) {
             r = ("&apikey=" + k);
             return r;
-        } else return r = "";
+        } else return "";
     }
 
     // Write states (Debug and self-only)
@@ -490,6 +490,7 @@ public class MainActivity extends Activity {
                                 e.printStackTrace();
                             }
 
+                            assert tServercheck != null;
                             Matcher mQueue = pQueue.matcher(tServercheck);
                             if (mQueue.find()) {
                                 TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
