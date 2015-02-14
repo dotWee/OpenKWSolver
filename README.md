@@ -58,3 +58,8 @@ Found a bug / had a force-close?
 --------------------------------
 
 Open a new Issue and provide a logcat.
+
+License
+-------
+
+APACHE 2.0
