@@ -10,9 +10,9 @@ minSDK: 16 (4.0 Ice Cream Sandwich)
 targetSDK: 21 (5.0 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-Latest release (beta.6) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true).
-md5sum (release): <code>11fd4512ed0c633234bab7c848790c98</code>
-md5sum (debug): <code>3eed81fd869772eec9e6cea6b9c12012</code>
+Latest release (beta.7) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true).
+md5sum (release): <code>dbe010a625bf135e8064a052f66d5f62</code>
+md5sum (debug): <code>d60df8718fbc798c3ac5a1b0a8234586</code>
 
 Building
 --------
@@ -62,4 +62,16 @@ Open a new Issue and provide a logcat.
 License
 -------
 
-APACHE 2.0
+Copyright 2015 Lukas Wolfsteiner
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
