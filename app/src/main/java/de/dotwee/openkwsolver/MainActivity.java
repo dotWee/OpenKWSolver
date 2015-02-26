@@ -362,13 +362,13 @@ public class MainActivity extends ActionBarActivity {
 
         String r = "";
 
-        if (rType.trim().equals("debug")) {
+        if (rType.equalsIgnoreCase("debug")) {
             if (b) {
                 r = readState("debug");
             }
         }
 
-        if (rType.trim().equals("selfonly")) {
+        if (rType.equalsIgnoreCase("selfonly")) {
             if (b) {
                 r = "&selfonly=1";
             }
