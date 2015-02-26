@@ -42,7 +42,4 @@
     <string name="workers">Workers: </string>
     <string name="enter_captcha_here">Please enter a working key here:</string>
     <string name="apikey_now_saved">Your API-Key is now saved.</string>
-
-
-    <string name="hello_world">Hello world!</string>
 </resources>

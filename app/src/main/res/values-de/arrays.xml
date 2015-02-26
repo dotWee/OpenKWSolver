@@ -3,7 +3,7 @@
 
     <string-array name="prefs_multi_types">
         <item>Debug</item>
-        <item>Self only</item>
+        <item>Nur eigene</item>
     </string-array>
 
 </resources>

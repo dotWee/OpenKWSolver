@@ -7,6 +7,7 @@
     <string name="title_activity_preference">Einstellungen</string>
 
     <string name="action_settings">Einstellungen</string>
+    <string name="action_stop">Beenden</string>
 
     <string name="error_no_api_key_available">Kein API Key vorhanden.</string>
     <string name="error_no_api_key_found">Kein API Key gefunden.</string>
