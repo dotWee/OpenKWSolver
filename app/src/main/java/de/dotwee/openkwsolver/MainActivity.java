@@ -66,13 +66,16 @@ public class MainActivity extends ActionBarActivity {
                 if (isNetworkAvailable()) {
                     final String CaptchaID = requestCaptchaID();
                     if (!CaptchaID.matches(regex)) {
-
+                        Boolean currentCapt = false;
+                        currentCapt = pullCaptchaPicture(CaptchaID);
+                        
+                        
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                         buttonPull.setEnabled(false);
 
 
                         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        if (pullCaptchaPicture(CaptchaID)) vibrator.vibrate(500);
+                        if (currentCapt) vibrator.vibrate(500);
 
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
@@ -91,16 +94,15 @@ public class MainActivity extends ActionBarActivity {
                         };
 
                         Handler checkImageView = new Handler();
+                        final Boolean finalCurrentCapt = currentCapt;
                         checkImageView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (ImageViewCaptcha.getDrawable() == null) {
+                                if (!finalCurrentCapt) {
                                     Log.i("Handler checkImageView", "Auto-pull next Captcha");
                                     buttonPull.performClick();
                                 } else {
                                     CountDownTimer.start();
-
-                                    
                                 }
                             }
                         }, 3000); // three sec delay
