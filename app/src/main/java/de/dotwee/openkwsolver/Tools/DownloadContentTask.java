@@ -15,20 +15,15 @@ import java.io.IOException;
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         Log.i("DownloadContentTask", "input: " + urls[0]); // log input
-        HttpResponse response = null;
-        HttpGet httpGet = null;
-        HttpClient mHttpClient = null;
         String output = "";
 
         if (URLUtil.isValidUrl(urls[0])) {
             try {
-                mHttpClient = new DefaultHttpClient();
 
-                httpGet = new HttpGet(urls[0]);
-
-                response = mHttpClient.execute(httpGet);
+                HttpClient mHttpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(urls[0]);
+                HttpResponse response = mHttpClient.execute(httpGet);
                 output = EntityUtils.toString(response.getEntity(), "UTF-8");
-
 
             } catch (IOException e) {
                 e.printStackTrace();
