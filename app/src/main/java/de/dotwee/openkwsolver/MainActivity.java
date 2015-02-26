@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -282,8 +283,10 @@ public class MainActivity extends ActionBarActivity {
     // Read API-Key from Dialog
     private String pullKey() {
         String r;
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        String k = prefs.getString("apikey", null);
+        SharedPreferences pref_apikey = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+
+        String k = pref_apikey.getString("apikey", null);
         Log.i("pullKey", "Readed key: " + k);
 
         if (k != null) {
