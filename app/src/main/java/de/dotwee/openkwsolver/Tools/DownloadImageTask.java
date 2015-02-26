@@ -32,6 +32,6 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
 
-        if (bmImage.getDrawable() == null) Log.i("DownloadImageTask", "ImageView empty!");
+        if (result == null) Log.i("DownloadImageTask", "Bitmap empty!");
     }
 }
