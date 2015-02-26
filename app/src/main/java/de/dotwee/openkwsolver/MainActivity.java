@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -67,7 +68,10 @@ public class MainActivity extends ActionBarActivity {
 
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                         buttonPull.setEnabled(false);
-                        pullCaptchaPicture(CaptchaID);
+
+
+                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        if (pullCaptchaPicture(CaptchaID)) vibrator.vibrate(500);
 
                         final int[] i = {0};
                         final CountDownTimer CountDownTimer;
@@ -95,8 +99,7 @@ public class MainActivity extends ActionBarActivity {
                                 } else {
                                     CountDownTimer.start();
 
-                                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                                    v.vibrate(500);
+                                    
                                 }
                             }
                         }, 3000); // three sec delay
@@ -276,12 +279,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
     // Pull Captcha picture and display it
-    public void pullCaptchaPicture(String CaptchaID) {
+    public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SHOW + SourceConfig.URL_PARAMETER_SOURCE + readState("debug") + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
-        new DownloadImageTask(ImageV).execute(CaptchaPictureURL);
-
+        try {
+            Bitmap returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get();
+            if (returnBit != null) return true; // true = new image
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     // Skip Captcha
