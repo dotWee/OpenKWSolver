@@ -3,7 +3,9 @@
 
     <string name="app_name">OpenKWSolver</string>
 
-    <string name="title_activity_text">TextActivity</string>
+    <string name="title_activity_text">OpenKWSolver</string>
+    <string name="title_activity_preference">Preferences</string>
+
     <string name="action_settings">Settings</string>
 
     <string name="error_no_api_key_available">No API Key available.</string>
@@ -39,4 +41,7 @@
     <string name="workers">Workers: </string>
     <string name="enter_captcha_here">Please enter a working key here:</string>
     <string name="apikey_now_saved">Your API-Key is now saved.</string>
+
+
+    <string name="hello_world">Hello world!</string>
 </resources>

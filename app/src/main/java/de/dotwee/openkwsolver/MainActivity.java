@@ -3,6 +3,7 @@ package de.dotwee.openkwsolver;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
@@ -190,43 +191,13 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_enter_api:
-                DialogAPI();
+            case R.id.action_settings:
+                Intent intent = new Intent(this, PreferenceActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_stop:
                 finish();
                 System.exit(0);
-                return true;
-            case R.id.action_debug:
-                String sType = "debug";
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    writeState(sType, false);
-                } else {
-                    item.setChecked(true);
-                    writeState(sType, true);
-                }
-                return true;
-            case R.id.action_selfonly:
-                String aType = "selfonly";
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    writeState(aType, false);
-                } else {
-                    item.setChecked(true);
-                    writeState(aType, true);
-                }
-                return true;
-            case R.id.action_loop:
-                String lType = "loop";
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    writeState(lType, false);
-                } else {
-                    item.setChecked(true);
-                    writeState(lType, true);
-                }
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -306,39 +277,6 @@ public class MainActivity extends ActionBarActivity {
         Log.i("skipCaptcha", "Result: " + r);
     }
 
-    // Dialog for API key
-    public void DialogAPI() {
-        AlertDialog.Builder AskDialog = new AlertDialog.Builder(this);
-
-        AskDialog.setTitle("API-Key");
-        AskDialog.setMessage(getString(R.string.enter_captcha_here));
-
-        final EditText input_key = new EditText(this);
-
-        AskDialog.setView(input_key);
-        AskDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("DialogAPI", "OK");
-                String input = input_key.getText().toString();
-                Log.i("DialogAPI", "Input: " + input);
-                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-                prefs.edit().putString("apikey", input).apply();
-                Toast.makeText(getApplicationContext(), getString(R.string.apikey_now_saved), Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
-
-        AskDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("DialogAPI", "Canceled Dialog");
-            }
-        });
-        AskDialog.show();
-    }
-
     // Read API-Key from Dialog
     private String pullKey() {
         String r;
@@ -350,14 +288,6 @@ public class MainActivity extends ActionBarActivity {
             r = ("&apikey=" + k);
             return r;
         } else return "";
-    }
-
-    // Write states (Debug and self-only)
-    public void writeState(String rType, Boolean State) {
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        prefs.edit().putBoolean(rType, State).apply();
-        Log.i("writeState", "input Type: " + rType);
-        Log.i("writeState", "input State: " + State);
     }
 
     // Read written states
@@ -496,7 +426,7 @@ public class MainActivity extends ActionBarActivity {
                             String tServercheck = null;
 
                             try {
-                                tServercheck = new DownloadContentTask().execute(SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_CKECK + SourceConfig.URL_PARAMETER_SOURCE).get();
+                                tServercheck = new DownloadContentTask().execute(SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_CHECK + SourceConfig.URL_PARAMETER_SOURCE).get();
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }

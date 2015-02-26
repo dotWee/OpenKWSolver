@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_default"
+        android:title="Benutzereinstellungen">
+
+        <EditTextPreference
+            android:contentDescription="Your 9kw API-Key"
+            android:key="apikey"
+            android:title="API-Key"/>
+
+        <MultiSelectListPreference
+            android:dialogMessage="Select your primary Captcha type:"
+            android:dialogTitle="Captcha-Type"
+            android:entries="@array/prefs_multi_types"
+            android:entryValues="@array/prefs_multi_types"
+            android:key="pref_key_captcha_type"
+            android:title="Captcha-Type"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

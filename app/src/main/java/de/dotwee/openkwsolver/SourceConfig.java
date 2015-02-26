@@ -13,6 +13,6 @@ public class SourceConfig {
     public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
 
-    public static final String URL_PARAMETER_SERVER_CKECK = "?action=userservercheck";
+    public static final String URL_PARAMETER_SERVER_CHECK = "?action=userservercheck";
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
 }

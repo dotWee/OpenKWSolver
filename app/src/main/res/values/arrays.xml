@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="prefs_multi_types">
+        <item>Debug</item>
+        <item>Self only</item>
+    </string-array>
+</resources>
