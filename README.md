@@ -30,6 +30,7 @@ Features
 --------
 
 + View current quantity of workers and Captchas in queue
++ Loop-Mode (Auto-pull next Captcha)
 + Vibrate on Captcha-arrival
 + Auto-pull new Captcha
 + Captcha-debug mode
@@ -47,7 +48,6 @@ Screenshots
 Todo
 ----
 
-+ Let user decide the loop mode (currently in work)
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
 + Add Click mode
