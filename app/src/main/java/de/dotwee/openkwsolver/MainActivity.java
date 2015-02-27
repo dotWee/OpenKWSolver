@@ -26,16 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
 public class MainActivity extends ActionBarActivity {
-
-    public String regex = "^[0-9]+ .+";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 Log.i("OnClickPull", "Click recognized");
                 if (isNetworkAvailable()) {
                     final String CaptchaID = requestCaptchaID();
-                    if (!CaptchaID.matches(regex)) {
+                    if (!CaptchaID.equalsIgnoreCase("")) {
                         Boolean currentCapt = false;
                         currentCapt = pullCaptchaPicture(CaptchaID);
                         
@@ -210,7 +205,7 @@ public class MainActivity extends ActionBarActivity {
     public String requestCaptchaID() {
         String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_NEW + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + SourceConfig.URL_PARAMETER_TYPE_CONFIRM + SourceConfig.URL_PARAMETER_NOCAPTCHA + readState("selfonly") + readState("debug"));
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
-        String CaptchaID = null;
+        String CaptchaID = "";
 
         try {
             CaptchaID = new DownloadContentTask().execute(CaptchaURL).get();
@@ -218,8 +213,7 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        assert CaptchaID != null;
-        if (CaptchaID.trim().equals("")) {
+        if (CaptchaID.equalsIgnoreCase("")) {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
 
