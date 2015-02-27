@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
         Boolean prefNotification = prefs.getBoolean("pref_notification", false);
         Boolean prefSound = prefs.getBoolean("pref_notification_sound", false);
-        Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
+        final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
         // start showing balance if network and apikey is available
         if (isNetworkAvailable()) {
@@ -87,7 +87,9 @@ public class MainActivity extends ActionBarActivity {
 
 
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (currentCapt) vibrator.vibrate(500);
+                    if (prefVibrate)
+                        if (currentCapt)
+                            vibrator.vibrate(500);
 
                     final int[] i = {0};
                     final CountDownTimer CountDownTimer;
