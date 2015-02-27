@@ -25,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
@@ -38,126 +36,120 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // declare main widgets
+        final Button buttonPull = (Button) findViewById(R.id.buttonPull);
+        final Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
+        final Button buttonSend = (Button) findViewById(R.id.buttonSend);
+        final TextView textViewBalance = (TextView) findViewById(R.id.textViewBalance);
+        final ImageView imageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
+        final EditText editTextAnswer = (EditText) findViewById(R.id.editTextAnswer);
+
+        // fix edittext width
+        editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
+
+        // init prefs
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
 
+        final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
 
-        final Button buttonPull = (Button) findViewById(R.id.buttonPull);
-        final Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
-        final ImageView ImageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
-        final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
-        EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
-        final Boolean loopMode = prefs.getBoolean("loop", false);
+        Boolean prefNotification = prefs.getBoolean("pref_notification", false);
+        Boolean prefSound = prefs.getBoolean("pref_notification_sound", false);
+        Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
-        String checkAPI = pullKey();
-        if (checkAPI != null) {
-            balanceThread();
-            buttonBalance.setEnabled(false);
-            buttonBalance.setVisibility(View.VISIBLE);
-        }
-
+        // start showing balance if network and apikey is available
         if (isNetworkAvailable()) {
-            servercheckThread();
+            if (!pullKey().equals("")) balanceThread();
         }
 
-        buttonPull.setText(getString(R.string.start));
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.i("OnClickPull", "Click recognized");
                 if (isNetworkAvailable()) {
                     String CaptchaID = null;
 
-                    if (loopMode) {
-                        while (loopMode) {
+                    if (prefLoop) {
+                        while (prefLoop) {
                             CaptchaID = requestCaptchaID();
+                            Log.i("WhileCapchaIDLoop", CaptchaID);
                             if (!CaptchaID.equals("")) break;
                         }
                     } else CaptchaID = requestCaptchaID();
 
-                    if (!CaptchaID.equalsIgnoreCase("")) {
-                        Boolean currentCapt = false;
-                        currentCapt = pullCaptchaPicture(CaptchaID);
+                    Boolean currentCapt = false;
+                    currentCapt = pullCaptchaPicture(CaptchaID);
 
 
-                        final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                        buttonPull.setEnabled(false);
+                    final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    buttonPull.setEnabled(false);
 
 
-                        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        if (currentCapt) vibrator.vibrate(500);
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (currentCapt) vibrator.vibrate(500);
 
-                        final int[] i = {0};
-                        final CountDownTimer CountDownTimer;
-                        CountDownTimer = new CountDownTimer(26000, 1000) {
+                    final int[] i = {0};
+                    final CountDownTimer CountDownTimer;
+                    CountDownTimer = new CountDownTimer(26000, 1000) {
 
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-                                i[0]++;
-                                ProgressBar.setProgress(i[0]);
-                            }
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            i[0]++;
+                            ProgressBar.setProgress(i[0]);
+                        }
 
-                            @Override
-                            public void onFinish() {
-                            }
-                        };
+                        @Override
+                        public void onFinish() {
+                        }
+                    };
 
-                        final Boolean finalCurrentCapt = currentCapt;
-                        CountDownTimer.start();
-                        buttonPull.performClick();
+                    CountDownTimer.start();
+                    buttonPull.performClick();
 
-                        Button buttonSend = (Button) findViewById(R.id.buttonSend);
-                        final String finalCaptchaID = CaptchaID;
-                        buttonSend.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
-                                sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
+                    Button buttonSend = (Button) findViewById(R.id.buttonSend);
+                    final String finalCaptchaID = CaptchaID;
+                    buttonSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String CaptchaAnswer = editTextAnswer.getText().toString();
+                            sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
 
-                                CountDownTimer.cancel();
-                                Log.i("OnClickSend", "Timer killed");
-                                ProgressBar.setProgress(0);
+                            CountDownTimer.cancel();
+                            Log.i("OnClickSend", "Timer killed");
+                            ProgressBar.setProgress(0);
 
-                                ImageViewCaptcha.setImageDrawable(null);
-                                EditTextCaptchaAnswer.setText(null);
+                            imageViewCaptcha.setImageDrawable(null);
+                            editTextAnswer.setText(null);
 
-                                TextView TextViewCurrent;
-                                TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-                                TextViewCurrent.setText(null);
-
-                                if (loopMode) {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                                    Log.i("OnClickSend", "Loop-Mode");
-                                    buttonPull.performClick();
-                                } else buttonPull.setEnabled(true);
-                            }
-                        });
-
-                        Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
-                        buttonSkip.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.i("OnClickSkip", "Click recognized");
-                                EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
-                                EditTextCaptchaAnswer.setText(null);
-
-                                skipCaptcha(finalCaptchaID);
-
-                                TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-                                TextViewCurrent.setText(null);
-
-                                CountDownTimer.cancel();
-                                ProgressBar.setProgress(0);
-
-                                ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
-                                ImageView.setImageDrawable(null);
-
-                                buttonPull.setEnabled(true);
+                            if (prefLoop) {
                                 Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                Log.i("OnClickSend", "Loop-Mode");
+                                buttonPull.performClick();
+                            } else buttonPull.setEnabled(true);
+                        }
+                    });
 
-                    } else Log.i("OnClickPull", "Error with ID: " + CaptchaID);
+                    Button buttonSkip = (Button) findViewById(R.id.buttonSkip);
+                    buttonSkip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.i("OnClickSkip", "Click recognized");
+                            EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
+                            EditTextCaptchaAnswer.setText(null);
+                            skipCaptcha(finalCaptchaID);
+
+                            CountDownTimer.cancel();
+                            ProgressBar.setProgress(0);
+
+                            ImageView ImageView = (ImageView) findViewById(R.id.imageViewCaptcha);
+                            ImageView.setImageDrawable(null);
+
+                            buttonPull.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
                     DialogNetwork();
                 }
@@ -178,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(this, PreferenceActivity.class);
+                Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_stop:
@@ -191,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_NEW + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + SourceConfig.URL_PARAMETER_TYPE_CONFIRM + SourceConfig.URL_PARAMETER_NOCAPTCHA + readState("selfonly") + readState("debug"));
+        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_NEW + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + SourceConfig.URL_PARAMETER_TYPE_CONFIRM + SourceConfig.URL_PARAMETER_NOCAPTCHA + readState());
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = "";
 
@@ -205,9 +197,6 @@ public class MainActivity extends ActionBarActivity {
             Log.i("requestCaptchaID", "CaptchaID is empty");
         } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
 
-        TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
-        TextViewCurrent.setText(CaptchaID);
-
         return CaptchaID;
     }
 
@@ -217,8 +206,9 @@ public class MainActivity extends ActionBarActivity {
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
-        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_ANSWER + SourceConfig.URL_PARAMETER_SOURCE + readState("debug") + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
-        // remove Spaces
+        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_ANSWER + SourceConfig.URL_PARAMETER_SOURCE + readState() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+
+        // remove Spaces from URL
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
         Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
 
@@ -236,7 +226,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SHOW + SourceConfig.URL_PARAMETER_SOURCE + readState("debug") + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SHOW + SourceConfig.URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         try {
@@ -250,7 +240,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + readState("debug"));
+        String CaptchaSkipURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + readState());
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -268,7 +258,7 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences pref_apikey = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
 
-        String k = pref_apikey.getString("apikey", null);
+        String k = pref_apikey.getString("pref_api_key", null);
         Log.i("pullKey", "Readed key: " + k);
 
         if (k != null) {
@@ -278,32 +268,20 @@ public class MainActivity extends ActionBarActivity {
     }
 
     // Read written states
-    public String readState(String rType) {
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        boolean b = prefs.getBoolean(rType, false);
+    public String readState() {
 
-        Log.i("readState", "input Type: " + rType);
-        Log.i("readState", "input State: " + b);
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
 
-        String r = "";
+        Boolean prefSelfonly = prefs.getBoolean("pref_api_selfonly", false);
+        Boolean prefDebug = prefs.getBoolean("pref_api_debug", false);
+        String s = "";
+        String d = "";
 
-        if (rType.equalsIgnoreCase("debug")) {
-            if (b) {
-                r = readState("debug");
-            }
-        }
+        if (prefSelfonly) s = "&selfonly=1";
+        if (prefDebug) d = "&debug=1";
 
-        if (rType.equalsIgnoreCase("selfonly")) {
-            if (b) {
-                r = "&selfonly=1";
-            }
-        } else {
-            r = "";
-            Log.i("readState", "No Type discovered");
-        }
-
-        Log.i("readState", "Return: " + r);
-        return r;
+        return s + d;
     }
 
     // Check if network is available
@@ -355,7 +333,7 @@ public class MainActivity extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
+                            TextView textViewBalance = (TextView) findViewById(R.id.textViewBalance);
                             Log.i("balanceThread", "Called");
 
                             String BalanceURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_BALANCE + SourceConfig.URL_PARAMETER_SOURCE + pullKey());
@@ -368,8 +346,9 @@ public class MainActivity extends ActionBarActivity {
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }
+
                             Log.i("balanceThread", "Balance: " + tBalance);
-                            buttonBalance.setText(tBalance);
+                            textViewBalance.setText(tBalance);
 
                         }
                     });
@@ -380,7 +359,7 @@ public class MainActivity extends ActionBarActivity {
 
         // check if thread isn't already running.
         if (BalanceUpdate.isAlive()) {
-            BalanceUpdate.stop();
+            BalanceUpdate.interrupt();
             Log.i("balanceThread", "stopped");
         }
 
@@ -391,66 +370,4 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    // ServercheckThread: Update the server-stats every 5 seconds
-    public void servercheckThread() {
-        final Thread ServercheckUpdate;
-        ServercheckUpdate = new Thread() {
-
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-                    try {
-                        Thread.sleep(5000); // 5000ms = 5s
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.i("servercheckThread", "Called");
-                            Pattern pQueue = Pattern.compile("queue=(\\d+)");
-                            Pattern pWorker = Pattern.compile("worker=(\\d+)");
-                            String tServercheck = null;
-
-                            try {
-                                tServercheck = new DownloadContentTask().execute(SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_CHECK + SourceConfig.URL_PARAMETER_SOURCE).get();
-                            } catch (InterruptedException | ExecutionException e) {
-                                e.printStackTrace();
-                            }
-
-                            assert tServercheck != null;
-                            Matcher mQueue = pQueue.matcher(tServercheck);
-                            if (mQueue.find()) {
-                                TextView TextViewQueue = (TextView) findViewById(R.id.textViewQueue);
-                                TextViewQueue.setText(null);
-                                TextViewQueue.setText(getString(R.string.captchas_in_queue) + mQueue.group(1));
-                                Log.i("servercheckThread", "Queue: " + mQueue.group(1));
-                            }
-
-                            Matcher mWorker = pWorker.matcher(tServercheck);
-                            if (mWorker.find()) {
-                                TextView TextViewWorker = (TextView) findViewById(R.id.textViewWorker);
-                                TextViewWorker.setText(null);
-                                TextViewWorker.setText(getString(R.string.workers) + mWorker.group(1));
-                                Log.i("servercheckThread", "Workers: " + mWorker.group(1));
-                            }
-                        }
-                    });
-                }
-
-            }
-        };
-
-        // check if thread isn't already running.
-        if (ServercheckUpdate.isAlive()) {
-            ServercheckUpdate.stop();
-            Log.i("servercheckThread", "stopped");
-        }
-
-        // if not, start it
-        else {
-            ServercheckUpdate.start();
-            Log.i("servercheckThread", "started");
-        }
-    }
 }

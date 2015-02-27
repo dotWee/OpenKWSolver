@@ -36,7 +36,7 @@
             android:layout_height="fill_parent">
 
             <Button
-                android:id="@+id/buttonStart"
+                android:id="@+id/buttonPull"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
@@ -65,7 +65,7 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
