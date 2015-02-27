@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Automation Settings">
+        <CheckBoxPreference
+            android:contentDescription="Auto-pull next Captcha after skipping or sending"
+            android:key="pref_automation_loop"
+            android:title="Loop-Mode"/>
+
+        <!-- Todo seconds -->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

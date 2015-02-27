@@ -40,8 +40,8 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
-        
-        
+
+
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         final Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
         final ImageView ImageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
@@ -74,12 +74,12 @@ public class MainActivity extends ActionBarActivity {
                             if (!CaptchaID.equals("")) break;
                         }
                     } else CaptchaID = requestCaptchaID();
-                    
+
                     if (!CaptchaID.equalsIgnoreCase("")) {
                         Boolean currentCapt = false;
                         currentCapt = pullCaptchaPicture(CaptchaID);
-                        
-                        
+
+
                         final ProgressBar ProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                         buttonPull.setEnabled(false);
 
@@ -168,7 +168,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_global, menu);
         Log.i("onCreateOptionsMenu", "Return: " + true);
         return true;
     }

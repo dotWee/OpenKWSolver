@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="API Settings">
+
+        <EditTextPreference
+            android:contentDescription="Your 9kw API-Key"
+            android:key="pref_api_key"
+            android:title="API-Key"/>
+
+        <CheckBoxPreference
+            android:contentDescription="Enable solving only own Captchas"
+            android:key="pref_api_selfonly"
+            android:title="Self-only Captchas"/>
+
+        <CheckBoxPreference
+            android:contentDescription="Enable Debug-mode, only for testing the connection!"
+            android:key="pref_api_debug"
+            android:title="Debug-Mode"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

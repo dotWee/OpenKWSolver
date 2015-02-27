@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Notification Settings">
+
+        <CheckBoxPreference
+            android:contentDescription="Show a notification on a arrivement of new Captcha"
+            android:key="pref_notification"
+            android:title="Notification Alert"/>
+
+        <CheckBoxPreference
+            android:contentDescription="Vibrate on arrivements"
+            android:key="pref_notification_vibrate"
+            android:title="Vibration Alert"/>
+
+        <CheckBoxPreference
+            android:contentDescription="Play notification sound on arrivements"
+            android:key="pref_notification_sound"
+            android:title="Sound Alert"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
