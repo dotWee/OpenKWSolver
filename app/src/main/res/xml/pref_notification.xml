@@ -3,19 +3,19 @@
     <PreferenceCategory android:title="Notification Settings">
 
         <CheckBoxPreference
-            android:contentDescription="Show a notification on a arrivement of new Captcha"
+            android:contentDescription="@string/pref_notification_description"
             android:key="pref_notification"
-            android:title="Notification Alert"/>
+            android:title="@string/pref_notification_title"/>
 
         <CheckBoxPreference
-            android:contentDescription="Vibrate on arrivements"
+            android:contentDescription="@string/pref_notification_vibrate_description"
             android:key="pref_notification_vibrate"
-            android:title="Vibration Alert"/>
+            android:title="@string/pref_notification_vibrate_title"/>
 
         <CheckBoxPreference
-            android:contentDescription="Play notification sound on arrivements"
+            android:contentDescription="@string/pref_notification_sound_description"
             android:key="pref_notification_sound"
-            android:title="Sound Alert"/>
+            android:title="@string/pref_notification_sound_title"/>
 
     </PreferenceCategory>
 

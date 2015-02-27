@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -125,7 +124,6 @@ public class MainActivity extends ActionBarActivity {
                             editTextAnswer.setText(null);
 
                             if (prefLoop) {
-                                Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
                                 Log.i("OnClickSend", "Loop-Mode");
                                 buttonPull.performClick();
                             } else buttonPull.setEnabled(true);
@@ -148,7 +146,6 @@ public class MainActivity extends ActionBarActivity {
                             ImageView.setImageDrawable(null);
 
                             buttonPull.setEnabled(true);
-                            Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -303,14 +300,14 @@ public class MainActivity extends ActionBarActivity {
         Dialog.setTitle("No network available");
         Dialog.setMessage("Please connect to the internet!");
 
-        Dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+        Dialog.setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("DialogNetwork", "OK");
             }
         });
 
-        Dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        Dialog.setNegativeButton(getString(R.string.action_close), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.i("DialogNetwork", "Canceled");

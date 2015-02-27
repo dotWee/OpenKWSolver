@@ -3,19 +3,19 @@
     <PreferenceCategory android:title="API Settings">
 
         <EditTextPreference
-            android:contentDescription="Your 9kw API-Key"
+            android:contentDescription="@string/pref_api_key_description"
             android:key="pref_api_key"
-            android:title="API-Key"/>
+            android:title="@string/pref_api_key_title"/>
 
         <CheckBoxPreference
-            android:contentDescription="Enable solving only own Captchas"
+            android:contentDescription="@string/pref_api_selfonly_description"
             android:key="pref_api_selfonly"
-            android:title="Self-only Captchas"/>
+            android:title="@string/pref_api_selfonly_title"/>
 
         <CheckBoxPreference
-            android:contentDescription="Enable Debug-mode, only for testing the connection!"
+            android:contentDescription="@string/pref_api_debug_description"
             android:key="pref_api_debug"
-            android:title="Debug-Mode"/>
+            android:title="@string/pref_api_debug_title"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

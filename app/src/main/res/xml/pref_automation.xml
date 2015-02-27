@@ -3,10 +3,10 @@
 
     <PreferenceCategory android:title="Automation Settings">
         <CheckBoxPreference
-            android:contentDescription="Auto-pull next Captcha after skipping or sending"
+            android:contentDescription="@string/pref_automation_loop_description"
             android:defaultValue="true"
             android:key="pref_automation_loop"
-            android:title="Loop-Mode"/>
+            android:title="@string/pref_automation_loop_title"/>
 
         <!-- Todo seconds -->
 

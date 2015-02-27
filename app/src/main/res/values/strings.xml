@@ -4,42 +4,32 @@
     <string name="app_name">OpenKWSolver</string>
 
     <string name="title_activity_text">OpenKWSolver</string>
-    <string name="title_activity_preference">Preferences</string>
+    <string name="title_activity_preference">Settings</string>
 
     <string name="action_settings">Settings</string>
-    <string name="action_stop">Stop</string>
+    <string name="action_close">Close</string>
+    <string name="action_ok">Ok</string>
 
-    <string name="error_no_api_key_available">No API Key available.</string>
-    <string name="error_no_api_key_found">No API Key found.</string>
-    <string name="error_api_key_has_been_deactivated">API Key has been deactivated by operator.</string>
-    <string name="error_no_captcha_found">No Captcha found.</string>
-    <string name="error_no_picture_found">No picture found.</string>
-    <string name="error_no_answer_received">No answer received.</string>
-    <string name="error_has_already_been_solved">Captcha has already been solved.</string>
-    <string name="error_to_quickly_sent">Captcha to quickly sent.</string>
-    <string name="error_unknown_problem">Unknown problem.</string>
-    <string name="error_no_id_found">No ID found.</string>
-    <string name="error_incorrect_answer">Incorrect answer.</string>
-    <string name="error_not_fast_enough_answered">Not fast enough answered (Wrong UserID).</string>
+    <string name="main_button_text_start">Start</string>
+    <string name="main_button_text_send">Send</string>
+    <string name="main_button_text_skip">Skip</string>
+    <string name="main_edittext_hint_answer">Answer</string>
+    <string name="main_textview_text_balance">Balance:</string>
 
-    <string name="button_pull">Pull</string>
-    <string name="button_send">Send</string>
-    <string name="button_skip">Skip</string>
+    <string name="pref_api_key_title">API-Key</string>
+    <string name="pref_api_key_description">Your 9kw API-Key</string>
+    <string name="pref_api_selfonly_title">Self-only Captchas</string>
+    <string name="pref_api_selfonly_description">Enable solving only own Captchas</string>
+    <string name="pref_api_debug_title">Debug-Mode</string>
+    <string name="pref_api_debug_description">Enable Debug-mode, only for testing the connection!</string>
 
-    <string name="checkbox_debug">Debug</string>
-    <string name="checkbox_selfonly">Self only</string>
+    <string name="pref_notification_title">Notification Alert</string>
+    <string name="pref_notification_description">Show a notification on arrivement of new Captcha</string>
+    <string name="pref_notification_vibrate_title">Vibration Alert</string>
+    <string name="pref_notification_vibrate_description">Vibrate on arrivements</string>
+    <string name="pref_notification_sound_title">Sound Alert</string>
+    <string name="pref_notification_sound_description">Play notification sound on arrivements</string>
 
-    <string name="start">Start</string>
-    <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
-
-    <string name="current_captchaid">Current CaptchaID: </string>
-    <string name="next_captcha_arrives_soon">Next Captcha arrives soon</string>
-    <string name="code">Code: </string>
-    <string name="available"> AVAILABLE</string>
-    <string name="skipped">Skipped: </string>
-    <string name="captchas_in_queue">Captchas in queue: </string>
-    <string name="workers">Workers: </string>
-    <string name="enter_captcha_here">Please enter a working key here:</string>
-    <string name="apikey_now_saved">Your API-Key is now saved.</string>
+    <string name="pref_automation_loop_title">Loop-Mode</string>
+    <string name="pref_automation_loop_description">Auto-pull next Captcha after skipping or sending</string>
 </resources>

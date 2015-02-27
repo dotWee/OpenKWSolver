@@ -40,14 +40,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="0"
-                android:text="Start"/>
+                android:text="@string/main_button_text_start"/>
 
             <EditText
                 android:id="@+id/editTextAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:hint="Answer"
+                android:hint="@string/main_edittext_hint_answer"
                 android:inputType="textNoSuggestions"
                 android:singleLine="true"
                 android:textIsSelectable="true"/>
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:text="Send"/>
+                android:text="@string/main_button_text_send"/>
         </TableRow>
 
         <TableRow
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="Balance:"
+                android:text="@string/main_textview_text_balance"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
@@ -79,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:fontFamily="sans-serif-light"
-                android:textAlignment="textStart"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
 
             <Button
@@ -87,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
-                android:text="Skip"/>
+                android:text="@string/main_button_text_skip"/>
         </TableRow>
     </TableLayout>
 
