@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OpenKWSolver</string>
+
+    <string name="title_activity_text">OpenKWSolver</string>
+    <string name="title_activity_preference">Einstellungen</string>
+
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_close">Schließen</string>
+    <string name="action_ok">Ok</string>
+
+    <string name="main_button_text_start">Start</string>
+    <string name="main_button_text_send">Senden</string>
+    <string name="main_button_text_skip">Überspringen</string>
+    <string name="main_edittext_hint_answer">Antwort</string>
+    <string name="main_textview_text_balance">Guthaben:</string>
+
+    <string name="pref_api_key_title">API-Key</string>
+    <string name="pref_api_key_description">Dein 9kw API-Key</string>
+    <string name="pref_api_selfonly_title">Nur eigene Captchas</string>
+    <string name="pref_api_selfonly_description">Ermögliche nur eigene Captchas</string>
+    <string name="pref_api_debug_title">Debug-Mode</string>
+    <string name="pref_api_debug_description">Aktiviere Debug-Mode, nur zum Testen der Verbindung!</string>
+
+    <string name="pref_notification_title">Benachrichtigung anzeigen</string>
+    <string name="pref_notification_description">Zeige eine Benachrichtigung, sobald ein neues Captcha zum Lösen bereit ist</string>
+    <string name="pref_notification_vibrate_title">Vibration</string>
+    <string name="pref_notification_vibrate_description">Vibriere, sobald ein neues Captcha zum Lösen bereit ist</string>
+    <string name="pref_notification_sound_title">Sound</string>
+    <string name="pref_notification_sound_description">Spiele den Benachrichtigungston, sobald ein neues Captcha zum Lösen bereit ist</string>
+
+    <string name="pref_automation_loop_title">Loop-Mode</string>
+    <string name="pref_automation_loop_description">Hole das nächste Captcha automatisch</string>
+    
+</resources>
