@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    String LOG_TAG = "DownloadImageTask";
     ImageView bmImage;
 
     public DownloadImageTask(ImageView bmImage) {
@@ -17,21 +18,22 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected Bitmap doInBackground(String... urls) {
         String urldisplay = urls[0];
-        Log.d("DownloadImageTask", "input URL: " + urldisplay);
+        Log.d(LOG_TAG, "input URL: " + urldisplay);
 
-        Bitmap mIcon11 = null;
+        Bitmap captchaBitmap = null;
         try {
             InputStream in = new java.net.URL(urldisplay).openStream();
-            mIcon11 = BitmapFactory.decodeStream(in);
+            captchaBitmap = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return mIcon11;
+        return captchaBitmap;
     }
 
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
 
-        if (result == null) Log.i("DownloadImageTask", "Bitmap empty!");
+        if (result == null) Log.i(LOG_TAG, "Bitmap empty!");
+        // else Log.i(LOG_TAG, "Captcha Bitmap: " + bmImage);
     }
 }
