@@ -6,25 +6,26 @@ Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver. (~970kb!)
 Using
 -----
 
-minSDK: 16 (4.0 Ice Cream Sandwich)
+minSDK: 16 (4.1 Ice Cream Sandwich)
 targetSDK: 21 (5.0 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-Latest release (beta.7) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true).
-md5sum (release): <code>dbe010a625bf135e8064a052f66d5f62</code>
-md5sum (debug): <code>d60df8718fbc798c3ac5a1b0a8234586</code>
+Latest stable releases (v1.0) are available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
+md5sum (release): <code>e110e9ea3485afba1c86338fcf436600</code>
+md5sum (debug): <code>41e1885d41633eb60d0075dfcda79788</code>
 
 Building
 --------
 
-Just clone that git-project, or download it as zip [here](https://github.com/dotwee/OpenKWSolver/archive/master.zip), extract and import it into Android Studio!
+Automatically: use Android Studio's 'Check out from Version Control' - feature and use the URL of this project as source.
+Manually: clone this git-repository, or download it as zip [here](https://github.com/dotwee/OpenKWSolver/archive/master.zip), extract and import it into Android Studio.
 
 Used Permissions
 ----------------
 
 + .ACCESS_NETWORK_STATE to check if network is available
 + .INTERNET to request Captcha and download Image
-+ .VIBRATE to signalize a new Captcha arrived
++ .VIBRATE to signalize the arrivement a new Captcha arrived
 
 Features
 --------
