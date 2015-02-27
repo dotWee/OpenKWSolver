@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum="1"
-    tools:context=".MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:weightSum="1"
+              tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imageViewCaptcha"
@@ -16,97 +16,77 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:maxWidth="200dp"
-        android:minHeight="150dp" />
+        android:minHeight="150dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"/>
 
-    <GridLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:columnOrderPreserved="false">
+        android:stretchColumns="1">
 
-        <Button
-            android:id="@+id/buttonPull"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|right"
-            android:layout_row="0"
-            android:text="@string/button_pull" />
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <EditText
-            android:id="@+id/editTextAnswer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="fill_horizontal|left|right"
-            android:layout_row="0"
-            android:inputType="textVisiblePassword"
-            android:singleLine="true" />
+            <Button
+                android:id="@+id/buttonStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="Start"/>
 
-        <Button
-            android:id="@+id/buttonSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:text="@string/button_send" />
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:hint="Answer"
+                android:inputType="textNoSuggestions"
+                android:singleLine="true"
+                android:textIsSelectable="true"/>
 
-    </GridLayout>
+            <Button
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="Send"/>
+        </TableRow>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center_horizontal">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/textViewCurrent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="Balance:"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <TextView
-            android:id="@+id/textViewQueue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textViewCurrent"
-            android:layout_alignParentStart="true"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textViewBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-        <TextView
-            android:id="@+id/textViewWorker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textViewQueue"
-            android:layout_alignParentStart="true"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <Button
-            android:id="@+id/buttonSkip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/button_skip" />
-
-        <Button
-            android:id="@+id/buttonBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:visibility="invisible" />
-
-    </RelativeLayout>
+            <Button
+                android:id="@+id/buttonSkip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="Skip"/>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>
