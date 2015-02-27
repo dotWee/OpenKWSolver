@@ -13,8 +13,10 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
+    String LOG_TAG = "DownloadContentTask";
+
     protected String doInBackground(String... urls) {
-        Log.i("DownloadContentTask", "input: " + urls[0]); // log input
+        Log.i(LOG_TAG, "input: " + urls[0]); // log input
         String output = "";
 
         if (URLUtil.isValidUrl(urls[0])) {
@@ -28,7 +30,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d("DownloadContentTask", "output: " + output); // log output
+            Log.d(LOG_TAG, "output: " + output); // log output
         } else output = "";
         return output;
     }
