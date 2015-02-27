@@ -11,6 +11,5 @@ public class SettingsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
     }
-
-
+    
 }

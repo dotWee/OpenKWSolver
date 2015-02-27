@@ -30,6 +30,19 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static final String URL = "http://www.9kw.eu:80/index.cgi";
+
+    public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
+    public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
+    public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
+    public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
+    public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
+
+    public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
+    public static final String URL_PARAMETER_TYPE_CONFIRM = ""; // &confirm=1
+    public static final String URL_PARAMETER_SERVER_CHECK = "?action=userservercheck";
+    public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_NEW + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + SourceConfig.URL_PARAMETER_TYPE_CONFIRM + SourceConfig.URL_PARAMETER_NOCAPTCHA + readState());
+        String CaptchaURL = (URL + URL_PARAMETER_CAPTCHA_NEW + pullKey() + URL_PARAMETER_SOURCE + URL_PARAMETER_TYPE_CONFIRM + URL_PARAMETER_NOCAPTCHA + readState());
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = "";
 
@@ -205,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
-        String CaptchaURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_ANSWER + SourceConfig.URL_PARAMETER_SOURCE + readState() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+        String CaptchaURL = (URL + URL_PARAMETER_CAPTCHA_ANSWER + URL_PARAMETER_SOURCE + readState() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
 
         // remove Spaces from URL
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
@@ -225,7 +238,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SHOW + SourceConfig.URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (URL + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) findViewById(R.id.imageViewCaptcha);
         try {
@@ -239,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + SourceConfig.URL_PARAMETER_SOURCE + readState());
+        String CaptchaSkipURL = (URL + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + URL_PARAMETER_SOURCE + readState());
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -335,7 +348,7 @@ public class MainActivity extends ActionBarActivity {
                             TextView textViewBalance = (TextView) findViewById(R.id.textViewBalance);
                             Log.i("balanceThread", "Called");
 
-                            String BalanceURL = (SourceConfig.URL + SourceConfig.URL_PARAMETER_SERVER_BALANCE + SourceConfig.URL_PARAMETER_SOURCE + pullKey());
+                            String BalanceURL = (URL + URL_PARAMETER_SERVER_BALANCE + URL_PARAMETER_SOURCE + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
                             String tBalance = null;
