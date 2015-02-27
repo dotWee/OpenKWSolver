@@ -9,6 +9,12 @@
             android:key="apikey"
             android:title="API-Key"/>
 
+        <CheckBoxPreference
+            android:contentDescription="Auto-pull next Captcha"
+            android:defaultValue="true"
+            android:key="loop"
+            android:title="Loop-Mode"/>
+
         <!--
 
         <MultiSelectListPreference

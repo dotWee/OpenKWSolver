@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
@@ -37,14 +39,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+        
+        
         final Button buttonPull = (Button) findViewById(R.id.buttonPull);
         final Button buttonBalance = (Button) findViewById(R.id.buttonBalance);
         final ImageView ImageViewCaptcha = (ImageView) findViewById(R.id.imageViewCaptcha);
         final EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
         EditTextCaptchaAnswer.setMaxWidth(EditTextCaptchaAnswer.getWidth());
+        final Boolean loopMode = prefs.getBoolean("loop", false);
 
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        String checkAPI = prefs.getString("apikey", null);
+        String checkAPI = pullKey();
         if (checkAPI != null) {
             balanceThread();
             buttonBalance.setVisibility(View.VISIBLE);
@@ -121,17 +127,10 @@ public class MainActivity extends ActionBarActivity {
                                 TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
                                 TextViewCurrent.setText(null);
 
-                                buttonPull.setEnabled(true);
-
-                                Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                                Handler autoPull = new Handler();
-                                autoPull.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.i("OnClickPull", "Auto-pull next Captcha");
-                                        buttonPull.performClick();
-                                    }
-                                }, 3000); // three sec delay
+                                if (loopMode) {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
+                                    buttonPull.performClick();
+                                } else buttonPull.setEnabled(true);
                             }
                         });
 
@@ -155,16 +154,7 @@ public class MainActivity extends ActionBarActivity {
                                 ImageView.setImageDrawable(null);
 
                                 buttonPull.setEnabled(true);
-
                                 Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
-                                Handler autoPull = new Handler();
-                                autoPull.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        buttonPull.performClick();
-                                        Log.i("OnClickSkip", "Auto-pull next Captcha");
-                                    }
-                                }, 3000); // three sec delay
                             }
                         });
 
@@ -174,7 +164,6 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
-
     }
 
     @Override
