@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -53,6 +52,7 @@ public class MainActivity extends ActionBarActivity {
         String checkAPI = pullKey();
         if (checkAPI != null) {
             balanceThread();
+            buttonBalance.setEnabled(false);
             buttonBalance.setVisibility(View.VISIBLE);
         }
 
@@ -66,7 +66,15 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Log.i("OnClickPull", "Click recognized");
                 if (isNetworkAvailable()) {
-                    final String CaptchaID = requestCaptchaID();
+                    String CaptchaID = null;
+
+                    if (loopMode) {
+                        while (loopMode) {
+                            CaptchaID = requestCaptchaID();
+                            if (!CaptchaID.equals("")) break;
+                        }
+                    } else CaptchaID = requestCaptchaID();
+                    
                     if (!CaptchaID.equalsIgnoreCase("")) {
                         Boolean currentCapt = false;
                         currentCapt = pullCaptchaPicture(CaptchaID);
@@ -91,30 +99,20 @@ public class MainActivity extends ActionBarActivity {
 
                             @Override
                             public void onFinish() {
-
                             }
                         };
 
-                        Handler checkImageView = new Handler();
                         final Boolean finalCurrentCapt = currentCapt;
-                        checkImageView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!finalCurrentCapt) {
-                                    Log.i("Handler checkImageView", "Auto-pull next Captcha");
-                                    buttonPull.performClick();
-                                } else {
-                                    CountDownTimer.start();
-                                }
-                            }
-                        }, 3000); // three sec delay
+                        CountDownTimer.start();
+                        buttonPull.performClick();
 
                         Button buttonSend = (Button) findViewById(R.id.buttonSend);
+                        final String finalCaptchaID = CaptchaID;
                         buttonSend.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 String CaptchaAnswer = EditTextCaptchaAnswer.getText().toString();
-                                sendCaptchaAnswer(CaptchaAnswer, CaptchaID);
+                                sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
 
                                 CountDownTimer.cancel();
                                 Log.i("OnClickSend", "Timer killed");
@@ -129,6 +127,7 @@ public class MainActivity extends ActionBarActivity {
 
                                 if (loopMode) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.next_captcha_arrives_soon), Toast.LENGTH_SHORT).show();
+                                    Log.i("OnClickSend", "Loop-Mode");
                                     buttonPull.performClick();
                                 } else buttonPull.setEnabled(true);
                             }
@@ -142,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
                                 EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
                                 EditTextCaptchaAnswer.setText(null);
 
-                                skipCaptcha(CaptchaID);
+                                skipCaptcha(finalCaptchaID);
 
                                 TextView TextViewCurrent = (TextView) findViewById(R.id.textViewCurrent);
                                 TextViewCurrent.setText(null);
