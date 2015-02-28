@@ -17,12 +17,13 @@ Checksums
 
 <table>
   <tr>
-    <th>md5 (debug v1.1)</th>
-    <th><code>7a59e982b07f7bfa345af845821c3b01</code></th>
-  </tr>
-  <tr>
     <td>md5 (release v1.1)</td>
     <td><code>3cd32e0bf515c9865429fdc55a2c52ed</code></td>
+  </tr>
+  
+  <tr>
+    <th>md5 (debug v1.1)</th>
+    <th><code>7a59e982b07f7bfa345af845821c3b01</code></th>
   </tr>
 </table>
 
