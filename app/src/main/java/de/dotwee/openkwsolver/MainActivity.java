@@ -80,15 +80,7 @@ public class MainActivity extends ActionBarActivity {
 
                 Log.i("OnClickPull", "Click recognized");
                 if (isNetworkAvailable()) {
-                    String CaptchaID = null;
-
-                    if (prefLoop) {
-                        while (prefLoop) {
-                            CaptchaID = requestCaptchaID();
-                            Log.i("WhileCapchaIDLoop", CaptchaID);
-                            if (!CaptchaID.equals("")) break;
-                        }
-                    } else CaptchaID = requestCaptchaID();
+                    String CaptchaID = requestCaptchaID();
 
                     Boolean currentCapt = false;
                     currentCapt = pullCaptchaPicture(CaptchaID);
@@ -119,8 +111,6 @@ public class MainActivity extends ActionBarActivity {
                     };
 
                     CountDownTimer.start();
-                    buttonPull.performClick();
-
                     Button buttonSend = (Button) findViewById(R.id.buttonSend);
                     final String finalCaptchaID = CaptchaID;
                     buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -199,10 +189,22 @@ public class MainActivity extends ActionBarActivity {
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = "";
 
-        try {
-            CaptchaID = new DownloadContentTask().execute(CaptchaURL).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+
+        Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
+        if (prefLoop) {
+            try {
+                CaptchaID = new DownloadContentTask().execute(CaptchaURL, "captchaid").get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                CaptchaID = new DownloadContentTask().execute(CaptchaURL, "").get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
 
         if (CaptchaID.equalsIgnoreCase("")) {
@@ -227,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
         String Status = null;
 
         try {
-            Status = new DownloadContentTask().execute(CaptchaURL).get();
+            Status = new DownloadContentTask().execute(CaptchaURL, "").get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -257,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
         String r = null;
 
         try {
-            r = new DownloadContentTask().execute(CaptchaSkipURL).get();
+            r = new DownloadContentTask().execute(CaptchaSkipURL, "").get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -354,7 +356,7 @@ public class MainActivity extends ActionBarActivity {
                             String tBalance = null;
 
                             try {
-                                tBalance = new DownloadContentTask().execute(BalanceURL).get();
+                                tBalance = new DownloadContentTask().execute(BalanceURL, "").get();
                             } catch (InterruptedException | ExecutionException e) {
                                 e.printStackTrace();
                             }
