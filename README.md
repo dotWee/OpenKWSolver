@@ -47,7 +47,6 @@ Features
 + Loop-Mode (Auto-pull next Captcha)
 + Vibrate on Captcha-arrival
 + View your current balance
-+ Auto-pull new Captcha
 + Captcha-debug mode
 + Self-only Captchas
 
