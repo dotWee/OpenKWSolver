@@ -48,9 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:hint="@string/main_edittext_hint_answer"
-                android:inputType="textNoSuggestions|text|textVisiblePassword"
-                android:singleLine="true"
-                android:textIsSelectable="true"/>
+                android:inputType="textVisiblePassword"/>
 
             <Button
                 android:id="@+id/buttonSend"
