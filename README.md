@@ -1,7 +1,7 @@
 <img width="100px" height="100px" src="Icon.png" />  OpenKWSolver
 =================================================================
 
-Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Solver.
+Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Client.
 
 Using
 -----
@@ -10,20 +10,20 @@ minSDK: 16 (4.1 Jelly Bean)
 targetSDK: 21 (5.0 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)). <br>
-Latest stable release (v1.1) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
+Latest stable release (v1.2) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
 
 Checksums
 ---------
 
 <table>
   <tr>
-    <td>md5 (release v1.1)</td>
-    <td><code>3cd32e0bf515c9865429fdc55a2c52ed</code></td>
+    <td>md5 (release v1.2)</td>
+    <td><code>093aad99542bb923e14ff742d21b8e1e</code></td>
   </tr>
   
   <tr>
-    <th>md5 (debug v1.1)</th>
-    <th><code>7a59e982b07f7bfa345af845821c3b01</code></th>
+    <th>md5 (debug v1.2)</th>
+    <th><code>4a98b5ac1adb1b82b8c79fe3f8de96ae</code></th>
   </tr>
 </table>
 
@@ -55,9 +55,10 @@ Screenshots
 -----------
 
 <table style="border: 0px;">
-<tr>
-<td><img width="200px" src="Screenshot.png" /></td>
-</tr>
+    <tr>
+        <td><img width="200px" src="ScreenshotNormal.png" /></td>
+        <td><img width="200px" src="ScreenshotWithCaptcha.png" /></td>
+    </tr>
 </table>
 
 Todo
