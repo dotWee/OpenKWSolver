@@ -4,7 +4,7 @@
     <string name="app_name">OpenKWSolver</string>
 
     <string name="title_activity_text">OpenKWSolver</string>
-    <string name="title_activity_preference">Einstellungen</string>
+    <string name="title_activity_preferences">Einstellungen</string>
 
     <string name="action_settings">Einstellungen</string>
     <string name="action_close">Schließen</string>
