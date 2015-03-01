@@ -16,6 +16,8 @@
     <string name="main_edittext_hint_answer">Antwort</string>
     <string name="main_textview_text_balance">Guthaben:</string>
 
+    <string name="main_toast_emptyanswer">Leeres Antwortfeld. Bitte überspringe das Captcha anstelle eine leere Antwort zu senden</string>
+
     <string name="pref_api_key_title">API-Key</string>
     <string name="pref_api_key_description">Dein 9kw API-Key</string>
     <string name="pref_api_selfonly_title">Nur eigene Captchas</string>

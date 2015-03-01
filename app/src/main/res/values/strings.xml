@@ -16,6 +16,8 @@
     <string name="main_edittext_hint_answer">Answer</string>
     <string name="main_textview_text_balance">Balance:</string>
 
+    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer</string>
+
     <string name="pref_api_key_title">API-Key</string>
     <string name="pref_api_key_description">Your 9kw API-Key</string>
     <string name="pref_api_selfonly_title">Self-only Captchas</string>

@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -117,19 +118,22 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             String CaptchaAnswer = editTextAnswer.getText().toString();
-                            sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
+                            if (!CaptchaAnswer.equalsIgnoreCase("")) {
+                                sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
 
-                            CountDownTimer.cancel();
-                            Log.i("OnClickSend", "Timer killed");
-                            ProgressBar.setProgress(0);
+                                CountDownTimer.cancel();
+                                Log.i("OnClickSend", "Timer killed");
+                                ProgressBar.setProgress(0);
 
-                            imageViewCaptcha.setImageDrawable(null);
-                            editTextAnswer.setText(null);
+                                imageViewCaptcha.setImageDrawable(null);
+                                editTextAnswer.setText(null);
 
-                            if (prefLoop) {
-                                Log.i("OnClickSend", "Loop-Mode");
-                                buttonPull.performClick();
-                            } else buttonPull.setEnabled(true);
+                                if (prefLoop) {
+                                    Log.i("OnClickSend", "Loop-Mode");
+                                    buttonPull.performClick();
+                                } else buttonPull.setEnabled(true);
+                            } else Toast.makeText(getApplicationContext(),
+                                    R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -138,8 +142,7 @@ public class MainActivity extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             Log.i("OnClickSkip", "Click recognized");
-                            EditText EditTextCaptchaAnswer = (EditText) findViewById(R.id.editTextAnswer);
-                            EditTextCaptchaAnswer.setText(null);
+                            editTextAnswer.setText(null);
                             skipCaptcha(finalCaptchaID);
 
                             CountDownTimer.cancel();
