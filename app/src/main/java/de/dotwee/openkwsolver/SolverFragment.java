@@ -33,19 +33,8 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
  * Created by Lukas on 08.03.2015.
  */
 public class SolverFragment extends Fragment {
-
-    public static final String URL = "http://www.9kw.eu:80/index.cgi";
-
-    public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
-    public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
-    public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
-    public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
-    public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
-
-    public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-    public static final String URL_PARAMETER_TYPE_CONFIRM = ""; // &confirm=1
-    public static final String URL_PARAMETER_SERVER_CHECK = "?action=userservercheck";
-    public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
+    private static String LOG_TAG = "SolverFragment";
+    MainActivity activity;
 
     public SolverFragment() {
 
@@ -187,7 +176,7 @@ public class SolverFragment extends Fragment {
 
     // Request CaptchaID
     public String requestCaptchaID() {
-        String CaptchaURL = (URL + URL_PARAMETER_CAPTCHA_NEW + pullKey() + URL_PARAMETER_SOURCE + URL_PARAMETER_TYPE_CONFIRM + URL_PARAMETER_NOCAPTCHA + readState());
+        String CaptchaURL = (activity.URL_9WK + activity.URL_PARAMETER_CAPTCHA_NEW + pullKey() + activity.URL_PARAMETER_SOURCE + activity.URL_PARAMETER_TYPE_CONFIRM + activity.URL_PARAMETER_NOCAPTCHA + readState());
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = "";
 
@@ -222,7 +211,7 @@ public class SolverFragment extends Fragment {
         Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
-        String CaptchaURL = (URL + URL_PARAMETER_CAPTCHA_ANSWER + URL_PARAMETER_SOURCE + readState() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+        String CaptchaURL = (activity.URL_9WK + activity.URL_PARAMETER_CAPTCHA_ANSWER + activity.URL_PARAMETER_SOURCE + readState() + "&antwort=" + CaptchaAnswer + "&id=" + CaptchaID + pullKey());
 
         // remove Spaces from URL
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
@@ -242,7 +231,7 @@ public class SolverFragment extends Fragment {
 
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
-        String CaptchaPictureURL = (URL + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
+        String CaptchaPictureURL = (activity.URL_9WK + activity.URL_PARAMETER_CAPTCHA_SHOW + activity.URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         ImageView ImageV = (ImageView) getView().findViewById(R.id.imageViewCaptcha);
         try {
@@ -256,7 +245,7 @@ public class SolverFragment extends Fragment {
 
     // Skip Captcha
     public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (URL + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + URL_PARAMETER_SOURCE + readState());
+        String CaptchaSkipURL = (activity.URL_9WK + activity.URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CaptchaID + pullKey() + activity.URL_PARAMETER_SOURCE + readState());
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
@@ -352,7 +341,7 @@ public class SolverFragment extends Fragment {
                             TextView textViewBalance = (TextView) getView().findViewById(R.id.textViewBalance);
                             Log.i("balanceThread", "Called");
 
-                            String BalanceURL = (URL + URL_PARAMETER_SERVER_BALANCE + URL_PARAMETER_SOURCE + pullKey());
+                            String BalanceURL = (activity.URL_9WK + activity.URL_PARAMETER_SERVER_BALANCE + activity.URL_PARAMETER_SOURCE + pullKey());
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
                             String tBalance = null;
