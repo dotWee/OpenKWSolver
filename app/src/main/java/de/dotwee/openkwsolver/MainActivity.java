@@ -24,10 +24,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new cFragmentAdapter(getSupportFragmentManager()));
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.addTab(actionBar.newTab().setText("Solver").setTabListener(this));
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
