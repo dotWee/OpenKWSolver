@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
     private static String LOG_TAG = "MainActivity";
@@ -44,6 +46,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem exitItem = menu.add("Exit");
+        exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        finish();
+                        return true;
+                    }
+                });
+
+        return true;
     }
 
     @Override
