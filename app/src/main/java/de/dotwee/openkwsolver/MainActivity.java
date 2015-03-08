@@ -1,17 +1,18 @@
 package de.dotwee.openkwsolver;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
     private static String LOG_TAG = "MainActivity";
     ViewPager viewPager;
 
@@ -22,6 +23,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new cFragmentAdapter(getSupportFragmentManager()));
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.addTab(actionBar.newTab().setText("Solver").setTabListener(this));
     }
 
     @Override
@@ -48,17 +54,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        viewPager.setCurrentItem(tab.getPosition(), true);
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
     }
 
@@ -71,7 +77,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public Fragment getItem(int position) {
-            Log.i(LOG_TAG, "getItem: " + position);
             Fragment fragment = null;
             if (position == 0) fragment = new SolverFragment();
 
@@ -80,7 +85,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public int getCount() {
-            Log.i(LOG_TAG, "getCount");
             return 1;
         }
     }
