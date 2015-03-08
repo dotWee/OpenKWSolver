@@ -32,7 +32,7 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 /**
  * Created by Lukas on 08.03.2015.
  */
-public class MainFragment extends Fragment {
+public class SolverFragment extends Fragment {
 
     public static final String URL = "http://www.9kw.eu:80/index.cgi";
 
@@ -47,13 +47,13 @@ public class MainFragment extends Fragment {
     public static final String URL_PARAMETER_SERVER_CHECK = "?action=userservercheck";
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
 
-    public MainFragment() {
+    public SolverFragment() {
 
 
     }
 
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
+    public static SolverFragment newInstance() {
+        SolverFragment fragment = new SolverFragment();
         return fragment;
     }
 

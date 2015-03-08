@@ -1,20 +1,27 @@
 package de.dotwee.openkwsolver;
 
-import android.content.Intent;
+import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     private static String LOG_TAG = "MainActivity";
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(new cFragmentAdapter(getSupportFragmentManager()));
     }
 
     @Override
@@ -30,14 +37,51 @@ public class MainActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                // Todo move to settings
                 return true;
             case R.id.action_stop:
                 finish();
                 System.exit(0);
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+
+    }
+
+    public class cFragmentAdapter extends FragmentPagerAdapter {
+        private String LOG_TAG = "FragmentAdapter";
+
+        public cFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Log.i(LOG_TAG, "getItem: " + position);
+            Fragment fragment = null;
+            if (position == 0) fragment = new SolverFragment();
+
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            Log.i(LOG_TAG, "getCount");
+            return 1;
         }
     }
 
