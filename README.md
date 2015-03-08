@@ -7,10 +7,10 @@ Using
 -----
 
 minSDK: 16 (4.1 Jelly Bean)
-targetSDK: 21 (5.0 Lollipop)
+<br>targetSDK: 21 (5.0 Lollipop)
 
-To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)). <br>
-Latest stable release (v1.2) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
+To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
+<br>Latest stable release (v1.2) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
 
 Checksums
 ---------
@@ -72,6 +72,17 @@ Found a bug / had a force-close?
 --------------------------------
 
 Open a new Issue and provide a logcat.
+
+Dependencies
+------------
+
++ Google's AppCombat
++ Google's v13 Support Package
+
+Credits
+-------
+
++ Google: for their [Material Design Icons](https://github.com/google/material-design-icons) (Attribution 4.0 Internal license)
 
 License
 -------
