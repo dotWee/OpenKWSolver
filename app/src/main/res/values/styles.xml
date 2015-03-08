@@ -9,12 +9,4 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="PrefTheme" parent="Theme.AppCompat.Light">
-
-        <!-- Main theme colors -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
-    </style>
-
 </resources>
