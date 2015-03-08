@@ -13,7 +13,8 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     public static SettingsFragment newInstance() {
-        return new SettingsFragment();
+        SettingsFragment fragment = new SettingsFragment();
+        return fragment;
     }
 
     @Override
