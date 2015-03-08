@@ -27,7 +27,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
         actionBar.addTab(actionBar.newTab().setText("Solver").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Settings").setTabListener(this));
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -96,13 +98,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             Fragment fragment = null;
             if (position == 0) fragment = new SolverFragment();
+            if (position == 1) fragment = new SettingsFragment();
 
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
     }
 
