@@ -8,15 +8,47 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.concurrent.ExecutionException;
+
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
+import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
-    private static String LOG_TAG = "MainActivity";
+    public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
+    public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
+    public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
+    public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
+    private final static String LOG_TAG = "MainActivity";
     ViewPager viewPager;
+
+    public static String requestCaptchaID(String PARAMETER_API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
+        String CAPTCHA_URL = (
+                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + PARAMETER_API_KEY +
+                        URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
+        Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
+        String CAPTCHA_ID = "";
+        if (LOOP)
+            try {
+                CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        else try {
+            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(LOG_TAG, "ID Request RETURN: " +
+                CAPTCHA_ID);
+
+        return CAPTCHA_ID;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,5 +135,4 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return 2;
         }
     }
-
 }

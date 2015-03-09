@@ -98,7 +98,11 @@ public class SolverFragment extends Fragment {
 
                 Log.i("OnClickPull", "Click recognized");
                 if (isNetworkAvailable()) {
-                    String CaptchaID = requestCaptchaID();
+
+                    SharedPreferences prefs = PreferenceManager
+                            .getDefaultSharedPreferences(getActivity());
+
+                    String CaptchaID = null; // = MainActivity.requestCaptchaID(pullKey(), readState(), prefs.getBoolean("pref_automation_loop", false));
 
                     Boolean currentCapt = false;
                     currentCapt = pullCaptchaPicture(CaptchaID);
@@ -180,11 +184,12 @@ public class SolverFragment extends Fragment {
     }
 
     // Request CaptchaID
+    /*
     public String requestCaptchaID() {
         String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW +
                 pullKey() + URL_PARAMETER_SOURCE + URL_PARAMETER_TYPE_CONFIRM +
                 URL_PARAMETER_NOCAPTCHA + readState());
-        
+
         Log.i("requestCaptchaID", "URL: " + CaptchaURL);
         String CaptchaID = "";
 
@@ -212,6 +217,7 @@ public class SolverFragment extends Fragment {
 
         return CaptchaID;
     }
+    */
 
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
@@ -243,7 +249,7 @@ public class SolverFragment extends Fragment {
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
                 URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
-        
+
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
             ImageView ImageV = (ImageView) getView().findViewById(R.id.imageViewCaptcha);
@@ -262,7 +268,7 @@ public class SolverFragment extends Fragment {
     public void skipCaptcha(String CaptchaID) {
         String CaptchaSkipURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" +
                 CaptchaID + pullKey() + URL_PARAMETER_SOURCE + readState());
-        
+
         Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
         String r = null;
 
