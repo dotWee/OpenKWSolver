@@ -11,6 +11,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.dotwee.openkwsolver.Fragments.SettingsFragment;
+import de.dotwee.openkwsolver.Fragments.SolverFragment;
+
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";

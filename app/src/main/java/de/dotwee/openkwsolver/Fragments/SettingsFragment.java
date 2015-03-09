@@ -1,7 +1,9 @@
-package de.dotwee.openkwsolver;
+package de.dotwee.openkwsolver.Fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import de.dotwee.openkwsolver.R;
 
 /**
  * Created by Lukas on 27.02.2015.

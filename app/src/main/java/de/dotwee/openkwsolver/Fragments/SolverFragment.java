@@ -1,4 +1,4 @@
-package de.dotwee.openkwsolver;
+package de.dotwee.openkwsolver.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import de.dotwee.openkwsolver.MainActivity;
+import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
