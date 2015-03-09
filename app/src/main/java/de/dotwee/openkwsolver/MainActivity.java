@@ -2,6 +2,8 @@ package de.dotwee.openkwsolver;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -93,6 +95,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem linkItem = menu.add("Source");
+        linkItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        linkItem.setIcon(R.drawable.ic_bookmark_outline_white_36dp);
+        linkItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent linkIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://github.com/dotWee/OpenKWSolver"));
+                startActivity(linkIntent);
+                finish();
+                return false;
+            }
+        });
+        
         MenuItem exitItem = menu.add("Exit");
         exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
@@ -103,7 +119,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         return true;
                     }
                 });
-
         return true;
     }
 
