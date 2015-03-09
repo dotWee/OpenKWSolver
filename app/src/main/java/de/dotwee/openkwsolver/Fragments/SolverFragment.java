@@ -315,7 +315,7 @@ public class SolverFragment extends Fragment {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    // Notify the user about now working network
+    // Notify the user about not working network
     public void DialogNetwork() {
         Log.i("DialogNetwork", "Called");
         AlertDialog.Builder Dialog = new AlertDialog.Builder(getActivity());
