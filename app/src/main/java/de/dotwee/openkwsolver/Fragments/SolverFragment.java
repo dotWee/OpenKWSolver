@@ -35,17 +35,11 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
  * Created by Lukas on 08.03.2015.
  */
 public class SolverFragment extends Fragment {
-    private static String LOG_TAG = "SolverFragment";
+    private final static String LOG_TAG = "SolverFragment";
     MainActivity activity;
 
     public SolverFragment() {
 
-
-    }
-
-    public static SolverFragment newInstance() {
-        SolverFragment fragment = new SolverFragment();
-        return fragment;
     }
 
     @Override
@@ -56,7 +50,7 @@ public class SolverFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_solver, container, true);
     }
 
     @Override
