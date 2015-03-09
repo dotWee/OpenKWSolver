@@ -23,12 +23,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
     public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
+    public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     private final static String LOG_TAG = "MainActivity";
     ViewPager viewPager;
 
-    public static String requestCaptchaID(String PARAMETER_API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
+    public static String requestCaptchaID(String API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
         String CAPTCHA_URL = (
-                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + PARAMETER_API_KEY +
+                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + API_KEY +
                         URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
         Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
         String CAPTCHA_ID = "";
@@ -48,6 +49,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 CAPTCHA_ID);
 
         return CAPTCHA_ID;
+    }
+
+    public static void skipCaptchaByID(String CAPTCHA_ID, String API_KEY) {
+        String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
+            API_KEY + URL_PARAMETER_SOURCE);
+        Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
+        new DownloadContentTask().execute(CAPTCHA_URL);
     }
 
     @Override
@@ -108,7 +116,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
     }
-
+    
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 

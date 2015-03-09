@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
@@ -102,7 +103,7 @@ public class SolverFragment extends Fragment {
                     SharedPreferences prefs = PreferenceManager
                             .getDefaultSharedPreferences(getActivity());
 
-                    String CaptchaID = null; // = MainActivity.requestCaptchaID(pullKey(), readState(), prefs.getBoolean("pref_automation_loop", false));
+                    String CaptchaID = MainActivity.requestCaptchaID(pullKey(), readState(), prefs.getBoolean("pref_automation_loop", false));
 
                     Boolean currentCapt = false;
                     currentCapt = pullCaptchaPicture(CaptchaID);
@@ -164,7 +165,8 @@ public class SolverFragment extends Fragment {
                         public void onClick(View v) {
                             Log.i("OnClickSkip", "Click recognized");
                             editTextAnswer.setText(null);
-                            skipCaptcha(finalCaptchaID);
+                            MainActivity.skipCaptchaByID(
+                                    finalCaptchaID, pullKey());
 
                             CountDownTimer.cancel();
                             ProgressBar.setProgress(0);
@@ -182,42 +184,6 @@ public class SolverFragment extends Fragment {
             }
         });
     }
-
-    // Request CaptchaID
-    /*
-    public String requestCaptchaID() {
-        String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW +
-                pullKey() + URL_PARAMETER_SOURCE + URL_PARAMETER_TYPE_CONFIRM +
-                URL_PARAMETER_NOCAPTCHA + readState());
-
-        Log.i("requestCaptchaID", "URL: " + CaptchaURL);
-        String CaptchaID = "";
-
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-
-        Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
-        if (prefLoop) {
-            try {
-                CaptchaID = new DownloadContentTask().execute(CaptchaURL, "captchaid").get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                CaptchaID = new DownloadContentTask().execute(CaptchaURL, "").get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (CaptchaID.equalsIgnoreCase("")) {
-            Log.i("requestCaptchaID", "CaptchaID is empty");
-        } else Log.i("requestCaptchaID", "Received ID: " + CaptchaID);
-
-        return CaptchaID;
-    }
-    */
 
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
@@ -262,22 +228,6 @@ public class SolverFragment extends Fragment {
         }
 
         return false;
-    }
-
-    // Skip Captcha
-    public void skipCaptcha(String CaptchaID) {
-        String CaptchaSkipURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" +
-                CaptchaID + pullKey() + URL_PARAMETER_SOURCE + readState());
-
-        Log.i("skipCaptcha", "URL: " + CaptchaSkipURL);
-        String r = null;
-
-        try {
-            r = new DownloadContentTask().execute(CaptchaSkipURL, "").get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        Log.i("skipCaptcha", "Result: " + r);
     }
 
     // Read API-Key from Dialog
