@@ -36,21 +36,11 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
  */
 public class SolverFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
-    public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
-    public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
-    public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-    public static final String URL_PARAMETER_TYPE_CONFIRM = ""; // &confirm=1
-    public static final String URL_PARAMETER_SERVER_CHECK = "?action=userservercheck";
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
-    private final static String LOG_TAG = "SolverFragment";
-    private Context context = getActivity();
-
-    public SolverFragment() {
-
-    }
+    private static final String LOG_TAG = "SolverFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
