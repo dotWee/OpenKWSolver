@@ -34,5 +34,5 @@
 
     <string name="pref_automation_loop_title">Loop-Mode</string>
     <string name="pref_automation_loop_description">Hole das nächste Captcha automatisch</string>
-    
+
 </resources>
