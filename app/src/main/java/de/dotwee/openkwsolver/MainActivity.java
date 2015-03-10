@@ -133,9 +133,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    public static String requestCaptchaID(String API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
+    public static String requestCaptchaID(Context context, String EXTERNAL_PARAMETER, Boolean LOOP) {
         String CAPTCHA_URL = (
-                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + API_KEY +
+                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
                         URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
         Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
         String CAPTCHA_ID = "";
@@ -157,9 +157,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         return CAPTCHA_ID;
     }
 
-    public static void skipCaptchaByID(String CAPTCHA_ID, String API_KEY) {
+    public static void skipCaptchaByID(Context context, String CAPTCHA_ID) {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
-                API_KEY + URL_PARAMETER_SOURCE);
+                getApiKey(context) + URL_PARAMETER_SOURCE);
         Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
         new DownloadContentTask().execute(CAPTCHA_URL);
     }

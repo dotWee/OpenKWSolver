@@ -85,7 +85,7 @@ public class SolverFragment extends Fragment {
                 SharedPreferences prefs1 = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
 
-                String CaptchaID = MainActivity.requestCaptchaID(MainActivity.getApiKey(getActivity()), readState(), prefs1.getBoolean("pref_automation_loop", false));
+                String CaptchaID = MainActivity.requestCaptchaID(getActivity(), readState(), prefs1.getBoolean("pref_automation_loop", false));
 
                 Boolean currentCapt = false;
                 currentCapt = pullCaptchaPicture(CaptchaID);
@@ -143,7 +143,7 @@ public class SolverFragment extends Fragment {
                     Log.i("OnClickSkip", "Click recognized");
                     editTextAnswer.setText(null);
                     MainActivity.skipCaptchaByID(
-                            finalCaptchaID, MainActivity.getApiKey(getActivity()));
+                            getActivity(), MainActivity.getApiKey(getActivity()));
 
                     CountDownTimer.cancel();
                     ProgressBar.setProgress(0);
