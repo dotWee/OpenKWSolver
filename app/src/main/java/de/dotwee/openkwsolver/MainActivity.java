@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -170,5 +172,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if (apikey != null)
             return "&apikey=" + apikey;
         else return "";
+    }
+
+    public static boolean networkAvailable(Context context) {
+        Log.i("isNetworkAvailable", "Called");
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

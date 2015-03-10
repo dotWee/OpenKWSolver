@@ -79,16 +79,16 @@ public class SolverFragment extends Fragment {
         final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
         // start showing balance if network and apikey is available
-        if (isNetworkAvailable()) {
-            if (!MainActivity.getApiKey(getActivity()).equals("")) balanceThread();
-        }
+        if (MainActivity.networkAvailable(getActivity()))
+            if (!MainActivity.getApiKey(getActivity()).equals(""))
+                balanceThread();
 
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.i("OnClickPull", "Click recognized");
-                if (isNetworkAvailable()) {
+                if (MainActivity.networkAvailable(getActivity())) {
 
                     SharedPreferences prefs = PreferenceManager
                             .getDefaultSharedPreferences(getActivity());
@@ -235,15 +235,6 @@ public class SolverFragment extends Fragment {
         if (prefDebug) d = "&debug=1";
 
         return s + d;
-    }
-
-    // Check if network is available
-    private boolean isNetworkAvailable() {
-        Log.i("isNetworkAvailable", "Called");
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     // Notify the user about not working network
