@@ -85,7 +85,7 @@ public class SolverFragment extends Fragment {
                 SharedPreferences prefs1 = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
 
-                String CaptchaID = MainActivity.requestCaptchaID(getActivity(), readState(), prefs1.getBoolean("pref_automation_loop", false));
+                String CaptchaID = MainActivity.requestCaptchaID(getActivity(), prefs1.getBoolean("pref_automation_loop", false));
 
                 Boolean currentCapt = false;
                 currentCapt = pullCaptchaPicture(CaptchaID);
@@ -167,7 +167,7 @@ public class SolverFragment extends Fragment {
         Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
 
         String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
-                URL_PARAMETER_SOURCE + readState() + "&antwort=" +
+                URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity()) + "&antwort=" +
                 CaptchaAnswer + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
 
         // remove Spaces from URL
@@ -189,7 +189,7 @@ public class SolverFragment extends Fragment {
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
-                URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
+                URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity()) + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
 
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
@@ -203,23 +203,6 @@ public class SolverFragment extends Fragment {
         }
 
         return false;
-    }
-
-    // Read written states
-    public String readState() {
-
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-
-        Boolean prefSelfonly = prefs.getBoolean("pref_api_selfonly", false);
-        Boolean prefDebug = prefs.getBoolean("pref_api_debug", false);
-        String s = "";
-        String d = "";
-
-        if (prefSelfonly) s = "&selfonly=1";
-        if (prefDebug) d = "&debug=1";
-
-        return s + d;
     }
 
     // Notify the user about not working network

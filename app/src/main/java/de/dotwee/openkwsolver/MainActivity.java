@@ -133,10 +133,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    public static String requestCaptchaID(Context context, String EXTERNAL_PARAMETER, Boolean LOOP) {
+    public static String requestCaptchaID(Context context, Boolean LOOP) {
         String CAPTCHA_URL = (
                 URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
-                        URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
+                        URL_PARAMETER_SOURCE + getExternalParameter(context) + URL_PARAMETER_NOCAPTCHA);
         Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
         String CAPTCHA_ID = "";
         if (LOOP)
@@ -172,6 +172,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if (apikey != null)
             return "&apikey=" + apikey;
         else return "";
+    }
+
+    public static String getExternalParameter(Context context) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        Boolean prefSelfonly = prefs.getBoolean("pref_api_selfonly", false);
+        Boolean prefDebug = prefs.getBoolean("pref_api_debug", false);
+        String s = "", d = "";
+
+        if (prefSelfonly) s = "&selfonly=1";
+        if (prefDebug) d = "&debug=1";
+
+        return s + d;
     }
 
     public static boolean networkAvailable(Context context) {
