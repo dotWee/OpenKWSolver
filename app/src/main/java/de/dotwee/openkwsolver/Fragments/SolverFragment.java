@@ -154,8 +154,6 @@ public class SolverFragment extends Fragment {
                     buttonPull.setEnabled(true);
                 });
 
-            } else {
-                DialogNetwork();
             }
         });
     }
@@ -203,24 +201,6 @@ public class SolverFragment extends Fragment {
         }
 
         return false;
-    }
-
-    // Notify the user about not working network
-    public void DialogNetwork() {
-        Log.i("DialogNetwork", "Called");
-        AlertDialog.Builder Dialog = new AlertDialog.Builder(getActivity());
-
-        Dialog.setTitle("No network available");
-        Dialog.setMessage("Please connect to the internet!");
-
-        Dialog.setPositiveButton(getString(R.string.action_ok), (dialog, which) -> {
-            Log.i("DialogNetwork", "OK");
-        });
-
-        Dialog.setNegativeButton(getString(R.string.action_close), (dialog, which) -> {
-            Log.i("DialogNetwork", "Canceled");
-        });
-        Dialog.show();
     }
 
     // BalanceThread: Update the balance every 5 seconds
