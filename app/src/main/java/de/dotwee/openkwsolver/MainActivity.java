@@ -21,6 +21,7 @@ import android.view.MenuItem;
 
 import java.util.concurrent.ExecutionException;
 
+import de.dotwee.openkwsolver.Fragments.ConfirmFragment;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
@@ -123,14 +124,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             Fragment fragment = null;
             if (position == 0) fragment = new SolverFragment();
-            if (position == 1) fragment = new SettingsFragment();
+            if (position == 1) fragment = new ConfirmFragment();
+            if (position == 2) fragment = new SettingsFragment();
 
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 
