@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
     public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
+
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     private final static String LOG_TAG = "MainActivity";
@@ -133,10 +134,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    public static String requestCaptchaID(Context context, Boolean LOOP) {
-        String CAPTCHA_URL = (
-                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
-                        URL_PARAMETER_SOURCE + getExternalParameter(context) + URL_PARAMETER_NOCAPTCHA);
+    public static String requestCaptchaID(Context context, Boolean LOOP, int TYPE) {
+        String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
+                URL_PARAMETER_SOURCE + getExternalParameter(context, TYPE) + URL_PARAMETER_NOCAPTCHA);
+
         Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
         String CAPTCHA_ID = "";
         if (LOOP)
@@ -151,8 +152,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             e.printStackTrace();
         }
 
-        Log.i(LOG_TAG, "ID Request RETURN: " +
-                CAPTCHA_ID);
+        Log.i(LOG_TAG, "ID Request RETURN: " + CAPTCHA_ID);
 
         return CAPTCHA_ID;
     }
@@ -174,18 +174,33 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         else return "";
     }
 
-    public static String getExternalParameter(Context context) {
+    public static String getExternalParameter(Context context, int type) {
+        String s = "", d = "", t = "";
+        String CONFIRM = "&confirm=";
+        String CLICK = "&mouse=";
+
+        switch (type) {
+            case 0: // confirm
+                t = CONFIRM + "1" + CLICK + "0";
+                break;
+
+            case 1: // Todo click
+                t = CONFIRM + "0" + CLICK + "1";
+                break;
+
+            case 2: // none
+                t = CONFIRM + "0" + CLICK + "0";
+                break;
+        }
+
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
 
         Boolean prefSelfonly = prefs.getBoolean("pref_api_selfonly", false);
         Boolean prefDebug = prefs.getBoolean("pref_api_debug", false);
-        String s = "", d = "";
-
         if (prefSelfonly) s = "&selfonly=1";
         if (prefDebug) d = "&debug=1";
-
-        return s + d;
+        return s + d + t;
     }
 
     public static boolean networkAvailable(Context context) {
