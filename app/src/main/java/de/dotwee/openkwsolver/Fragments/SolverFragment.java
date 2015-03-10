@@ -59,9 +59,6 @@ public class SolverFragment extends Fragment {
 
         // declare main widgets
         final Button buttonPull = (Button) view.findViewById(R.id.buttonPull);
-        final Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-        final Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
-        final TextView textViewBalance = (TextView) view.findViewById(R.id.textViewBalance);
         final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
         final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
@@ -73,9 +70,6 @@ public class SolverFragment extends Fragment {
                 .getDefaultSharedPreferences(getActivity());
 
         final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
-
-        Boolean prefNotification = prefs.getBoolean("pref_notification", false);
-        Boolean prefSound = prefs.getBoolean("pref_notification_sound", false);
         final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
         // start showing balance if network and apikey is available
@@ -83,94 +77,85 @@ public class SolverFragment extends Fragment {
             if (!MainActivity.getApiKey(getActivity()).equals(""))
                 balanceThread();
 
-        buttonPull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonPull.setOnClickListener(v -> {
 
-                Log.i("OnClickPull", "Click recognized");
-                if (MainActivity.networkAvailable(getActivity())) {
+            Log.i("OnClickPull", "Click recognized");
+            if (MainActivity.networkAvailable(getActivity())) {
 
-                    SharedPreferences prefs = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
+                SharedPreferences prefs1 = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
 
-                    String CaptchaID = MainActivity.requestCaptchaID(MainActivity.getApiKey(getActivity()), readState(), prefs.getBoolean("pref_automation_loop", false));
+                String CaptchaID = MainActivity.requestCaptchaID(MainActivity.getApiKey(getActivity()), readState(), prefs1.getBoolean("pref_automation_loop", false));
 
-                    Boolean currentCapt = false;
-                    currentCapt = pullCaptchaPicture(CaptchaID);
+                Boolean currentCapt = false;
+                currentCapt = pullCaptchaPicture(CaptchaID);
 
 
-                    final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                    buttonPull.setEnabled(false);
+                final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+                buttonPull.setEnabled(false);
 
 
-                    Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                    if (prefVibrate)
-                        if (currentCapt)
-                            vibrator.vibrate(500);
+                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                if (prefVibrate)
+                    if (currentCapt)
+                        vibrator.vibrate(500);
 
-                    final int[] i = {0};
-                    final CountDownTimer CountDownTimer;
-                    CountDownTimer = new CountDownTimer(26000, 1000) {
+                final int[] i = {0};
+                final CountDownTimer CountDownTimer;
+                CountDownTimer = new CountDownTimer(26000, 1000) {
 
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            i[0]++;
-                            ProgressBar.setProgress(i[0]);
-                        }
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        i[0]++;
+                        ProgressBar.setProgress(i[0]);
+                    }
 
-                        @Override
-                        public void onFinish() {
-                        }
-                    };
+                    @Override
+                    public void onFinish() {
+                    }
+                };
 
-                    CountDownTimer.start();
-                    Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
-                    final String finalCaptchaID = CaptchaID;
-                    buttonSend.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String CaptchaAnswer = editTextAnswer.getText().toString();
-                            if (!CaptchaAnswer.equalsIgnoreCase("")) {
-                                sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
+                CountDownTimer.start();
+                Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
+                final String finalCaptchaID = CaptchaID;
+                buttonSend.setOnClickListener(v1 -> {
+                    String CaptchaAnswer = editTextAnswer.getText().toString();
+                    if (!CaptchaAnswer.equalsIgnoreCase("")) {
+                        sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
 
-                                CountDownTimer.cancel();
-                                Log.i("OnClickSend", "Timer killed");
-                                ProgressBar.setProgress(0);
+                        CountDownTimer.cancel();
+                        Log.i("OnClickSend", "Timer killed");
+                        ProgressBar.setProgress(0);
 
-                                imageViewCaptcha.setImageDrawable(null);
-                                editTextAnswer.setText(null);
+                        imageViewCaptcha.setImageDrawable(null);
+                        editTextAnswer.setText(null);
 
-                                if (prefLoop) {
-                                    Log.i("OnClickSend", "Loop-Mode");
-                                    buttonPull.performClick();
-                                } else buttonPull.setEnabled(true);
-                            } else Toast.makeText(getActivity(),
-                                    R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-                        }
-                    });
+                        if (prefLoop) {
+                            Log.i("OnClickSend", "Loop-Mode");
+                            buttonPull.performClick();
+                        } else buttonPull.setEnabled(true);
+                    } else Toast.makeText(getActivity(),
+                            R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+                });
 
-                    Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-                    buttonSkip.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.i("OnClickSkip", "Click recognized");
-                            editTextAnswer.setText(null);
-                            MainActivity.skipCaptchaByID(
-                                    finalCaptchaID, MainActivity.getApiKey(getActivity()));
+                Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+                buttonSkip.setOnClickListener(v1 -> {
+                    Log.i("OnClickSkip", "Click recognized");
+                    editTextAnswer.setText(null);
+                    MainActivity.skipCaptchaByID(
+                            finalCaptchaID, MainActivity.getApiKey(getActivity()));
 
-                            CountDownTimer.cancel();
-                            ProgressBar.setProgress(0);
+                    CountDownTimer.cancel();
+                    ProgressBar.setProgress(0);
 
-                            ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-                            ImageView.setImageDrawable(null);
+                    ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+                    ImageView.setImageDrawable(null);
 
-                            buttonPull.setEnabled(true);
-                        }
-                    });
+                    buttonPull.setEnabled(true);
+                });
 
-                } else {
-                    DialogNetwork();
-                }
+            } else {
+                DialogNetwork();
             }
         });
     }
@@ -245,18 +230,12 @@ public class SolverFragment extends Fragment {
         Dialog.setTitle("No network available");
         Dialog.setMessage("Please connect to the internet!");
 
-        Dialog.setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("DialogNetwork", "OK");
-            }
+        Dialog.setPositiveButton(getString(R.string.action_ok), (dialog, which) -> {
+            Log.i("DialogNetwork", "OK");
         });
 
-        Dialog.setNegativeButton(getString(R.string.action_close), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.i("DialogNetwork", "Canceled");
-            }
+        Dialog.setNegativeButton(getString(R.string.action_close), (dialog, which) -> {
+            Log.i("DialogNetwork", "Canceled");
         });
         Dialog.show();
     }
@@ -274,29 +253,26 @@ public class SolverFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TextView textViewBalance;
+                    getActivity().runOnUiThread(() -> {
+                        TextView textViewBalance;
 
-                            String tBalance = null;
-                            String BalanceURL = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
-                                    URL_PARAMETER_SOURCE + MainActivity.getApiKey(getActivity()));
-                            Log.i("balanceThread", "BalanceURL: " + BalanceURL);
+                        String tBalance = null;
+                        String BalanceURL = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
+                                URL_PARAMETER_SOURCE + MainActivity.getApiKey(getActivity()));
+                        Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
-                            try {
-                                tBalance = new DownloadContentTask().execute(BalanceURL, "").get();
-                            } catch (InterruptedException | ExecutionException e) {
-                                e.printStackTrace();
-                            }
+                        try {
+                            tBalance = new DownloadContentTask().execute(BalanceURL, "").get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
 
-                            if (getView() != null) {
-                                textViewBalance = (TextView) getView()
-                                        .findViewById(R.id.textViewBalance);
+                        if (getView() != null) {
+                            textViewBalance = (TextView) getView()
+                                    .findViewById(R.id.textViewBalance);
 
-                                Log.i("balanceThread", "Balance: " + tBalance);
-                                textViewBalance.setText(tBalance);
-                            }
+                            Log.i("balanceThread", "Balance: " + tBalance);
+                            textViewBalance.setText(tBalance);
                         }
                     });
                 }
