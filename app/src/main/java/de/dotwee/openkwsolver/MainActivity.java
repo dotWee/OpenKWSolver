@@ -2,9 +2,12 @@ package de.dotwee.openkwsolver;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -28,37 +31,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     private final static String LOG_TAG = "MainActivity";
     ViewPager viewPager;
-
-    public static String requestCaptchaID(String API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
-        String CAPTCHA_URL = (
-                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + API_KEY +
-                        URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
-        Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
-        String CAPTCHA_ID = "";
-        if (LOOP)
-            try {
-                CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        else try {
-            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        Log.i(LOG_TAG, "ID Request RETURN: " +
-                CAPTCHA_ID);
-
-        return CAPTCHA_ID;
-    }
-
-    public static void skipCaptchaByID(String CAPTCHA_ID, String API_KEY) {
-        String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
-            API_KEY + URL_PARAMETER_SOURCE);
-        Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
-        new DownloadContentTask().execute(CAPTCHA_URL);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,5 +129,46 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public int getCount() {
             return 2;
         }
+    }
+
+    public static String requestCaptchaID(String API_KEY, String EXTERNAL_PARAMETER, Boolean LOOP) {
+        String CAPTCHA_URL = (
+                URL_9WK + URL_PARAMETER_CAPTCHA_NEW + API_KEY +
+                        URL_PARAMETER_SOURCE + EXTERNAL_PARAMETER + URL_PARAMETER_NOCAPTCHA);
+        Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
+        String CAPTCHA_ID = "";
+        if (LOOP)
+            try {
+                CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        else try {
+            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(LOG_TAG, "ID Request RETURN: " +
+                CAPTCHA_ID);
+
+        return CAPTCHA_ID;
+    }
+
+    public static void skipCaptchaByID(String CAPTCHA_ID, String API_KEY) {
+        String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
+                API_KEY + URL_PARAMETER_SOURCE);
+        Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
+        new DownloadContentTask().execute(CAPTCHA_URL);
+    }
+
+    public static String getApiKey(Context context) {
+        SharedPreferences pref_apikey = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String apikey = pref_apikey.getString("pref_api_key", null);
+        Log.i(LOG_TAG, "API-Key: " + apikey);
+        if (apikey != null)
+            return "&apikey=" + apikey;
+        else return "";
     }
 }

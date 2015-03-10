@@ -80,7 +80,7 @@ public class SolverFragment extends Fragment {
 
         // start showing balance if network and apikey is available
         if (isNetworkAvailable()) {
-            if (!pullKey().equals("")) balanceThread();
+            if (!MainActivity.getApiKey(getActivity()).equals("")) balanceThread();
         }
 
         buttonPull.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class SolverFragment extends Fragment {
                     SharedPreferences prefs = PreferenceManager
                             .getDefaultSharedPreferences(getActivity());
 
-                    String CaptchaID = MainActivity.requestCaptchaID(pullKey(), readState(), prefs.getBoolean("pref_automation_loop", false));
+                    String CaptchaID = MainActivity.requestCaptchaID(MainActivity.getApiKey(getActivity()), readState(), prefs.getBoolean("pref_automation_loop", false));
 
                     Boolean currentCapt = false;
                     currentCapt = pullCaptchaPicture(CaptchaID);
@@ -156,7 +156,7 @@ public class SolverFragment extends Fragment {
                             Log.i("OnClickSkip", "Click recognized");
                             editTextAnswer.setText(null);
                             MainActivity.skipCaptchaByID(
-                                    finalCaptchaID, pullKey());
+                                    finalCaptchaID, MainActivity.getApiKey(getActivity()));
 
                             CountDownTimer.cancel();
                             ProgressBar.setProgress(0);
@@ -183,7 +183,7 @@ public class SolverFragment extends Fragment {
 
         String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
                 URL_PARAMETER_SOURCE + readState() + "&antwort=" +
-                CaptchaAnswer + "&id=" + CaptchaID + pullKey());
+                CaptchaAnswer + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
 
         // remove Spaces from URL
         CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
@@ -204,7 +204,7 @@ public class SolverFragment extends Fragment {
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
-                URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + pullKey());
+                URL_PARAMETER_SOURCE + readState() + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
 
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
@@ -218,21 +218,6 @@ public class SolverFragment extends Fragment {
         }
 
         return false;
-    }
-
-    // Read API-Key from Dialog
-    private String pullKey() {
-        String r;
-        SharedPreferences pref_apikey = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-
-        String k = pref_apikey.getString("pref_api_key", null);
-        Log.i("pullKey", "Readed key: " + k);
-
-        if (k != null) {
-            r = ("&apikey=" + k);
-            return r;
-        } else return "";
     }
 
     // Read written states
@@ -305,7 +290,7 @@ public class SolverFragment extends Fragment {
 
                             String tBalance = null;
                             String BalanceURL = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
-                                    URL_PARAMETER_SOURCE + pullKey());
+                                    URL_PARAMETER_SOURCE + MainActivity.getApiKey(getActivity()));
                             Log.i("balanceThread", "BalanceURL: " + BalanceURL);
 
                             try {
