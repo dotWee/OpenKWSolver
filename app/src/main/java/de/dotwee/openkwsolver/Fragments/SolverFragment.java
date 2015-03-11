@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
@@ -50,10 +51,7 @@ public class SolverFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-    public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
     Thread BalanceUpdate;
-
-    private static final String LOG_TAG = "SolverFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -248,7 +246,11 @@ public class SolverFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            if (getView() != null) {
+                                TextView textViewBalance = (TextView) getView()
+                                        .findViewById(R.id.textViewBalance);
+                                textViewBalance.setText(MainActivity.getBalance(getActivity()));
+                            }
                         }
                     });
                 }
@@ -257,15 +259,10 @@ public class SolverFragment extends Fragment {
         };
 
         // check if thread isn't already running.
-        if (BalanceUpdate.isAlive()) {
+        if (BalanceUpdate.isAlive())
             BalanceUpdate.interrupt();
-            Log.i("balanceThread", "stopped");
-        }
 
         // if not, start it
-        else {
-            BalanceUpdate.start();
-            Log.i("balanceThread", "started");
-        }
+        else BalanceUpdate.start();
     }
 }

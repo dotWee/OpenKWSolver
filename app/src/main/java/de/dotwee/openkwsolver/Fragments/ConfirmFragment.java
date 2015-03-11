@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
 
@@ -49,8 +50,8 @@ public class ConfirmFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-    public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
     private static final String LOG_TAG = "ConfirmFragment";
+    Thread BalanceUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -178,7 +179,7 @@ public class ConfirmFragment extends Fragment {
 
     // BalanceThread: Update the balance every 5 seconds
     public void balanceThread() {
-        Thread BalanceUpdate = new Thread() {
+        BalanceUpdate = new Thread() {
 
             @Override
             public void run() {
@@ -191,7 +192,11 @@ public class ConfirmFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            if (getView() != null) {
+                                TextView textViewBalance = (TextView) getView()
+                                        .findViewById(R.id.textViewBalance);
+                                textViewBalance.setText(MainActivity.getBalance(getActivity()));
+                            }
                         }
                     });
                 }
@@ -200,16 +205,11 @@ public class ConfirmFragment extends Fragment {
         };
 
         // check if thread isn't already running.
-        if (BalanceUpdate.isAlive()) {
+        if (BalanceUpdate.isAlive())
             BalanceUpdate.interrupt();
-            Log.i("balanceThread", "stopped");
-        }
 
-        // if not, start it
-        else {
-            BalanceUpdate.start();
-            Log.i("balanceThread", "started");
-        }
+            // if not, start it
+        else BalanceUpdate.start();
     }
 
     // Pull Captcha picture and display it

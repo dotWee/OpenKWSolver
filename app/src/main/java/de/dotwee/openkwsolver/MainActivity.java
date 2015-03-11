@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
     public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
-
+    public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
     private final static String LOG_TAG = "MainActivity";
@@ -184,6 +184,17 @@ public class MainActivity extends ActionBarActivity {
         if (prefSelfonly) s = "&selfonly=1";
         if (prefDebug) d = "&debug=1";
         return s + d + t;
+    }
+
+    public static String getBalance(Context context) {
+        String URL_BALANCE = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
+                URL_PARAMETER_SOURCE + getApiKey(context));
+
+        try {
+            return new DownloadContentTask().execute(URL_BALANCE, "").get();
+        } catch (InterruptedException | ExecutionException e) {
+            return "";
+        }
     }
 
     public static boolean networkAvailable(Context context) {
