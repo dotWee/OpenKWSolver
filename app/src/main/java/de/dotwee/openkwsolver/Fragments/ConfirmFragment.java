@@ -100,72 +100,84 @@ public class ConfirmFragment extends Fragment {
                     .equals("")) balanceThread();
         }
 
-        buttonOK.setOnClickListener(v -> {
-            Log.i(LOG_TAG, "Click on " + buttonOK);
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(LOG_TAG, "Click on " + buttonOK);
 
-            if (MainActivity.networkAvailable(getActivity())) {
-                String tempCaptchaID = MainActivity.requestCaptchaID(getActivity(), prefLoop, 0);
-                Boolean onCurrentCaptcha = false;
+                if (MainActivity.networkAvailable(ConfirmFragment.this.getActivity())) {
+                    final String tempCaptchaID = MainActivity.requestCaptchaID(ConfirmFragment.this.getActivity(), prefLoop, 0);
+                    Boolean onCurrentCaptcha = false;
 
-                onCurrentCaptcha = pullCaptchaPicture(tempCaptchaID);
-                buttonNOTOK.setText("NOT OK");
-                buttonOK.setText("OK");
+                    onCurrentCaptcha = ConfirmFragment.this.pullCaptchaPicture(tempCaptchaID);
+                    buttonNOTOK.setText("NOT OK");
+                    buttonOK.setText("OK");
 
-                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                if (prefVibrate) if (onCurrentCaptcha) vibrator.vibrate(500);
+                    Vibrator vibrator = (Vibrator) ConfirmFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    if (prefVibrate) if (onCurrentCaptcha) vibrator.vibrate(500);
 
-                final int[] i = {0};
-                final CountDownTimer CountDownTimer;
-                CountDownTimer = new CountDownTimer(26000, 1000) {
+                    final int[] i = {0};
+                    final CountDownTimer CountDownTimer;
+                    CountDownTimer = new CountDownTimer(26000, 1000) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        i[0]++;
-                        progressBar.setProgress(i[0]);
-                    }
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            i[0]++;
+                            progressBar.setProgress(i[0]);
+                        }
 
-                    @Override
-                    public void onFinish() {
-                    }
-                };
+                        @Override
+                        public void onFinish() {
+                        }
+                    };
 
-                CountDownTimer.start();
+                    CountDownTimer.start();
 
-                buttonOK.setOnClickListener(v1 -> {
-                    sendCaptchaAnswer(true, tempCaptchaID);
-                    progressBar.setProgress(0);
-                    CountDownTimer.cancel();
+                    buttonOK.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ConfirmFragment.this.sendCaptchaAnswer(true, tempCaptchaID);
+                            progressBar.setProgress(0);
+                            CountDownTimer.cancel();
 
-                    imageViewCaptcha.setImageDrawable(null);
-                    editTextAnswer.setText(null);
+                            imageViewCaptcha.setImageDrawable(null);
+                            editTextAnswer.setText(null);
 
-                    if (prefLoop) buttonOK.performClick();
-                    else buttonOK.setEnabled(true);
-                });
+                            if (prefLoop) buttonOK.performClick();
+                            else buttonOK.setEnabled(true);
+                        }
+                    });
 
-                buttonNOTOK.setOnClickListener(v1 -> {
-                    sendCaptchaAnswer(false, tempCaptchaID);
-                    progressBar.setProgress(0);
-                    CountDownTimer.cancel();
+                    buttonNOTOK.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ConfirmFragment.this.sendCaptchaAnswer(false, tempCaptchaID);
+                            progressBar.setProgress(0);
+                            CountDownTimer.cancel();
 
-                    imageViewCaptcha.setImageDrawable(null);
-                    editTextAnswer.setText(null);
+                            imageViewCaptcha.setImageDrawable(null);
+                            editTextAnswer.setText(null);
 
-                    if (prefLoop) buttonOK.performClick();
-                    else buttonOK.setEnabled(true);
-                });
+                            if (prefLoop) buttonOK.performClick();
+                            else buttonOK.setEnabled(true);
+                        }
+                    });
 
-                buttonSkip.setOnClickListener(v1 -> {
-                    MainActivity.skipCaptchaByID(getActivity(), tempCaptchaID);
-                    progressBar.setProgress(0);
-                    CountDownTimer.cancel();
+                    buttonSkip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.skipCaptchaByID(ConfirmFragment.this.getActivity(), tempCaptchaID);
+                            progressBar.setProgress(0);
+                            CountDownTimer.cancel();
 
-                    imageViewCaptcha.setImageDrawable(null);
-                    editTextAnswer.setText(null);
+                            imageViewCaptcha.setImageDrawable(null);
+                            editTextAnswer.setText(null);
 
-                    if (prefLoop) buttonOK.performClick();
-                    else buttonOK.setEnabled(true);
-                });
+                            if (prefLoop) buttonOK.performClick();
+                            else buttonOK.setEnabled(true);
+                        }
+                    });
+                }
             }
         });
     }
@@ -182,26 +194,10 @@ public class ConfirmFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    getActivity().runOnUiThread(() -> {
-                        TextView textViewBalance;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        String tBalance = null;
-                        String BalanceURL = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
-                                URL_PARAMETER_SOURCE + MainActivity.getApiKey(getActivity()));
-                        Log.i("balanceThread", "BalanceURL: " + BalanceURL);
-
-                        try {
-                            tBalance = new DownloadContentTask().execute(BalanceURL, "").get();
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (getView() != null) {
-                            textViewBalance = (TextView) getView()
-                                    .findViewById(R.id.textViewBalance);
-
-                            Log.i("balanceThread", "Balance: " + tBalance);
-                            textViewBalance.setText(tBalance);
                         }
                     });
                 }

@@ -93,83 +93,92 @@ public class SolverFragment extends Fragment {
             if (!MainActivity.getApiKey(getActivity()).equals(""))
                 balanceThread();
 
-        buttonPull.setOnClickListener(v -> {
+        buttonPull.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            Log.i("OnClickPull", "Click recognized");
-            if (MainActivity.networkAvailable(getActivity())) {
+                Log.i("OnClickPull", "Click recognized");
+                if (MainActivity.networkAvailable(SolverFragment.this.getActivity())) {
 
-                SharedPreferences prefs1 = PreferenceManager
-                        .getDefaultSharedPreferences(getActivity());
+                    SharedPreferences prefs1 = PreferenceManager
+                            .getDefaultSharedPreferences(SolverFragment.this.getActivity());
 
-                String CaptchaID = MainActivity.requestCaptchaID(getActivity(), prefs1.getBoolean("pref_automation_loop", false), 2);
+                    String CaptchaID = MainActivity.requestCaptchaID(SolverFragment.this.getActivity(), prefs1.getBoolean("pref_automation_loop", false), 2);
 
-                Boolean currentCapt = false;
-                currentCapt = pullCaptchaPicture(CaptchaID);
-
-
-                final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                buttonPull.setEnabled(false);
+                    Boolean currentCapt = false;
+                    currentCapt = SolverFragment.this.pullCaptchaPicture(CaptchaID);
 
 
-                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                if (prefVibrate)
-                    if (currentCapt)
-                        vibrator.vibrate(500);
+                    final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+                    buttonPull.setEnabled(false);
 
-                final int[] i = {0};
-                final CountDownTimer CountDownTimer;
-                CountDownTimer = new CountDownTimer(26000, 1000) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        i[0]++;
-                        ProgressBar.setProgress(i[0]);
-                    }
+                    Vibrator vibrator = (Vibrator) SolverFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    if (prefVibrate)
+                        if (currentCapt)
+                            vibrator.vibrate(500);
 
-                    @Override
-                    public void onFinish() {
-                    }
-                };
+                    final int[] i = {0};
+                    final CountDownTimer CountDownTimer;
+                    CountDownTimer = new CountDownTimer(26000, 1000) {
 
-                CountDownTimer.start();
-                Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
-                final String finalCaptchaID = CaptchaID;
-                buttonSend.setOnClickListener(v1 -> {
-                    String CaptchaAnswer = editTextAnswer.getText().toString();
-                    if (!CaptchaAnswer.equalsIgnoreCase("")) {
-                        sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            i[0]++;
+                            ProgressBar.setProgress(i[0]);
+                        }
 
-                        CountDownTimer.cancel();
-                        Log.i("OnClickSend", "Timer killed");
-                        ProgressBar.setProgress(0);
+                        @Override
+                        public void onFinish() {
+                        }
+                    };
 
-                        imageViewCaptcha.setImageDrawable(null);
-                        editTextAnswer.setText(null);
+                    CountDownTimer.start();
+                    Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
+                    final String finalCaptchaID = CaptchaID;
+                    buttonSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v1) {
+                            String CaptchaAnswer = editTextAnswer.getText().toString();
+                            if (!CaptchaAnswer.equalsIgnoreCase("")) {
+                                SolverFragment.this.sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
 
-                        if (prefLoop) {
-                            Log.i("OnClickSend", "Loop-Mode");
-                            buttonPull.performClick();
-                        } else buttonPull.setEnabled(true);
-                    } else Toast.makeText(getActivity(),
-                            R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-                });
+                                CountDownTimer.cancel();
+                                Log.i("OnClickSend", "Timer killed");
+                                ProgressBar.setProgress(0);
 
-                Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-                buttonSkip.setOnClickListener(v1 -> {
-                    Log.i("OnClickSkip", "Click recognized");
-                    editTextAnswer.setText(null);
-                    MainActivity.skipCaptchaByID(
-                            getActivity(), MainActivity.getApiKey(getActivity()));
+                                imageViewCaptcha.setImageDrawable(null);
+                                editTextAnswer.setText(null);
 
-                    CountDownTimer.cancel();
-                    ProgressBar.setProgress(0);
+                                if (prefLoop) {
+                                    Log.i("OnClickSend", "Loop-Mode");
+                                    buttonPull.performClick();
+                                } else buttonPull.setEnabled(true);
+                            } else Toast.makeText(SolverFragment.this.getActivity(),
+                                    R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                    ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-                    ImageView.setImageDrawable(null);
+                    Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+                    buttonSkip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v1) {
+                            Log.i("OnClickSkip", "Click recognized");
+                            editTextAnswer.setText(null);
+                            MainActivity.skipCaptchaByID(
+                                    SolverFragment.this.getActivity(), MainActivity.getApiKey(SolverFragment.this.getActivity()));
 
-                    buttonPull.setEnabled(true);
-                });
+                            CountDownTimer.cancel();
+                            ProgressBar.setProgress(0);
 
+                            ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+                            ImageView.setImageDrawable(null);
+
+                            buttonPull.setEnabled(true);
+                        }
+                    });
+
+                }
             }
         });
     }
@@ -232,26 +241,10 @@ public class SolverFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    getActivity().runOnUiThread(() -> {
-                        TextView textViewBalance;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        String tBalance = null;
-                        String BalanceURL = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
-                                URL_PARAMETER_SOURCE + MainActivity.getApiKey(getActivity()));
-                        Log.i("balanceThread", "BalanceURL: " + BalanceURL);
-
-                        try {
-                            tBalance = new DownloadContentTask().execute(BalanceURL, "").get();
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (getView() != null) {
-                            textViewBalance = (TextView) getView()
-                                    .findViewById(R.id.textViewBalance);
-
-                            Log.i("balanceThread", "Balance: " + tBalance);
-                            textViewBalance.setText(tBalance);
                         }
                     });
                 }
