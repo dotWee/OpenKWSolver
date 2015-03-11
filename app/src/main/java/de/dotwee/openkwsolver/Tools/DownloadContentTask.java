@@ -40,21 +40,23 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
             try {
 
                 HttpClient mHttpClient = new DefaultHttpClient();
-                if (urls[1].equalsIgnoreCase("captchaid")) {
-                    Log.i(LOG_TAG, "Parameter captchaid discovered");
-                    while (true) {
+                if (urls[1] != null) {
+                    if (urls[1].equalsIgnoreCase("captchaid")) {
+                        Log.i(LOG_TAG, "Parameter captchaid discovered");
+                        while (true) {
+                            HttpGet httpGet = new HttpGet(urls[0]);
+                            HttpResponse response = mHttpClient.execute(httpGet);
+                            output = EntityUtils.toString(response.getEntity(), "UTF-8");
+                            if (!output.equalsIgnoreCase("")) {
+                                Log.i(LOG_TAG, "Loop new Captcha" + output);
+                                break;
+                            } else Log.i(LOG_TAG, "Loop empty return: " + output);
+                        }
+                    } else {
                         HttpGet httpGet = new HttpGet(urls[0]);
                         HttpResponse response = mHttpClient.execute(httpGet);
                         output = EntityUtils.toString(response.getEntity(), "UTF-8");
-                        if (!output.equalsIgnoreCase("")) {
-                            Log.i(LOG_TAG, "Loop new Captcha" + output);
-                            break;
-                        } else Log.i(LOG_TAG, "Loop empty return: " + output);
                     }
-                } else {
-                    HttpGet httpGet = new HttpGet(urls[0]);
-                    HttpResponse response = mHttpClient.execute(httpGet);
-                    output = EntityUtils.toString(response.getEntity(), "UTF-8");
                 }
 
             } catch (IOException e) {
