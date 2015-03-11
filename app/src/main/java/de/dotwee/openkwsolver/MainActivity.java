@@ -27,9 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +40,7 @@ import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class MainActivity extends ActionBarActivity {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
     public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
@@ -59,30 +57,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new cFragmentAdapter(getFragmentManager()));
-
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        actionBar.addTab(actionBar.newTab().setText("Solver").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Settings").setTabListener(this));
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override
@@ -114,21 +88,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         return true;
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        viewPager.setCurrentItem(tab.getPosition(), true);
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-    
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-
     public class cFragmentAdapter extends FragmentPagerAdapter {
         private String LOG_TAG = "FragmentAdapter";
 
@@ -138,17 +97,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
-            if (position == 0) fragment = new SolverFragment();
-            if (position == 1) fragment = new ConfirmFragment();
-            if (position == 2) fragment = new SettingsFragment();
-
-            return fragment;
+            if (position == 0) return new SolverFragment();
+            if (position == 1) return new ConfirmFragment();
+            if (position == 2) return new SettingsFragment();
+            else return null;
         }
 
         @Override
         public int getCount() {
             return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) return "Solver";
+            if (position == 1) return "Confirm";
+            if (position == 2) return "Settings";
+            else return null;
         }
     }
 
