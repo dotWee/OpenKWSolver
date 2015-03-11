@@ -51,6 +51,8 @@ public class SolverFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
+    Thread BalanceUpdate;
+
     private static final String LOG_TAG = "SolverFragment";
 
     @Override
@@ -178,6 +180,14 @@ public class SolverFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (BalanceUpdate.isAlive())
+            BalanceUpdate.interrupt();
+    }
+
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
 
@@ -225,7 +235,6 @@ public class SolverFragment extends Fragment {
 
     // BalanceThread: Update the balance every 5 seconds
     public void balanceThread() {
-        final Thread BalanceUpdate;
         BalanceUpdate = new Thread() {
 
             @Override
