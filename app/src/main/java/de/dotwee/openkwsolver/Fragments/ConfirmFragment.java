@@ -51,6 +51,8 @@ public class ConfirmFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     private static final String LOG_TAG = "ConfirmFragment";
+
+
     Thread BalanceUpdate;
 
     @Override
@@ -68,12 +70,20 @@ public class ConfirmFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // init prefs
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
+        final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
+
         // declare main widgets
         final Button buttonOK = (Button) view.findViewById(R.id.buttonOK);
         final Button buttonNOTOK = (Button) view.findViewById(R.id.buttonNOTOK);
         final Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
 
         final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+        imageViewCaptcha.getLayoutParams().height = prefs.getInt("pref_layout_size", 200);
+
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
@@ -82,12 +92,6 @@ public class ConfirmFragment extends Fragment {
 
         // setup start text
         buttonOK.setText("Start");
-
-        // init prefs
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-        final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
-        final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
         // start showing balance if network and apikey is available
         if (MainActivity.networkAvailable(getActivity())) {

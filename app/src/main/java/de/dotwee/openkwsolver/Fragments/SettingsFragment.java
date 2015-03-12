@@ -17,7 +17,9 @@
 package de.dotwee.openkwsolver.Fragments;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.widget.Toast;
 
 import de.dotwee.openkwsolver.R;
 
@@ -25,7 +27,7 @@ import de.dotwee.openkwsolver.R;
  * Created by Lukas on 27.02.2015.
  */
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
     public SettingsFragment() {
 
     }
@@ -42,5 +44,16 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_api);
         addPreferencesFromResource(R.xml.pref_automation);
         addPreferencesFromResource(R.xml.pref_notification);
+        addPreferencesFromResource(R.xml.pref_style);
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        String pref_key = preference.getKey();
+        switch (pref_key) {
+            case "pref_layout_size":
+                Toast.makeText(getActivity(), "Layout changed.\nRestart to apply.", Toast.LENGTH_LONG).show();
+        }
+        return false;
     }
 }

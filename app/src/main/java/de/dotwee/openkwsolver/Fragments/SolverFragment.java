@@ -68,17 +68,19 @@ public class SolverFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // init prefs
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+
         // declare main widgets
         final Button buttonPull = (Button) view.findViewById(R.id.buttonPull);
         final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+        imageViewCaptcha.getLayoutParams().height = prefs.getInt("pref_layout_size", 200);
+
         final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
         // fix edittext width
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
-
-        // init prefs
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
 
         final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
         final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
@@ -181,6 +183,14 @@ public class SolverFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (BalanceUpdate.isAlive())
+            BalanceUpdate.interrupt();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         if (BalanceUpdate.isAlive())
             BalanceUpdate.interrupt();

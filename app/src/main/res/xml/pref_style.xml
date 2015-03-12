@@ -16,22 +16,14 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="API Settings">
+    <PreferenceCategory
+        android:title="Layout and Style">
 
-        <EditTextPreference
-            android:contentDescription="@string/pref_api_key_description"
-            android:key="pref_api_key"
-            android:title="@string/pref_api_key_title"/>
-
-        <SwitchPreference
-            android:contentDescription="@string/pref_api_selfonly_description"
-            android:key="pref_api_selfonly"
-            android:title="@string/pref_api_selfonly_title"/>
-
-        <SwitchPreference
-            android:contentDescription="@string/pref_api_debug_description"
-            android:key="pref_api_debug"
-            android:title="@string/pref_api_debug_title"/>
+      <ListPreference
+          android:title="Image Size"
+          android:key="pref_layout_size"
+          android:entries="@array/array_style_size"
+          android:entryValues="@array/array_style_size_value" />
 
     </PreferenceCategory>
 </PreferenceScreen>

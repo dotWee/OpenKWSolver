@@ -15,17 +15,18 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-    <PreferenceCategory android:title="Automation Settings">
-        <SwitchPreference
-            android:contentDescription="@string/pref_automation_loop_description"
-            android:defaultValue="true"
-            android:key="pref_automation_loop"
-            android:title="@string/pref_automation_loop_title"/>
+    <string-array name="array_style_size">
+        <item>Small: 150dp</item>
+        <item>Medium: 200dp</item>
+        <item>Large: 250dp</item>
+    </string-array>
 
-        <!-- Todo seconds -->
+    <integer-array name="array_style_size_value">
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+    </integer-array>
 
-    </PreferenceCategory>
-
-</PreferenceScreen>
+</resources>
