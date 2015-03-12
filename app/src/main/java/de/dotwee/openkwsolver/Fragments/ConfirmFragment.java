@@ -82,7 +82,7 @@ public class ConfirmFragment extends Fragment {
         final Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
 
         final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-        imageViewCaptcha.getLayoutParams().height = prefs.getInt("pref_layout_size", 200);
+        imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
 
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
