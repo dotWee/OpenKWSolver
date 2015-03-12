@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 Lukas "dotwee" Wolfsteiner
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +15,19 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="Layout and Style">
+    <PreferenceCategory android:title="Layout and Style">
 
-      <ListPreference
-          android:title="Image Size"
-          android:key="pref_layout_size"
-          android:entries="@array/array_style_size"
-          android:entryValues="@array/array_style_size_value" />
+        <ListPreference
+            android:entries="@array/array_style_size"
+            android:entryValues="@array/array_style_size_value"
+            android:key="pref_layout_size"
+            android:title="Image Size" />
 
         <SwitchPreference
-            android:title="Confirm-Solver"
-            android:key="pref_layout_confirm"
+            android:contentDescription="Enable experimental Confirm-Solver. Not stable yet!"
             android:defaultValue="false"
-            android:contentDescription="Enable experimental Confirm-Solver. Not stable yet!" />
+            android:key="pref_layout_confirm"
+            android:title="Confirm-Solver" />
 
     </PreferenceCategory>
 </PreferenceScreen>

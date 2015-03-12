@@ -17,9 +17,7 @@
 package de.dotwee.openkwsolver.Fragments;
 
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.widget.Toast;
 
 import de.dotwee.openkwsolver.R;
 

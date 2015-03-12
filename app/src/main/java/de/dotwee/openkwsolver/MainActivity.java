@@ -50,87 +50,6 @@ public class MainActivity extends ActionBarActivity {
     private final static String LOG_TAG = "MainActivity";
     ViewPager viewPager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new cFragmentAdapter(getFragmentManager()));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem linkItem = menu.add("Source");
-        linkItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        linkItem.setIcon(R.drawable.ic_bookmark_outline_white_36dp);
-        linkItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent linkIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/dotWee/OpenKWSolver"));
-                startActivity(linkIntent);
-                finish();
-                return false;
-            }
-        });
-        
-        MenuItem exitItem = menu.add("Exit");
-        exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
-                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        System.exit(0);
-                        return true;
-                    }
-                });
-        return true;
-    }
-
-    public class cFragmentAdapter extends FragmentPagerAdapter {
-        private String LOG_TAG = "FragmentAdapter";
-
-        public cFragmentAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            if (isConfirmEnabled(getApplicationContext())) {
-                if (position == 0) return new SolverFragment();
-                if (position == 1) return new ConfirmFragment();
-                if (position == 2) return new SettingsFragment();
-            }
-
-            else {
-                if (position == 0) return new SolverFragment();
-                if (position == 1) return new SettingsFragment();
-            } return null;
-        }
-
-        @Override
-        public int getCount() {
-            if (isConfirmEnabled(getApplicationContext())) return 3;
-            else return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            if (isConfirmEnabled(getApplicationContext())) {
-                if (position == 0) return "Solver";
-                if (position == 1) return "Confirm";
-                if (position == 2) return "Settings";
-            }
-
-            else {
-                if (position == 0) return "Solver";
-                if (position == 1) return "Settings";
-            } return null;
-        }
-    }
-
     public static String requestCaptchaID(Context context, Boolean LOOP, int TYPE) {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
                 URL_PARAMETER_SOURCE + getExternalParameter(context, TYPE) + URL_PARAMETER_NOCAPTCHA);
@@ -223,5 +142,84 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         return prefs.getBoolean("pref_layout_confirm", false);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(new cFragmentAdapter(getFragmentManager()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem linkItem = menu.add("Source");
+        linkItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        linkItem.setIcon(R.drawable.ic_bookmark_outline_white_36dp);
+        linkItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent linkIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://github.com/dotWee/OpenKWSolver"));
+                startActivity(linkIntent);
+                finish();
+                return false;
+            }
+        });
+
+        MenuItem exitItem = menu.add("Exit");
+        exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        System.exit(0);
+                        return true;
+                    }
+                });
+        return true;
+    }
+
+    public class cFragmentAdapter extends FragmentPagerAdapter {
+        private String LOG_TAG = "FragmentAdapter";
+
+        public cFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            if (isConfirmEnabled(getApplicationContext())) {
+                if (position == 0) return new SolverFragment();
+                if (position == 1) return new ConfirmFragment();
+                if (position == 2) return new SettingsFragment();
+            } else {
+                if (position == 0) return new SolverFragment();
+                if (position == 1) return new SettingsFragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            if (isConfirmEnabled(getApplicationContext())) return 3;
+            else return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (isConfirmEnabled(getApplicationContext())) {
+                if (position == 0) return "Solver";
+                if (position == 1) return "Confirm";
+                if (position == 2) return "Settings";
+            } else {
+                if (position == 0) return "Solver";
+                if (position == 1) return "Settings";
+            }
+            return null;
+        }
     }
 }

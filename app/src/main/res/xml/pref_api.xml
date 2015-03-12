@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 Lukas "dotwee" Wolfsteiner
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,17 +20,17 @@
         <EditTextPreference
             android:contentDescription="@string/pref_api_key_description"
             android:key="pref_api_key"
-            android:title="@string/pref_api_key_title"/>
+            android:title="@string/pref_api_key_title" />
 
         <SwitchPreference
             android:contentDescription="@string/pref_api_selfonly_description"
             android:key="pref_api_selfonly"
-            android:title="@string/pref_api_selfonly_title"/>
+            android:title="@string/pref_api_selfonly_title" />
 
         <SwitchPreference
             android:contentDescription="@string/pref_api_debug_description"
             android:key="pref_api_debug"
-            android:title="@string/pref_api_debug_title"/>
+            android:title="@string/pref_api_debug_title" />
 
     </PreferenceCategory>
 </PreferenceScreen>

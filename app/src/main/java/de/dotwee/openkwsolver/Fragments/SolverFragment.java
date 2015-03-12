@@ -272,7 +272,7 @@ public class SolverFragment extends Fragment {
         if (BalanceUpdate.isAlive())
             BalanceUpdate.interrupt();
 
-        // if not, start it
+            // if not, start it
         else BalanceUpdate.start();
     }
 }

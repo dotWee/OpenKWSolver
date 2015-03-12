@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 Lukas "dotwee" Wolfsteiner
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +21,7 @@
             android:contentDescription="@string/pref_automation_loop_description"
             android:defaultValue="true"
             android:key="pref_automation_loop"
-            android:title="@string/pref_automation_loop_title"/>
+            android:title="@string/pref_automation_loop_title" />
 
         <!-- Todo seconds -->
 
