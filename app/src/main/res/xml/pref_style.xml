@@ -25,5 +25,11 @@
           android:entries="@array/array_style_size"
           android:entryValues="@array/array_style_size_value" />
 
+        <SwitchPreference
+            android:title="Confirm-Solver"
+            android:key="pref_layout_confirm"
+            android:defaultValue="false"
+            android:contentDescription="Enable experimental Confirm-Solver. Not stable yet!" />
+
     </PreferenceCategory>
 </PreferenceScreen>

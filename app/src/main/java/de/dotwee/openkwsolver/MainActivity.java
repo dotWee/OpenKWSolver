@@ -97,23 +97,37 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) return new SolverFragment();
-            if (position == 1) return new ConfirmFragment();
-            if (position == 2) return new SettingsFragment();
-            else return null;
+
+            if (isConfirmEnabled(getApplicationContext())) {
+                if (position == 0) return new SolverFragment();
+                if (position == 1) return new ConfirmFragment();
+                if (position == 2) return new SettingsFragment();
+            }
+
+            else {
+                if (position == 0) return new SolverFragment();
+                if (position == 1) return new SettingsFragment();
+            } return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            if (isConfirmEnabled(getApplicationContext())) return 3;
+            else return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) return "Solver";
-            if (position == 1) return "Confirm";
-            if (position == 2) return "Settings";
-            else return null;
+            if (isConfirmEnabled(getApplicationContext())) {
+                if (position == 0) return "Solver";
+                if (position == 1) return "Confirm";
+                if (position == 2) return "Settings";
+            }
+
+            else {
+                if (position == 0) return "Solver";
+                if (position == 1) return "Settings";
+            } return null;
         }
     }
 
@@ -203,5 +217,11 @@ public class MainActivity extends ActionBarActivity {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static boolean isConfirmEnabled(Context context) {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return prefs.getBoolean("pref_layout_confirm", false);
     }
 }
