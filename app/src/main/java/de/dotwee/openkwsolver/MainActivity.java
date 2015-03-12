@@ -81,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        finish();
+                        System.exit(0);
                         return true;
                     }
                 });
