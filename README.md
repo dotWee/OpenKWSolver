@@ -1,4 +1,4 @@
-<img width="100px" height="100px" src="Icon.png" />  OpenKWSolver
+<img width="75px" height="75px" src="Icon.png" />  OpenKWSolver
 =================================================================
 
 Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Client.
