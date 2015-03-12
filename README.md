@@ -43,11 +43,11 @@ Used Permissions
 Features
 --------
 
-+ View current quantity of workers and Captchas in queue
 + Loop-Mode (Auto-pull next Captcha)
++ Selectable Captcha-image size
 + Vibrate on Captcha-arrival
 + View your current balance
-+ Captcha-debug mode
++ Captcha - debug mode
 + Self-only Captchas
 
 Screenshots
@@ -57,6 +57,7 @@ Screenshots
     <tr>
         <td><img width="200px" src="ScreenshotNormal.png" /></td>
         <td><img width="200px" src="ScreenshotWithCaptcha.png" /></td>
+        <td><img width="200px" src="ScreenshotSettings.png" /></td>
     </tr>
 </table>
 
