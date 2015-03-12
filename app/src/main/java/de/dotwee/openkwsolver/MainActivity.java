@@ -32,8 +32,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import de.dotwee.openkwsolver.Fragments.ConfirmFragment;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
@@ -77,7 +80,13 @@ public class MainActivity extends ActionBarActivity {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
                 getApiKey(context) + URL_PARAMETER_SOURCE);
         Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
-        new DownloadContentTask().execute(CAPTCHA_URL);
+
+        try {
+            String res = new DownloadContentTask().execute(CAPTCHA_URL, "").get(5000, TimeUnit.MILLISECONDS);
+            Toast.makeText(context, "Return: " + res, Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getApiKey(Context context) {
