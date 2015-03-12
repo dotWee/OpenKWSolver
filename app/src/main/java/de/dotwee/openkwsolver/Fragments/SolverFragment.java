@@ -188,14 +188,6 @@ public class SolverFragment extends Fragment {
             BalanceUpdate.interrupt();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (BalanceUpdate.isAlive())
-            BalanceUpdate.interrupt();
-    }
-
     // Send Captcha answer
     public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
 
