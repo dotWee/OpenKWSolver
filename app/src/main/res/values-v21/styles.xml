@@ -27,4 +27,13 @@
         <item name="android:navigationBarColor">@color/primary_dark</item>
     </style>
 
+    <style name="TabTheme">
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColor">@color/icons</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
 </resources>

@@ -20,12 +20,14 @@
         <item>Small: 150dp</item>
         <item>Medium: 220dp</item>
         <item>Large: 300dp</item>
+        <item>xLarge: 350dp</item>
     </string-array>
 
     <string-array name="array_style_size_value">
         <item>150</item>
         <item>220</item>
         <item>300</item>
+        <item>350</item>
     </string-array>
 
 </resources>
