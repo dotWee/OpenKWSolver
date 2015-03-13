@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -32,8 +33,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -41,7 +50,6 @@ import java.util.concurrent.TimeoutException;
 import de.dotwee.openkwsolver.Fragments.ConfirmFragment;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
-import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 
 public class MainActivity extends ActionBarActivity {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
@@ -50,8 +58,10 @@ public class MainActivity extends ActionBarActivity {
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
-    private final static String LOG_TAG = "MainActivity";
-    ViewPager viewPager;
+	public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
+
+	private final static String LOG_TAG = "MainActivity";
+	ViewPager viewPager;
 
     public static String requestCaptchaID(Context context, Boolean LOOP, int TYPE) {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
@@ -88,6 +98,29 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+
+	public static void sendCaptchaByID(Context context, String CAPTCHA_ID, String CAPTCHA_ANSWER, Boolean CONFIRM) {
+		String CaptchaURL;
+
+		if (CONFIRM == true) {
+			CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
+					URL_PARAMETER_SOURCE + getExternalParameter(context, 0) + CAPTCHA_ANSWER +
+					"&id=" + CAPTCHA_ID + getApiKey(context));
+		} else {
+			CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
+					URL_PARAMETER_SOURCE + getExternalParameter(context, 2) + "&antwort=" +
+					CAPTCHA_ANSWER + "&id=" + CAPTCHA_ID + getApiKey(context));
+		}
+
+		try {
+			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20"), "").get(5000, TimeUnit.MILLISECONDS);
+			if (s != null) {
+				Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+			}
+		} catch (InterruptedException | ExecutionException | TimeoutException e) {
+			e.printStackTrace();
+		}
+	}
 
     public static String getApiKey(Context context) {
         SharedPreferences pref_apikey = PreferenceManager
@@ -190,6 +223,56 @@ public class MainActivity extends ActionBarActivity {
                 });
         return true;
     }
+
+	public static class DownloadContentTask extends AsyncTask<String, Void, String> {
+		String LOG_TAG = "DownloadContentTask";
+
+		protected String doInBackground(String... urls) {
+			Log.i(LOG_TAG, "input: " + urls[0]); // log input
+			String output = "";
+
+
+			if (URLUtil.isValidUrl(urls[0])) {
+				try {
+
+					HttpClient mHttpClient = new DefaultHttpClient();
+					if (urls[1] != null) {
+						if (urls[1].equalsIgnoreCase("captchaid")) {
+							Log.i(LOG_TAG, "Parameter captchaid discovered");
+							while (true) {
+								HttpGet httpGet = new HttpGet(urls[0]);
+								HttpResponse response = mHttpClient.execute(httpGet);
+								output = EntityUtils.toString(response.getEntity(), "UTF-8");
+								if (!output.equalsIgnoreCase("")) {
+									Log.i(LOG_TAG, "Loop new Captcha" + output);
+									break;
+								} else {
+									Log.i(LOG_TAG, "Loop empty return: " + output);
+								}
+							}
+						} else {
+							HttpGet httpGet = new HttpGet(urls[0]);
+							HttpResponse response = mHttpClient.execute(httpGet);
+							output = EntityUtils.toString(response.getEntity(), "UTF-8");
+						}
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Log.d(LOG_TAG, "output: " + output); // log output
+			} else {
+				output = "";
+			}
+			return output;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+		}
+
+	}
 
     public class cFragmentAdapter extends FragmentPagerAdapter {
         private String LOG_TAG = "FragmentAdapter";

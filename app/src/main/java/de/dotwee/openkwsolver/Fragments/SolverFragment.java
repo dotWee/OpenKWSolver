@@ -40,7 +40,6 @@ import java.util.concurrent.ExecutionException;
 
 import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
-import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
 /**
@@ -49,7 +48,6 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 public class SolverFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
-    public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     Thread BalanceUpdate;
 
@@ -138,7 +136,7 @@ public class SolverFragment extends Fragment {
                         public void onClick(View v1) {
                             String CaptchaAnswer = editTextAnswer.getText().toString();
                             if (!CaptchaAnswer.equalsIgnoreCase("")) {
-                                SolverFragment.this.sendCaptchaAnswer(CaptchaAnswer, finalCaptchaID);
+	                            MainActivity.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
 
                                 CountDownTimer.cancel();
                                 Log.i("OnClickSend", "Timer killed");
@@ -186,32 +184,6 @@ public class SolverFragment extends Fragment {
 
         if (BalanceUpdate.isAlive())
             BalanceUpdate.interrupt();
-    }
-
-    // Send Captcha answer
-    public void sendCaptchaAnswer(String CaptchaAnswer, String CaptchaID) {
-
-        Log.i("sendCaptchaAnswer", "Received answer: " + CaptchaAnswer);
-        Log.i("sendCaptchaAnswer", "Received ID: " + CaptchaID);
-
-        String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
-                URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity(), 2) + "&antwort=" +
-                CaptchaAnswer + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
-
-        // remove Spaces from URL
-        CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
-        Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
-
-        String Status = null;
-
-        try {
-            Status = new DownloadContentTask().execute(CaptchaURL, "").get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("sendCaptchaAnswer", "Code: " + Status);
-
     }
 
     // Pull Captcha picture and display it

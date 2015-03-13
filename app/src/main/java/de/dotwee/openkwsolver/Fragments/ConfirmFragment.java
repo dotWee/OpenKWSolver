@@ -39,7 +39,6 @@ import java.util.concurrent.ExecutionException;
 
 import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
-import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
 /**
@@ -48,7 +47,6 @@ import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 public class ConfirmFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
-    public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     private static final String LOG_TAG = "ConfirmFragment";
 
@@ -135,7 +133,8 @@ public class ConfirmFragment extends Fragment {
                     buttonOK.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ConfirmFragment.this.sendCaptchaAnswer(true, tempCaptchaID);
+	                        MainActivity.sendCaptchaByID(getActivity(), tempCaptchaID, "&answer=yes", true);
+
                             progressBar.setProgress(0);
                             CountDownTimer.cancel();
 
@@ -150,7 +149,8 @@ public class ConfirmFragment extends Fragment {
                     buttonNOTOK.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ConfirmFragment.this.sendCaptchaAnswer(false, tempCaptchaID);
+	                        MainActivity.sendCaptchaByID(getActivity(), tempCaptchaID, "&answer=no", true);
+
                             progressBar.setProgress(0);
                             CountDownTimer.cancel();
 
@@ -233,27 +233,5 @@ public class ConfirmFragment extends Fragment {
         }
 
         return false;
-    }
-
-    public void sendCaptchaAnswer(Boolean state, String CaptchaID) {
-        Log.i(LOG_TAG, "Answer: " + state);
-        String answer;
-        if (state) answer = "&captcha=yes";
-        else answer = "&captcha=no";
-
-        String CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
-                URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity(), 0) + answer +
-                "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
-
-        // remove Spaces from URL
-        CaptchaURL = CaptchaURL.replaceAll(" ", "%20");
-        Log.i("sendCaptchaAnswer", "Answer-URL: " + CaptchaURL);
-
-        try {
-            String ret = new DownloadContentTask().execute(CaptchaURL, "").get();
-            Log.i(LOG_TAG, "Return: " + ret);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
     }
 }
