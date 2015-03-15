@@ -49,4 +49,6 @@
 
     <string name="pref_automation_loop_title">Loop-Mode</string>
     <string name="pref_automation_loop_description">Auto-pull next Captcha after skipping or sending</string>
+    <string name="pref_automation_loop_time_title">Loop-Timeout</string>
+    <string name="pref_automation_loop_time_description">Seconds until pulling the next Captcha</string>
 </resources>

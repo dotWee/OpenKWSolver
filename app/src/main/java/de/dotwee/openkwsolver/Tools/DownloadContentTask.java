@@ -27,6 +27,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by Lukas on 15.03.2015
@@ -36,20 +37,24 @@ import java.io.IOException;
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
 	String LOG_TAG = "DownloadContentTask";
 
-	protected String doInBackground(String... urls) {
-		Log.i(LOG_TAG, "input: " + urls[0]); // log input
+	protected String doInBackground(String... params) {
+		Log.i(LOG_TAG, "input parameter: " + Arrays.toString(params)); // log input array
+		HttpClient mHttpClient = new DefaultHttpClient();
+		String inURL = params[0];
 		String output = "";
 
-
-		if (URLUtil.isValidUrl(urls[0])) {
-			try {
-
-				HttpClient mHttpClient = new DefaultHttpClient();
-				if (urls[1] != null) {
-					if (urls[1].equalsIgnoreCase("captchaid")) {
-						Log.i(LOG_TAG, "Parameter captchaid discovered");
-						while (true) {
-							HttpGet httpGet = new HttpGet(urls[0]);
+		// Action to handle requestCaptchaID
+		if (params.length == 2) {
+			int timeToNextCaptcha = Integer.parseInt(params[1]);
+			if (URLUtil.isValidUrl(params[0])) {
+				try {
+					while (true) {
+						try {
+							if (timeToNextCaptcha != 0) {
+								Log.i(LOG_TAG, "Sleep: " + timeToNextCaptcha);
+								Thread.sleep(timeToNextCaptcha);
+							}
+							HttpGet httpGet = new HttpGet(inURL);
 							HttpResponse response = mHttpClient.execute(httpGet);
 							output = EntityUtils.toString(response.getEntity(), "UTF-8");
 							if (!output.equalsIgnoreCase("")) {
@@ -58,21 +63,33 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 							} else {
 								Log.i(LOG_TAG, "Loop empty return: " + output);
 							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					} else {
-						HttpGet httpGet = new HttpGet(urls[0]);
-						HttpResponse response = mHttpClient.execute(httpGet);
-						output = EntityUtils.toString(response.getEntity(), "UTF-8");
 					}
-				}
 
-			} catch (IOException e) {
-				e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Log.d(LOG_TAG, "output: " + output); // log output
 			}
-			Log.d(LOG_TAG, "output: " + output); // log output
-		} else {
-			output = "";
 		}
+
+		// Action to handle everything else
+		else {
+			if (URLUtil.isValidUrl(inURL)) {
+				HttpGet httpGet = new HttpGet(params[0]);
+				HttpResponse response = null;
+
+				try {
+					response = mHttpClient.execute(httpGet);
+					return EntityUtils.toString(response.getEntity(), "UTF-8");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 		return output;
 	}
 

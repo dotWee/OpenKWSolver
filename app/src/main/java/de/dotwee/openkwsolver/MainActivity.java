@@ -48,8 +48,8 @@ public class MainActivity extends ActionBarActivity {
     public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
     public static final String URL_PARAMETER_CAPTCHA_NEW = "?action=usercaptchanew";
     public static final String URL_PARAMETER_SERVER_BALANCE = "?action=usercaptchaguthaben";
-    public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-    public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
+	public static final String URL_PARAMETER_SOURCE = "&source=openkwsolver";
+	public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
 	public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
 
 	private final static String LOG_TAG = "MainActivity";
@@ -63,7 +63,10 @@ public class MainActivity extends ActionBarActivity {
         String CAPTCHA_ID = "";
         if (LOOP)
             try {
-	            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get(3000, TimeUnit.MILLISECONDS);
+	            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+	            String timeToNextCaptcha = prefs.getString("pref_automation_loop_time", "0");
+
+	            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, timeToNextCaptcha).get(3000 + Integer.parseInt(timeToNextCaptcha), TimeUnit.MILLISECONDS);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             } catch (TimeoutException e) {
@@ -71,11 +74,9 @@ public class MainActivity extends ActionBarActivity {
 	            Log.i(LOG_TAG, "Timeout!");
             }
         else try {
-	        CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get(3000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException e) {
+	        CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL).get(3000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
-        } catch (TimeoutException e) {
-	        e.printStackTrace();
         }
 
 	    Log.i(LOG_TAG, "ID Request RETURN: " + CAPTCHA_ID);
@@ -89,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
         Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
 
         try {
-	        String res = new DownloadContentTask().execute(CAPTCHA_URL, "").get(3000, TimeUnit.MILLISECONDS);
+	        String res = new DownloadContentTask().execute(CAPTCHA_URL).get(3000, TimeUnit.MILLISECONDS);
 	        Toast.makeText(context, "Return: " + res, Toast.LENGTH_SHORT).show();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
@@ -110,7 +111,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		try {
-			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20"), "").get(3000, TimeUnit.MILLISECONDS);
+			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20")).get(3000, TimeUnit.MILLISECONDS);
 			if (s != null) {
 				Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 			}
@@ -163,7 +164,7 @@ public class MainActivity extends ActionBarActivity {
                 URL_PARAMETER_SOURCE + getApiKey(context));
 
         try {
-	        return new DownloadContentTask().execute(URL_BALANCE, "").get(3000, TimeUnit.MILLISECONDS);
+	        return new DownloadContentTask().execute(URL_BALANCE).get(3000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException e) {
             return "";
         } catch (TimeoutException e) {
@@ -263,6 +264,8 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
+	        Log.i(LOG_TAG, "Confirm enabled: " + pages);
+
 	        if (pages) {
 		        return 3;
 	        } else return 2;

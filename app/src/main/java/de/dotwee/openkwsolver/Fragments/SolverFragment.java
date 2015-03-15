@@ -66,8 +66,8 @@ public class SolverFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // init prefs
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+	    final SharedPreferences prefs = PreferenceManager
+			    .getDefaultSharedPreferences(getActivity());
 
         // declare main widgets
         final Button buttonPull = (Button) view.findViewById(R.id.buttonPull);
@@ -94,7 +94,10 @@ public class SolverFragment extends Fragment {
                     SharedPreferences prefs1 = PreferenceManager
 		                    .getDefaultSharedPreferences(getActivity());
 
-		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), prefs1.getBoolean("pref_automation_loop", false), 2);
+		            String CaptchaID = MainActivity.requestCaptchaID(
+				            getActivity(), // needed Context
+				            prefs1.getBoolean("pref_automation_loop", false), // Loop: false / true
+				            2);
 
                     Boolean currentCapt = false;
 		            currentCapt = pullCaptchaPicture(CaptchaID);

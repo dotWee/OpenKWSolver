@@ -68,8 +68,8 @@ public class ConfirmFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // init prefs
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+	    final SharedPreferences prefs = PreferenceManager
+			    .getDefaultSharedPreferences(getActivity());
 
         // declare main widgets
         final Button buttonOK = (Button) view.findViewById(R.id.buttonOK);

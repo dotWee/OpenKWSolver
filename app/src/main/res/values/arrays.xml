@@ -30,4 +30,16 @@
         <item>350</item>
     </string-array>
 
+    <string-array name="array_loop_time">
+        <item>Instantly</item>
+        <item>2 Seconds</item>
+        <item>5 Seconds</item>
+    </string-array>
+
+    <string-array name="array_loop_time_value">
+        <item>0</item>
+        <item>2000</item>
+        <item>5000</item>
+    </string-array>
+
 </resources>
