@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -33,16 +32,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -50,6 +41,7 @@ import java.util.concurrent.TimeoutException;
 import de.dotwee.openkwsolver.Fragments.ConfirmFragment;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
+import de.dotwee.openkwsolver.Tools.DownloadContentTask;
 
 public class MainActivity extends ActionBarActivity {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
@@ -102,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
 	public static void sendCaptchaByID(Context context, String CAPTCHA_ID, String CAPTCHA_ANSWER, Boolean CONFIRM) {
 		String CaptchaURL;
 
-		if (CONFIRM == true) {
+		if (CONFIRM) {
 			CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
 					URL_PARAMETER_SOURCE + getExternalParameter(context, 0) + CAPTCHA_ANSWER +
 					"&id=" + CAPTCHA_ID + getApiKey(context));
@@ -205,6 +197,7 @@ public class MainActivity extends ActionBarActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new cFragmentAdapter(getFragmentManager()));
+	    viewPager.setOffscreenPageLimit(2);
     }
 
     @Override
@@ -236,58 +229,10 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-	public static class DownloadContentTask extends AsyncTask<String, Void, String> {
-		String LOG_TAG = "DownloadContentTask";
-
-		protected String doInBackground(String... urls) {
-			Log.i(LOG_TAG, "input: " + urls[0]); // log input
-			String output = "";
-
-
-			if (URLUtil.isValidUrl(urls[0])) {
-				try {
-
-					HttpClient mHttpClient = new DefaultHttpClient();
-					if (urls[1] != null) {
-						if (urls[1].equalsIgnoreCase("captchaid")) {
-							Log.i(LOG_TAG, "Parameter captchaid discovered");
-							while (true) {
-								HttpGet httpGet = new HttpGet(urls[0]);
-								HttpResponse response = mHttpClient.execute(httpGet);
-								output = EntityUtils.toString(response.getEntity(), "UTF-8");
-								if (!output.equalsIgnoreCase("")) {
-									Log.i(LOG_TAG, "Loop new Captcha" + output);
-									break;
-								} else {
-									Log.i(LOG_TAG, "Loop empty return: " + output);
-								}
-							}
-						} else {
-							HttpGet httpGet = new HttpGet(urls[0]);
-							HttpResponse response = mHttpClient.execute(httpGet);
-							output = EntityUtils.toString(response.getEntity(), "UTF-8");
-						}
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				Log.d(LOG_TAG, "output: " + output); // log output
-			} else {
-				output = "";
-			}
-			return output;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-		}
-
-	}
-
     public class cFragmentAdapter extends FragmentPagerAdapter {
-        private String LOG_TAG = "FragmentAdapter";
+	    private final Boolean pages =
+			    isConfirmEnabled(getApplicationContext());
+	    private String LOG_TAG = "FragmentAdapter";
 
         public cFragmentAdapter(FragmentManager fm) {
             super(fm);
@@ -296,8 +241,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if (isConfirmEnabled(getApplicationContext())) {
-                if (position == 0) return new SolverFragment();
+	        if (pages) {
+		        if (position == 0) return new SolverFragment();
                 if (position == 1) return new ConfirmFragment();
                 if (position == 2) return new SettingsFragment();
             } else {
@@ -309,14 +254,15 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
-            if (isConfirmEnabled(getApplicationContext())) return 3;
-            else return 2;
+	        if (pages) {
+		        return 3;
+	        } else return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (isConfirmEnabled(getApplicationContext())) {
-                if (position == 0) return "Solver";
+	        if (pages) {
+		        if (position == 0) return "Solver";
                 if (position == 1) return "Confirm";
                 if (position == 2) return "Settings";
             } else {
