@@ -44,9 +44,6 @@ import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
-/**
- * Created by Lukas on 08.03.2015.
- */
 public class SolverFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
@@ -92,23 +89,23 @@ public class SolverFragment extends Fragment {
             public void onClick(View v) {
 
                 Log.i("OnClickPull", "Click recognized");
-                if (MainActivity.networkAvailable(SolverFragment.this.getActivity())) {
+	            if (MainActivity.networkAvailable(getActivity())) {
 
                     SharedPreferences prefs1 = PreferenceManager
-                            .getDefaultSharedPreferences(SolverFragment.this.getActivity());
+		                    .getDefaultSharedPreferences(getActivity());
 
-                    String CaptchaID = MainActivity.requestCaptchaID(SolverFragment.this.getActivity(), prefs1.getBoolean("pref_automation_loop", false), 2);
+		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), prefs1.getBoolean("pref_automation_loop", false), 2);
 
                     Boolean currentCapt = false;
-                    currentCapt = SolverFragment.this.pullCaptchaPicture(CaptchaID);
+		            currentCapt = pullCaptchaPicture(CaptchaID);
 
 
                     final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
                     buttonPull.setEnabled(false);
 
 
-                    Vibrator vibrator = (Vibrator) SolverFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-	                if (MainActivity.isVibrateEnabled(getActivity())) {
+		            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+		            if (MainActivity.isVibrateEnabled(getActivity())) {
 		                if (currentCapt) {
 			                vibrator.vibrate(500);
 		                }
@@ -150,7 +147,7 @@ public class SolverFragment extends Fragment {
 		                            Log.i("OnClickSend", "Loop-Mode");
                                     buttonPull.performClick();
                                 } else buttonPull.setEnabled(true);
-                            } else Toast.makeText(SolverFragment.this.getActivity(),
+                            } else Toast.makeText(getActivity(),
                                     R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -162,7 +159,7 @@ public class SolverFragment extends Fragment {
                             Log.i("OnClickSkip", "Click recognized");
                             editTextAnswer.setText(null);
                             MainActivity.skipCaptchaByID(
-                                    SolverFragment.this.getActivity(), MainActivity.getApiKey(SolverFragment.this.getActivity()));
+		                            getActivity(), MainActivity.getApiKey(getActivity()));
 
                             CountDownTimer.cancel();
                             ProgressBar.setProgress(0);

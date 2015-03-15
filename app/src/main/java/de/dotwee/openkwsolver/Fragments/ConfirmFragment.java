@@ -41,9 +41,6 @@ import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 
-/**
- * Created by Lukas on 09.03.2015.
- */
 public class ConfirmFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
@@ -100,16 +97,16 @@ public class ConfirmFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(LOG_TAG, "Click on " + buttonOK);
 
-                if (MainActivity.networkAvailable(ConfirmFragment.this.getActivity())) {
-	                final String tempCaptchaID = MainActivity.requestCaptchaID(ConfirmFragment.this.getActivity(), MainActivity.isLoopEnabled(getActivity()), 0);
-	                Boolean onCurrentCaptcha = false;
+	            if (MainActivity.networkAvailable(getActivity())) {
+		            final String tempCaptchaID = MainActivity.requestCaptchaID(getActivity(), MainActivity.isLoopEnabled(getActivity()), 0);
+		            Boolean onCurrentCaptcha = false;
 
-                    onCurrentCaptcha = ConfirmFragment.this.pullCaptchaPicture(tempCaptchaID);
-                    buttonNOTOK.setText("NOT OK");
+		            onCurrentCaptcha = pullCaptchaPicture(tempCaptchaID);
+		            buttonNOTOK.setText("NOT OK");
                     buttonOK.setText("OK");
 
-                    Vibrator vibrator = (Vibrator) ConfirmFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-	                if (MainActivity.isVibrateEnabled(getActivity())) {
+		            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+		            if (MainActivity.isVibrateEnabled(getActivity())) {
 		                if (onCurrentCaptcha) {
 			                vibrator.vibrate(500);
 		                }
@@ -169,8 +166,8 @@ public class ConfirmFragment extends Fragment {
                     buttonSkip.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MainActivity.skipCaptchaByID(ConfirmFragment.this.getActivity(), tempCaptchaID);
-                            progressBar.setProgress(0);
+	                        MainActivity.skipCaptchaByID(getActivity(), tempCaptchaID);
+	                        progressBar.setProgress(0);
                             CountDownTimer.cancel();
 
                             imageViewCaptcha.setImageDrawable(null);
