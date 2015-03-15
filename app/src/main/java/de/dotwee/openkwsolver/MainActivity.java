@@ -63,17 +63,22 @@ public class MainActivity extends ActionBarActivity {
         String CAPTCHA_ID = "";
         if (LOOP)
             try {
-                CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get();
+	            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "captchaid").get(3000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
+            } catch (TimeoutException e) {
+	            e.printStackTrace();
+	            Log.i(LOG_TAG, "Timeout!");
             }
         else try {
-            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get();
+	        CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, "").get(3000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+        } catch (TimeoutException e) {
+	        e.printStackTrace();
         }
 
-        Log.i(LOG_TAG, "ID Request RETURN: " + CAPTCHA_ID);
+	    Log.i(LOG_TAG, "ID Request RETURN: " + CAPTCHA_ID);
 
         return CAPTCHA_ID;
     }
@@ -84,8 +89,8 @@ public class MainActivity extends ActionBarActivity {
         Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
 
         try {
-            String res = new DownloadContentTask().execute(CAPTCHA_URL, "").get(5000, TimeUnit.MILLISECONDS);
-            Toast.makeText(context, "Return: " + res, Toast.LENGTH_SHORT).show();
+	        String res = new DownloadContentTask().execute(CAPTCHA_URL, "").get(3000, TimeUnit.MILLISECONDS);
+	        Toast.makeText(context, "Return: " + res, Toast.LENGTH_SHORT).show();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }
@@ -105,7 +110,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		try {
-			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20"), "").get(5000, TimeUnit.MILLISECONDS);
+			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20"), "").get(3000, TimeUnit.MILLISECONDS);
 			if (s != null) {
 				Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 			}
@@ -158,9 +163,13 @@ public class MainActivity extends ActionBarActivity {
                 URL_PARAMETER_SOURCE + getApiKey(context));
 
         try {
-            return new DownloadContentTask().execute(URL_BALANCE, "").get();
+	        return new DownloadContentTask().execute(URL_BALANCE, "").get(3000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException e) {
             return "";
+        } catch (TimeoutException e) {
+	        e.printStackTrace();
+	        Log.i(LOG_TAG, "Timeout!");
+	        return "";
         }
     }
 

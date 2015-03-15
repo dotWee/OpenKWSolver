@@ -36,6 +36,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
@@ -227,10 +229,12 @@ public class ConfirmFragment extends Fragment {
         if (getView() != null) {
             ImageView ImageV = (ImageView) getView().findViewById(R.id.imageViewCaptcha);
             try {
-                Bitmap returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get();
-                if (returnBit != null) return true; // true = new image
+	            Bitmap returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
+	            if (returnBit != null) return true; // true = new image
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
+            } catch (TimeoutException e) {
+	            e.printStackTrace();
             }
         }
 
