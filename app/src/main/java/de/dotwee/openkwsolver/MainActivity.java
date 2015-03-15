@@ -52,34 +52,35 @@ public class MainActivity extends ActionBarActivity {
 	public static final String URL_PARAMETER_CAPTCHA_SKIP = "?action=usercaptchaskip";
 	public static final String URL_PARAMETER_CAPTCHA_ANSWER = "?action=usercaptchacorrect";
 
-	private final static String LOG_TAG = "MainActivity";
+	private static final String LOG_TAG = "MainActivity";
 	ViewPager viewPager;
 
     public static String requestCaptchaID(Context context, Boolean LOOP, int TYPE) {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_NEW + getApiKey(context) +
                 URL_PARAMETER_SOURCE + getExternalParameter(context, TYPE) + URL_PARAMETER_NOCAPTCHA);
 
-        Log.i(LOG_TAG, "ID Request URL: " + CAPTCHA_URL);
-        String CAPTCHA_ID = "";
+	    Log.i(LOG_TAG, "requestCaptchaID: CAPTCHA_URL / " + CAPTCHA_URL);
+	    String CAPTCHA_ID = "";
         if (LOOP)
             try {
 	            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	            String timeToNextCaptcha = prefs.getString("pref_automation_loop_time", "0");
-
+	            Log.i(LOG_TAG, "requestCaptchaID with loop: CAPTCHA_TIME / " + timeToNextCaptcha);
 	            CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL, timeToNextCaptcha).get(3000 + Integer.parseInt(timeToNextCaptcha), TimeUnit.MILLISECONDS);
+	            Log.i(LOG_TAG, "requestCaptchaID with loop: RETURN / " + CAPTCHA_ID);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             } catch (TimeoutException e) {
 	            e.printStackTrace();
-	            Log.i(LOG_TAG, "Timeout!");
+	            Log.w(LOG_TAG, "requestCaptchaID: Timeout!");
             }
         else try {
 	        CAPTCHA_ID = new DownloadContentTask().execute(CAPTCHA_URL).get(3000, TimeUnit.MILLISECONDS);
+	        Log.i(LOG_TAG, "requestCaptchaID: RETURN / " + CAPTCHA_ID);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            e.printStackTrace();
+	        Log.w(LOG_TAG, "requestCaptchaID: EXCEPTION / " + e);
+	        e.printStackTrace();
         }
-
-	    Log.i(LOG_TAG, "ID Request RETURN: " + CAPTCHA_ID);
 
         return CAPTCHA_ID;
     }
@@ -87,13 +88,14 @@ public class MainActivity extends ActionBarActivity {
     public static void skipCaptchaByID(Context context, String CAPTCHA_ID) {
         String CAPTCHA_URL = (URL_9WK + URL_PARAMETER_CAPTCHA_SKIP + "&id=" + CAPTCHA_ID +
                 getApiKey(context) + URL_PARAMETER_SOURCE);
-        Log.i(LOG_TAG, "SKIP Request URL: " + CAPTCHA_URL);
+	    Log.i(LOG_TAG, "skipCaptchaByID: URL / " + CAPTCHA_URL);
 
         try {
 	        String res = new DownloadContentTask().execute(CAPTCHA_URL).get(3000, TimeUnit.MILLISECONDS);
-	        Toast.makeText(context, "Return: " + res, Toast.LENGTH_SHORT).show();
+	        Log.i(LOG_TAG, "skipCaptchaByID: RETURN / " + res);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            e.printStackTrace();
+	        Log.w(LOG_TAG, "skipCaptchaByID: EXCEPTION / " + e);
+	        e.printStackTrace();
         }
     }
 
@@ -104,18 +106,23 @@ public class MainActivity extends ActionBarActivity {
 			CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
 					URL_PARAMETER_SOURCE + getExternalParameter(context, 0) + CAPTCHA_ANSWER +
 					"&id=" + CAPTCHA_ID + getApiKey(context));
+
 		} else {
 			CaptchaURL = (URL_9WK + URL_PARAMETER_CAPTCHA_ANSWER +
 					URL_PARAMETER_SOURCE + getExternalParameter(context, 2) + "&antwort=" +
 					CAPTCHA_ANSWER + "&id=" + CAPTCHA_ID + getApiKey(context));
 		}
 
+		Log.i(LOG_TAG, "sendCaptchaByID: URL / " + CaptchaURL);
+
 		try {
 			String s = new DownloadContentTask().execute(CaptchaURL.replaceAll(" ", "%20")).get(3000, TimeUnit.MILLISECONDS);
 			if (s != null) {
 				Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+				Log.i(LOG_TAG, "sendCaptchaByID: RETURN / " + s);
 			}
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
+			Log.i(LOG_TAG, "sendCaptchaByID: EXCEPTION / " + e);
 			e.printStackTrace();
 		}
 	}
@@ -124,8 +131,8 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences pref_apikey = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String apikey = pref_apikey.getString("pref_api_key", null);
-        Log.i(LOG_TAG, "API-Key: " + apikey);
-        if (apikey != null)
+	    Log.i(LOG_TAG, "getApiKey: " + apikey);
+	    if (apikey != null)
             return "&apikey=" + apikey;
         else return "";
     }
@@ -134,6 +141,8 @@ public class MainActivity extends ActionBarActivity {
         String s = "", d = "", t = "";
         String CONFIRM = "&confirm=";
         String CLICK = "&mouse=";
+
+	    Log.i(LOG_TAG, "getExteranalParameter: TYPE / " + type);
 
         switch (type) {
             case 0: // confirm
@@ -156,48 +165,60 @@ public class MainActivity extends ActionBarActivity {
         Boolean prefDebug = prefs.getBoolean("pref_api_debug", false);
         if (prefSelfonly) s = "&selfonly=1";
         if (prefDebug) d = "&debug=1";
-        return s + d + t;
+	    Log.i(LOG_TAG, "getExternalParameter: RETURN / " + s + d + t);
+	    return s + d + t;
     }
 
     public static String getBalance(Context context) {
         String URL_BALANCE = (URL_9WK + URL_PARAMETER_SERVER_BALANCE +
                 URL_PARAMETER_SOURCE + getApiKey(context));
+	    Log.i(LOG_TAG, "getBalance: URL / " + URL_BALANCE);
 
         try {
-	        return new DownloadContentTask().execute(URL_BALANCE).get(3000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException e) {
-            return "";
+	        String s = new DownloadContentTask().execute(URL_BALANCE).get(3000, TimeUnit.MILLISECONDS);
+	        Log.i(LOG_TAG, "getBalance: RETURN / " + s);
+	        return s;
+        } catch (InterruptedException | ExecutionException ignored) {
+	        Log.w(LOG_TAG, "getBalance: EXCEPTION / " + ignored);
         } catch (TimeoutException e) {
+	        Log.w(LOG_TAG, "getBalance: TIMEOUT / " + e);
 	        e.printStackTrace();
-	        Log.i(LOG_TAG, "Timeout!");
-	        return "";
         }
+
+	    return "";
     }
 
-    public static boolean networkAvailable(Context context) {
-        Log.i("isNetworkAvailable", "Called");
-        ConnectivityManager connectivityManager
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
+		Boolean b = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+		Log.i(LOG_TAG, "isNetworkAvailable: RETURN / " + b);
+		return b;
+	}
 
     public static boolean isConfirmEnabled(Context context) {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        return prefs.getBoolean("pref_layout_confirm", false);
+	    Boolean b = prefs.getBoolean("pref_layout_confirm", false);
+	    Log.i(LOG_TAG, "isConfirmEnabled: RETURN / " + b);
+	    return b;
     }
 
 	public static boolean isVibrateEnabled(Context context) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		return prefs.getBoolean("pref_notification_vibrate", true);
+		Boolean b = prefs.getBoolean("pref_notification_vibrate", true);
+		Log.i(LOG_TAG, "isVibrateEnabled: RETURN / " + b);
+		return b;
 	}
 
 	public static boolean isLoopEnabled(Context context) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		return prefs.getBoolean("pref_automation_loop", true);
+		Boolean b = prefs.getBoolean("pref_automation_loop", true);
+		Log.i(LOG_TAG, "isLoopEnabled: RETURN / " + b);
+		return b;
 	}
 
     @Override
@@ -206,7 +227,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new cFragmentAdapter(getFragmentManager()));
+	    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
 	    viewPager.setOffscreenPageLimit(2);
     }
 
@@ -239,13 +260,12 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    public class cFragmentAdapter extends FragmentPagerAdapter {
-	    private final Boolean pages =
-			    isConfirmEnabled(getApplicationContext());
-	    private String LOG_TAG = "FragmentAdapter";
+	public class FragmentAdapter extends FragmentPagerAdapter {
+		private static final String LOG_TAG = "FragmentAdapter";
+		private final Boolean pages = isConfirmEnabled(getApplicationContext());
 
-        public cFragmentAdapter(FragmentManager fm) {
-            super(fm);
+		public FragmentAdapter(FragmentManager fm) {
+			super(fm);
         }
 
         @Override
@@ -264,7 +284,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
-	        Log.i(LOG_TAG, "Confirm enabled: " + pages);
+	        Log.i(LOG_TAG, "getCount: CONFIRM / " + pages);
 
 	        if (pages) {
 		        return 3;

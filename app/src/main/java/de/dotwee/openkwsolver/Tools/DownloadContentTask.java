@@ -35,10 +35,10 @@ import java.util.Arrays;
  */
 
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
-	String LOG_TAG = "DownloadContentTask";
+	private static final String LOG_TAG = "DownloadContentTask";
 
 	protected String doInBackground(String... params) {
-		Log.i(LOG_TAG, "input parameter: " + Arrays.toString(params)); // log input array
+		Log.i(LOG_TAG, "doInBackground: INPUT ARRAY / " + Arrays.toString(params)); // log input array
 		HttpClient mHttpClient = new DefaultHttpClient();
 		String inURL = params[0];
 		String output = "";
@@ -51,17 +51,17 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 					while (true) {
 						try {
 							if (timeToNextCaptcha != 0) {
-								Log.i(LOG_TAG, "Sleep: " + timeToNextCaptcha);
+								Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
 								Thread.sleep(timeToNextCaptcha);
 							}
 							HttpGet httpGet = new HttpGet(inURL);
 							HttpResponse response = mHttpClient.execute(httpGet);
 							output = EntityUtils.toString(response.getEntity(), "UTF-8");
 							if (!output.equalsIgnoreCase("")) {
-								Log.i(LOG_TAG, "Loop new Captcha" + output);
+								Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
 								break;
 							} else {
-								Log.i(LOG_TAG, "Loop empty return: " + output);
+								Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
 							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
@@ -71,7 +71,6 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				Log.d(LOG_TAG, "output: " + output); // log output
 			}
 		}
 
@@ -84,12 +83,12 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 				try {
 					response = mHttpClient.execute(httpGet);
 					output = EntityUtils.toString(response.getEntity(), "UTF-8");
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (IOException ignored) {
 				}
 			}
 		}
 
+		Log.i(LOG_TAG, "doInBackground: RETURN / " + output);
 		return output;
 	}
 

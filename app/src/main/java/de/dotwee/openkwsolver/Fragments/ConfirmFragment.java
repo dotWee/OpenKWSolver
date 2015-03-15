@@ -49,23 +49,25 @@ public class ConfirmFragment extends Fragment {
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
     private static final String LOG_TAG = "ConfirmFragment";
 
-
     Thread BalanceUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	    Log.i(LOG_TAG, "onCreate");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_confirm, container, false);
+	    Log.i(LOG_TAG, "onCreateView");
+	    return inflater.inflate(R.layout.fragment_confirm, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+	    Log.i(LOG_TAG, "onViewCreated");
 
         // init prefs
 	    final SharedPreferences prefs = PreferenceManager
@@ -89,8 +91,8 @@ public class ConfirmFragment extends Fragment {
         buttonOK.setText("Start");
 
         // start showing balance if network and apikey is available
-        if (MainActivity.networkAvailable(getActivity())) {
-            if (!MainActivity.getApiKey(getActivity())
+	    if (MainActivity.isNetworkAvailable(getActivity())) {
+		    if (!MainActivity.getApiKey(getActivity())
                     .equals("")) balanceThread();
         }
 
@@ -99,7 +101,7 @@ public class ConfirmFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(LOG_TAG, "Click on " + buttonOK);
 
-	            if (MainActivity.networkAvailable(getActivity())) {
+	            if (MainActivity.isNetworkAvailable(getActivity())) {
 		            final String tempCaptchaID = MainActivity.requestCaptchaID(getActivity(), MainActivity.isLoopEnabled(getActivity()), 0);
 		            Boolean onCurrentCaptcha = false;
 

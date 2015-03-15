@@ -48,6 +48,8 @@ public class SolverFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
+	private static final String LOG_TAG = "SolverFragment";
+
     Thread BalanceUpdate;
 
     @Override
@@ -64,6 +66,7 @@ public class SolverFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+	    Log.i(LOG_TAG, "onViewCreated");
 
         // init prefs
 	    final SharedPreferences prefs = PreferenceManager
@@ -80,32 +83,31 @@ public class SolverFragment extends Fragment {
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
 
         // start showing balance if network and apikey is available
-        if (MainActivity.networkAvailable(getActivity()))
-            if (!MainActivity.getApiKey(getActivity()).equals(""))
-                balanceThread();
+	    if (MainActivity.isNetworkAvailable(getActivity())) {
+		    if (!MainActivity.getApiKey(getActivity()).equals("")) {
+			    Log.i(LOG_TAG, "onCreated: start balance thread");
+		    }
+		    balanceThread();
+	    } else {
+		    Log.w(LOG_TAG, "No network available");
+		    Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
+	    }
 
         buttonPull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+	            Log.i(LOG_TAG, "onClickPull: Click recognized");
+	            if (MainActivity.isNetworkAvailable(getActivity())) {
 
-                Log.i("OnClickPull", "Click recognized");
-	            if (MainActivity.networkAvailable(getActivity())) {
-
-                    SharedPreferences prefs1 = PreferenceManager
-		                    .getDefaultSharedPreferences(getActivity());
-
-		            String CaptchaID = MainActivity.requestCaptchaID(
-				            getActivity(), // needed Context
-				            prefs1.getBoolean("pref_automation_loop", false), // Loop: false / true
-				            2);
+		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), // needed Context
+				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
+				            2); // 2 = Normal
 
                     Boolean currentCapt = false;
 		            currentCapt = pullCaptchaPicture(CaptchaID);
 
-
                     final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
                     buttonPull.setEnabled(false);
-
 
 		            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 		            if (MainActivity.isVibrateEnabled(getActivity())) {
@@ -174,7 +176,10 @@ public class SolverFragment extends Fragment {
                         }
                     });
 
-                }
+	            } else {
+		            Log.w(LOG_TAG, "onClickPull: Click without network");
+		            Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
+	            }
             }
         });
     }
