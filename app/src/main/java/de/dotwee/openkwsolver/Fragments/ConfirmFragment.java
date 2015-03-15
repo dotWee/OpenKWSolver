@@ -71,8 +71,6 @@ public class ConfirmFragment extends Fragment {
         // init prefs
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
-        final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
 
         // declare main widgets
         final Button buttonOK = (Button) view.findViewById(R.id.buttonOK);
@@ -103,15 +101,19 @@ public class ConfirmFragment extends Fragment {
                 Log.i(LOG_TAG, "Click on " + buttonOK);
 
                 if (MainActivity.networkAvailable(ConfirmFragment.this.getActivity())) {
-                    final String tempCaptchaID = MainActivity.requestCaptchaID(ConfirmFragment.this.getActivity(), prefLoop, 0);
-                    Boolean onCurrentCaptcha = false;
+	                final String tempCaptchaID = MainActivity.requestCaptchaID(ConfirmFragment.this.getActivity(), MainActivity.isLoopEnabled(getActivity()), 0);
+	                Boolean onCurrentCaptcha = false;
 
                     onCurrentCaptcha = ConfirmFragment.this.pullCaptchaPicture(tempCaptchaID);
                     buttonNOTOK.setText("NOT OK");
                     buttonOK.setText("OK");
 
                     Vibrator vibrator = (Vibrator) ConfirmFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                    if (prefVibrate) if (onCurrentCaptcha) vibrator.vibrate(500);
+	                if (MainActivity.isVibrateEnabled(getActivity())) {
+		                if (onCurrentCaptcha) {
+			                vibrator.vibrate(500);
+		                }
+	                }
 
                     final int[] i = {0};
                     final CountDownTimer CountDownTimer;
@@ -141,8 +143,9 @@ public class ConfirmFragment extends Fragment {
                             imageViewCaptcha.setImageDrawable(null);
                             editTextAnswer.setText(null);
 
-                            if (prefLoop) buttonOK.performClick();
-                            else buttonOK.setEnabled(true);
+	                        if (MainActivity.isLoopEnabled(getActivity())) {
+		                        buttonOK.performClick();
+	                        } else buttonOK.setEnabled(true);
                         }
                     });
 
@@ -157,8 +160,9 @@ public class ConfirmFragment extends Fragment {
                             imageViewCaptcha.setImageDrawable(null);
                             editTextAnswer.setText(null);
 
-                            if (prefLoop) buttonOK.performClick();
-                            else buttonOK.setEnabled(true);
+	                        if (MainActivity.isLoopEnabled(getActivity())) {
+		                        buttonOK.performClick();
+	                        } else buttonOK.setEnabled(true);
                         }
                     });
 
@@ -172,8 +176,9 @@ public class ConfirmFragment extends Fragment {
                             imageViewCaptcha.setImageDrawable(null);
                             editTextAnswer.setText(null);
 
-                            if (prefLoop) buttonOK.performClick();
-                            else buttonOK.setEnabled(true);
+	                        if (MainActivity.isLoopEnabled(getActivity())) {
+		                        buttonOK.performClick();
+	                        } else buttonOK.setEnabled(true);
                         }
                     });
                 }

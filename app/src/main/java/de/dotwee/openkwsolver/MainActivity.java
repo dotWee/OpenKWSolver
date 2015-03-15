@@ -186,6 +186,18 @@ public class MainActivity extends ActionBarActivity {
         return prefs.getBoolean("pref_layout_confirm", false);
     }
 
+	public static boolean isVibrateEnabled(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		return prefs.getBoolean("pref_notification_vibrate", true);
+	}
+
+	public static boolean isLoopEnabled(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		return prefs.getBoolean("pref_automation_loop", true);
+	}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

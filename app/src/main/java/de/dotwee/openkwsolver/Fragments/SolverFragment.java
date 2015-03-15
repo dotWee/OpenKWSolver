@@ -37,6 +37,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
@@ -80,9 +82,6 @@ public class SolverFragment extends Fragment {
         // fix edittext width
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
 
-        final Boolean prefLoop = prefs.getBoolean("pref_automation_loop", false);
-        final Boolean prefVibrate = prefs.getBoolean("pref_notification_vibrate", false);
-
         // start showing balance if network and apikey is available
         if (MainActivity.networkAvailable(getActivity()))
             if (!MainActivity.getApiKey(getActivity()).equals(""))
@@ -109,9 +108,11 @@ public class SolverFragment extends Fragment {
 
 
                     Vibrator vibrator = (Vibrator) SolverFragment.this.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                    if (prefVibrate)
-                        if (currentCapt)
-                            vibrator.vibrate(500);
+	                if (MainActivity.isVibrateEnabled(getActivity())) {
+		                if (currentCapt) {
+			                vibrator.vibrate(500);
+		                }
+	                }
 
                     final int[] i = {0};
                     final CountDownTimer CountDownTimer;
@@ -145,8 +146,8 @@ public class SolverFragment extends Fragment {
                                 imageViewCaptcha.setImageDrawable(null);
                                 editTextAnswer.setText(null);
 
-                                if (prefLoop) {
-                                    Log.i("OnClickSend", "Loop-Mode");
+	                            if (MainActivity.isLoopEnabled(getActivity())) {
+		                            Log.i("OnClickSend", "Loop-Mode");
                                     buttonPull.performClick();
                                 } else buttonPull.setEnabled(true);
                             } else Toast.makeText(SolverFragment.this.getActivity(),
@@ -195,9 +196,10 @@ public class SolverFragment extends Fragment {
         if (getView() != null) {
             ImageView ImageV = (ImageView) getView().findViewById(R.id.imageViewCaptcha);
             try {
-                Bitmap returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get();
-                if (returnBit != null) return true; // true = new image
-            } catch (InterruptedException | ExecutionException e) {
+	            Bitmap returnBit = null;
+	            returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
+	            if (returnBit != null) return true; // true = new image
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
             }
         }
