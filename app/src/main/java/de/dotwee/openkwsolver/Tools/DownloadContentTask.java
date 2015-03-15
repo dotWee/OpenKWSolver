@@ -83,7 +83,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 
 				try {
 					response = mHttpClient.execute(httpGet);
-					return EntityUtils.toString(response.getEntity(), "UTF-8");
+					output = EntityUtils.toString(response.getEntity(), "UTF-8");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
