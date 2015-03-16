@@ -50,7 +50,16 @@ public class SolverFragment extends Fragment {
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
 	private static final String LOG_TAG = "SolverFragment";
 
-    Thread BalanceUpdate;
+	// main widgets
+	private TextView textViewBalance;
+	private EditText editTextAnswer;
+	private ImageView imageViewCaptcha;
+	private ProgressBar progressBar;
+	private Button buttonPull;
+	private Button buttonSkip;
+	private Button buttonSend;
+	private Vibrator vibrator;
+	private Thread BalanceUpdate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,12 +82,11 @@ public class SolverFragment extends Fragment {
 			    .getDefaultSharedPreferences(getActivity());
 
         // declare main widgets
-        final Button buttonPull = (Button) view.findViewById(R.id.buttonPull);
-	    final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-	    final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-        imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
-
-        final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
+	    buttonPull = (Button) view.findViewById(R.id.buttonPull);
+	    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+	    imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+	    imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
+	    editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
         // fix edittext width
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
@@ -128,7 +136,7 @@ public class SolverFragment extends Fragment {
 			            }
 		            };
 
-		            Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+		            buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
 		            buttonSkip.setOnClickListener(new View.OnClickListener() {
 			            @Override
 			            public void onClick(View v1) {
@@ -140,8 +148,7 @@ public class SolverFragment extends Fragment {
 				            CountDownTimer.cancel();
 				            progressBar.setProgress(0);
 
-				            ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-				            ImageView.setImageDrawable(null);
+				            imageViewCaptcha.setImageDrawable(null);
 
 				            buttonPull.setEnabled(true);
 			            }
@@ -150,13 +157,13 @@ public class SolverFragment extends Fragment {
 		            if (currentCapt == true) {
 
 
-			            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+			            vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 			            if (MainActivity.isVibrateEnabled(getActivity())) {
 				            vibrator.vibrate(500);
 			            }
 
 			            CountDownTimer.start();
-			            Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
+			            buttonSend = (Button) view.findViewById(R.id.buttonSend);
 			            final String finalCaptchaID = CaptchaID;
 			            buttonSend.setOnClickListener(new View.OnClickListener() {
 				            @Override
@@ -213,14 +220,14 @@ public class SolverFragment extends Fragment {
 
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
-            ImageView ImageV = (ImageView) getView().findViewById(R.id.imageViewCaptcha);
-            try {
-	            Bitmap returnBit = null;
-	            returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
-	            if (returnBit != null) return true; // true = new image
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                e.printStackTrace();
-            }
+	        try {
+		        Bitmap returnBit = new DownloadImageTask(imageViewCaptcha).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
+		        if (returnBit != null) {
+			        return true; // true = new image
+		        }
+	        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+		        e.printStackTrace();
+	        }
         }
 
         return false;
@@ -242,8 +249,8 @@ public class SolverFragment extends Fragment {
                         @Override
                         public void run() {
                             if (getView() != null) {
-                                TextView textViewBalance = (TextView) getView()
-                                        .findViewById(R.id.textViewBalance);
+	                            textViewBalance = (TextView) getView()
+			                            .findViewById(R.id.textViewBalance);
                                 textViewBalance.setText(MainActivity.getBalance(getActivity()));
                             }
                         }
