@@ -23,12 +23,12 @@ Checksums
 <table>
   <tr>
     <td>md5 (release v1.5)</td>
-    <td><code>4D85BB2333C95FB6BDBC0C1351CD6B8F</code></td>
+    <td><code>37CF2C2EBE940C526F92C5DE8A237D0A</code></td>
   </tr>
   
   <tr>
     <th>md5 (debug v1.5)</th>
-    <th><code>04CD5C236EC19D6E5601503EF90A28D0</code></th>
+    <th><code>70351684EF8DA3F3B1CCAF94566A211B</code></th>
   </tr>
 </table>
 
@@ -48,12 +48,21 @@ Used Permissions
 Features
 --------
 
-+ Loop-Mode (Auto-pull next Captcha)
-+ Selectable Captcha-image size
-+ Vibrate on Captcha-arrival
-+ View your current balance
-+ Captcha - debug mode
-+ Self-only Captchas
+Main
++ Support for self-only
++ Support for debug-mode
+
+Automation
++ Loop-Mode (Auto-pull next captcha)
++ Loop-Timeout (Useful on slow network)
++ Auto updating balance
+
+Layout and style
++ Selectable image size
++ EXPERIMENTAL Confirm-Solver
+
+Notification
++ Vibration alert on new captcha
 
 Screenshots
 -----------
@@ -71,7 +80,8 @@ Todo
 
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
-+ Add Click mode
++ Add Click mode and improve Confirm
++ Loading animation
 + Documentation
 
 Found a bug / had a force-close?
