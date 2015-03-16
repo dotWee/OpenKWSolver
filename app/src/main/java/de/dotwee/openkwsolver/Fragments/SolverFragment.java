@@ -227,12 +227,13 @@ public class SolverFragment extends Fragment {
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
-                URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity(), 2) + "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
+		        URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity(), 2) +
+		        "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
 
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
 	        try {
-		        Bitmap returnBit = new DownloadImageTask(imageViewCaptcha).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
+		        Bitmap returnBit = new DownloadImageTask(imageViewCaptcha).execute(CaptchaPictureURL).get(5000, TimeUnit.MILLISECONDS);
 		        if (returnBit != null) {
 			        return true; // true = new image
 		        }
