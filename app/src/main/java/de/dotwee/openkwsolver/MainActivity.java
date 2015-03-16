@@ -178,6 +178,9 @@ public class MainActivity extends ActionBarActivity {
 
         try {
 	        String s = new DownloadContentTask().execute(URL_BALANCE).get(3000, TimeUnit.MILLISECONDS);
+	        if (s.contains("html")) {
+		        return "Return-Error";
+	        }
 	        Log.i(LOG_TAG, "getBalance: RETURN / " + s);
 	        return s;
         } catch (InterruptedException | ExecutionException ignored) {
@@ -220,6 +223,14 @@ public class MainActivity extends ActionBarActivity {
 				.getDefaultSharedPreferences(context);
 		Boolean b = prefs.getBoolean("pref_automation_loop", true);
 		Log.i(LOG_TAG, "isLoopEnabled: RETURN / " + b);
+		return b;
+	}
+
+	public static boolean isAutoBalanceEnabled(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		Boolean b = prefs.getBoolean("pref_automation_balance", false);
+		Log.i(LOG_TAG, "isAutoBalanceEnabled: RETURN / " + b);
 		return b;
 	}
 

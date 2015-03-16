@@ -49,6 +49,7 @@ public class SolverFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
 	private static final String LOG_TAG = "SolverFragment";
+	private Boolean CURRENT_CAPTCHA;
 
 	// main widgets
 	private TextView textViewBalance;
@@ -99,9 +100,15 @@ public class SolverFragment extends Fragment {
         // start showing balance if network and apikey is available
 	    if (MainActivity.isNetworkAvailable(getActivity())) {
 		    if (MainActivity.getApiKey(getActivity()) != null) {
-			    Log.i(LOG_TAG, "onCreated: start balance thread");
+			    if (MainActivity.isAutoBalanceEnabled(getActivity())) {
+				    Log.i(LOG_TAG, "onCreated: start balance thread");
+				    balanceThread();
+			    } else {
+				    updateBalance();
+			    }
+		    } else {
+			    Toast.makeText(getActivity(), "Set a API-Key to start", Toast.LENGTH_SHORT).show();
 		    }
-		    balanceThread();
 	    } else {
 		    Log.w(LOG_TAG, "No network available");
 		    Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
@@ -117,14 +124,14 @@ public class SolverFragment extends Fragment {
             public void onClick(View v) {
 	            Log.i(LOG_TAG, "onClickPull: Click recognized");
 	            if (MainActivity.isNetworkAvailable(getActivity())) {
-
+		            updateBalance();
 		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), // needed Context
 				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
 				            2); // 2 = Normal
 		            textViewCaptcha.setText(CaptchaID);
 
 		            // request captcha image
-		            Boolean currentCapt = pullCaptchaPicture(CaptchaID);
+		            CURRENT_CAPTCHA = pullCaptchaPicture(CaptchaID);
 		            buttonPull.setEnabled(false);
 
 		            final int[] i = {0};
@@ -160,7 +167,7 @@ public class SolverFragment extends Fragment {
 			            }
 		            });
 
-		            if (currentCapt == true) {
+		            if (CURRENT_CAPTCHA == true) {
 
 
 			            vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
@@ -197,8 +204,6 @@ public class SolverFragment extends Fragment {
 					            }
 				            }
 			            });
-
-
 		            } else {
 			            buttonSkip.performClick();
 		            }
@@ -238,6 +243,13 @@ public class SolverFragment extends Fragment {
 
         return false;
     }
+
+	public void updateBalance() {
+		if (getView() != null) {
+			textViewBalance = (TextView) getView().findViewById(R.id.textViewBA);
+			textViewBalance.setText(MainActivity.getBalance(getActivity()));
+		}
+	}
 
     // BalanceThread: Update the balance every 5 seconds
     public void balanceThread() {

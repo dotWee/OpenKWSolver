@@ -53,4 +53,8 @@
     <string name="pref_automation_loop_description">Auto-pull next Captcha after skipping or sending</string>
     <string name="pref_automation_loop_time_title">Loop-Timeout</string>
     <string name="pref_automation_loop_time_description">Seconds until pulling the next Captcha</string>
+    
+    <string name="pref_automation_balance_title">Auto updating balance</string>
+    <string name="pref_automation_balance_description">Update the balance automatically every 5 seconds</string>
+
 </resources>
