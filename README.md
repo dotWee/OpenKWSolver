@@ -15,19 +15,19 @@ minSDK: 16 (4.1 Jelly Bean)
 <br>targetSDK: 22 (5.1 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-<br>Latest **stable** release (v1.3) is available [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-release.apk?raw=true) or as debug-version [here](https://github.com/dotWee/OpenKWSolver/blob/master/app-debug.apk?raw=true) as well as under the release-section of this github repository.
+<br>Latest **stable** release (v1.5) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
 
 Checksums
 ---------
 
 <table>
   <tr>
-    <td>md5 (release v1.3)</td>
+    <td>md5 (release v1.5)</td>
     <td><code>4D85BB2333C95FB6BDBC0C1351CD6B8F</code></td>
   </tr>
   
   <tr>
-    <th>md5 (debug v1.3)</th>
+    <th>md5 (debug v1.5)</th>
     <th><code>04CD5C236EC19D6E5601503EF90A28D0</code></th>
   </tr>
 </table>
@@ -60,9 +60,9 @@ Screenshots
 
 <table style="border: 0px;">
     <tr>
-        <td><img width="200px" src="ScreenshotNormal.png" /></td>
-        <td><img width="200px" src="ScreenshotWithCaptcha.png" /></td>
-        <td><img width="200px" src="ScreenshotSettings.png" /></td>
+        <td><img width="200px" src="art/ScreenshotNormal.png" /></td>
+        <td><img width="200px" src="art/ScreenshotWithCaptcha.png" /></td>
+        <td><img width="200px" src="art/ScreenshotSettings.png" /></td>
     </tr>
 </table>
 
@@ -82,8 +82,9 @@ Open a new Issue and provide a logcat.
 Dependencies
 ------------
 
-+ Google's AppCombat
++ Google's v7 AppCombat
 + Google's v13 Support Package
+(Both used to bring Material Design to API > 21)
 
 Credits
 -------
