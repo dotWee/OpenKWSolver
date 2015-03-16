@@ -74,7 +74,8 @@ public class SolverFragment extends Fragment {
 
         // declare main widgets
         final Button buttonPull = (Button) view.findViewById(R.id.buttonPull);
-        final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+	    final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+	    final ImageView imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
         imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
 
         final EditText editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
@@ -84,13 +85,18 @@ public class SolverFragment extends Fragment {
 
         // start showing balance if network and apikey is available
 	    if (MainActivity.isNetworkAvailable(getActivity())) {
-		    if (!MainActivity.getApiKey(getActivity()).equals("")) {
+		    if (MainActivity.getApiKey(getActivity()) != null) {
 			    Log.i(LOG_TAG, "onCreated: start balance thread");
 		    }
 		    balanceThread();
 	    } else {
 		    Log.w(LOG_TAG, "No network available");
 		    Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
+	    }
+
+	    // is no api key is set, disable the start button
+	    if (MainActivity.getApiKey(getActivity()) == null) {
+		    buttonPull.setEnabled(false);
 	    }
 
         buttonPull.setOnClickListener(new View.OnClickListener() {
@@ -103,78 +109,86 @@ public class SolverFragment extends Fragment {
 				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
 				            2); // 2 = Normal
 
-                    Boolean currentCapt = false;
-		            currentCapt = pullCaptchaPicture(CaptchaID);
+		            // request captcha image
+		            Boolean currentCapt = pullCaptchaPicture(CaptchaID);
+		            buttonPull.setEnabled(false);
 
-                    final ProgressBar ProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                    buttonPull.setEnabled(false);
+		            final int[] i = {0};
+		            final CountDownTimer CountDownTimer;
+		            CountDownTimer = new CountDownTimer(30000, 1000) {
 
-		            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-		            if (MainActivity.isVibrateEnabled(getActivity())) {
-		                if (currentCapt) {
-			                vibrator.vibrate(500);
-		                }
-	                }
+			            @Override
+			            public void onTick(long millisUntilFinished) {
+				            i[0]++;
+				            progressBar.setProgress(i[0]);
+			            }
 
-                    final int[] i = {0};
-                    final CountDownTimer CountDownTimer;
-                    CountDownTimer = new CountDownTimer(26000, 1000) {
+			            @Override
+			            public void onFinish() {
+			            }
+		            };
 
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            i[0]++;
-                            ProgressBar.setProgress(i[0]);
-                        }
+		            Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+		            buttonSkip.setOnClickListener(new View.OnClickListener() {
+			            @Override
+			            public void onClick(View v1) {
+				            Log.i("OnClickSkip", "Click recognized");
+				            editTextAnswer.setText(null);
+				            MainActivity.skipCaptchaByID(
+						            getActivity(), MainActivity.getApiKey(getActivity()));
 
-                        @Override
-                        public void onFinish() {
-                        }
-                    };
+				            CountDownTimer.cancel();
+				            progressBar.setProgress(0);
 
-                    CountDownTimer.start();
-                    Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
-                    final String finalCaptchaID = CaptchaID;
-                    buttonSend.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v1) {
-                            String CaptchaAnswer = editTextAnswer.getText().toString();
-                            if (!CaptchaAnswer.equalsIgnoreCase("")) {
-	                            MainActivity.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
+				            ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+				            ImageView.setImageDrawable(null);
 
-                                CountDownTimer.cancel();
-                                Log.i("OnClickSend", "Timer killed");
-                                ProgressBar.setProgress(0);
+				            buttonPull.setEnabled(true);
+			            }
+		            });
 
-                                imageViewCaptcha.setImageDrawable(null);
-                                editTextAnswer.setText(null);
+		            if (currentCapt == true) {
 
-	                            if (MainActivity.isLoopEnabled(getActivity())) {
-		                            Log.i("OnClickSend", "Loop-Mode");
-                                    buttonPull.performClick();
-                                } else buttonPull.setEnabled(true);
-                            } else Toast.makeText(getActivity(),
-                                    R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-                        }
-                    });
 
-                    Button buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-                    buttonSkip.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v1) {
-                            Log.i("OnClickSkip", "Click recognized");
-                            editTextAnswer.setText(null);
-                            MainActivity.skipCaptchaByID(
-		                            getActivity(), MainActivity.getApiKey(getActivity()));
+			            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+			            if (MainActivity.isVibrateEnabled(getActivity())) {
+				            vibrator.vibrate(500);
+			            }
 
-                            CountDownTimer.cancel();
-                            ProgressBar.setProgress(0);
+			            CountDownTimer.start();
+			            Button buttonSend = (Button) view.findViewById(R.id.buttonSend);
+			            final String finalCaptchaID = CaptchaID;
+			            buttonSend.setOnClickListener(new View.OnClickListener() {
+				            @Override
+				            public void onClick(View v1) {
+					            String CaptchaAnswer = editTextAnswer.getText().toString();
+					            if (!CaptchaAnswer.equalsIgnoreCase("")) {
+						            MainActivity.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
 
-                            ImageView ImageView = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-                            ImageView.setImageDrawable(null);
+						            CountDownTimer.cancel();
+						            Log.i("OnClickSend", "Timer killed");
+						            progressBar.setProgress(0);
 
-                            buttonPull.setEnabled(true);
-                        }
-                    });
+						            imageViewCaptcha.setImageDrawable(null);
+						            editTextAnswer.setText(null);
+
+						            if (MainActivity.isLoopEnabled(getActivity())) {
+							            Log.i("OnClickSend", "Loop-Mode");
+							            buttonPull.performClick();
+						            } else {
+							            buttonPull.setEnabled(true);
+						            }
+					            } else {
+						            Toast.makeText(getActivity(),
+								            R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+					            }
+				            }
+			            });
+
+
+		            } else {
+			            buttonSkip.performClick();
+		            }
 
 	            } else {
 		            Log.w(LOG_TAG, "onClickPull: Click without network");

@@ -133,8 +133,10 @@ public class MainActivity extends ActionBarActivity {
         String apikey = pref_apikey.getString("pref_api_key", null);
 	    Log.i(LOG_TAG, "getApiKey: " + apikey);
 	    if (apikey != null)
-            return "&apikey=" + apikey;
-        else return "";
+		    return "&apikey=" + apikey;
+	    else {
+		    return null;
+	    }
     }
 
     public static String getExternalParameter(Context context, int type) {
