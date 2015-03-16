@@ -103,8 +103,6 @@ public class SolverFragment extends Fragment {
 			    if (MainActivity.isAutoBalanceEnabled(getActivity())) {
 				    Log.i(LOG_TAG, "onCreated: start balance thread");
 				    balanceThread();
-			    } else {
-				    updateBalance();
 			    }
 		    } else {
 			    Toast.makeText(getActivity(), "Set a API-Key to start", Toast.LENGTH_SHORT).show();
