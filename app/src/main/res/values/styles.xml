@@ -33,4 +33,13 @@
         <item name="android:padding">7dp</item>
     </style>
 
+    <style name="DescTheme">
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:paddingLeft">4dp</item>
+    </style>
+
+    <style name="DescTheme.Count" parent="DescTheme">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
 </resources>

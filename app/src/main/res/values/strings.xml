@@ -29,7 +29,9 @@
     <string name="main_button_text_send">Send</string>
     <string name="main_button_text_skip">Skip</string>
     <string name="main_edittext_hint_answer">Answer</string>
+
     <string name="main_textview_text_balance">Balance:</string>
+    <string name="main_textview_text_captcha">Captcha ID:</string>
 
     <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer</string>
 

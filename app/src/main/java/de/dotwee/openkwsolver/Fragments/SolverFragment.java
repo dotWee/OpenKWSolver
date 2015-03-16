@@ -52,12 +52,16 @@ public class SolverFragment extends Fragment {
 
 	// main widgets
 	private TextView textViewBalance;
+	private TextView textViewCaptcha;
+
 	private EditText editTextAnswer;
 	private ImageView imageViewCaptcha;
 	private ProgressBar progressBar;
+
 	private Button buttonPull;
 	private Button buttonSkip;
 	private Button buttonSend;
+
 	private Vibrator vibrator;
 	private Thread BalanceUpdate;
 
@@ -116,6 +120,7 @@ public class SolverFragment extends Fragment {
 		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), // needed Context
 				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
 				            2); // 2 = Normal
+		            textViewCaptcha.setText(CaptchaID);
 
 		            // request captcha image
 		            Boolean currentCapt = pullCaptchaPicture(CaptchaID);
@@ -250,8 +255,8 @@ public class SolverFragment extends Fragment {
                         public void run() {
                             if (getView() != null) {
 	                            textViewBalance = (TextView) getView()
-			                            .findViewById(R.id.textViewBalance);
-                                textViewBalance.setText(MainActivity.getBalance(getActivity()));
+			                            .findViewById(R.id.textViewBA);
+	                            textViewBalance.setText(MainActivity.getBalance(getActivity()));
                             }
                         }
                     });

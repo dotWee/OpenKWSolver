@@ -25,6 +25,7 @@
 
         <ListPreference
             android:contentDescription="@string/pref_automation_loop_time_description"
+            android:defaultValue="0"
             android:entries="@array/array_loop_time"
             android:entryValues="@array/array_loop_time_value"
             android:key="pref_automation_loop_time"
