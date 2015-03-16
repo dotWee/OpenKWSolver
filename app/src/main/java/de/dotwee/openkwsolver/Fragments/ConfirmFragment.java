@@ -92,8 +92,9 @@ public class ConfirmFragment extends Fragment {
 
         // start showing balance if network and apikey is available
 	    if (MainActivity.isNetworkAvailable(getActivity())) {
-		    if (!MainActivity.getApiKey(getActivity())
-                    .equals("")) balanceThread();
+		    if (MainActivity.getApiKey(getActivity()) != null) {
+			    balanceThread();
+		    }
         }
 
         buttonOK.setOnClickListener(new View.OnClickListener() {
@@ -204,8 +205,8 @@ public class ConfirmFragment extends Fragment {
                         public void run() {
                             if (getView() != null) {
                                 TextView textViewBalance = (TextView) getView()
-                                        .findViewById(R.id.textViewBalance);
-                                textViewBalance.setText(MainActivity.getBalance(getActivity()));
+		                                .findViewById(R.id.textViewBA);
+	                            textViewBalance.setText(MainActivity.getBalance(getActivity()));
                             }
                         }
                     });
@@ -233,10 +234,8 @@ public class ConfirmFragment extends Fragment {
             try {
 	            Bitmap returnBit = new DownloadImageTask(ImageV).execute(CaptchaPictureURL).get(3000, TimeUnit.MILLISECONDS);
 	            if (returnBit != null) return true; // true = new image
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
-            } catch (TimeoutException e) {
-	            e.printStackTrace();
             }
         }
 

@@ -1,7 +1,12 @@
 <img width="75px" height="75px" src="Icon.png" />  OpenKWSolver
 =================================================================
 
-Light and easy to use mobile [9kw.eu](http://www.9kw.eu/)-Client.
+Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
+
+<a href="https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver">
+  <img alt="Get it on Google Play"
+       src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
+</a>
 
 Using
 -----

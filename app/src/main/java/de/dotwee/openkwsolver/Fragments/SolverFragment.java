@@ -90,6 +90,7 @@ public class SolverFragment extends Fragment {
 	    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 	    imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
 	    imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
+	    textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
 	    editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
         // fix edittext width
