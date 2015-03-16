@@ -52,7 +52,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 						try {
 							if (timeToNextCaptcha != 0) {
 								Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
-								Thread.sleep(timeToNextCaptcha);
+								Thread.sleep(250 + timeToNextCaptcha);
 							}
 							HttpGet httpGet = new HttpGet(inURL);
 							HttpResponse response = mHttpClient.execute(httpGet);
