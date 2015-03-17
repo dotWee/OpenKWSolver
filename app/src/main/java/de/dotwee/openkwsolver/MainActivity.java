@@ -239,7 +239,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+	    viewPager = (ViewPager) findViewById(R.id.viewPager);
 	    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
 	    viewPager.setOffscreenPageLimit(2);
     }

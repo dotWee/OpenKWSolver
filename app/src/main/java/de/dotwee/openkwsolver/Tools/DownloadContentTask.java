@@ -20,13 +20,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.URLUtil;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 
 /**
@@ -37,64 +35,55 @@ import java.util.Arrays;
 public class DownloadContentTask extends AsyncTask<String, Void, String> {
 	private static final String LOG_TAG = "DownloadContentTask";
 
+	@Override
 	protected String doInBackground(String... params) {
 		Log.i(LOG_TAG, "doInBackground: INPUT ARRAY / " + Arrays.toString(params)); // log input array
-		HttpClient mHttpClient = new DefaultHttpClient();
-		String inURL = params[0];
 		String output = "";
 
-		// Action to handle requestCaptchaID
-		if (params.length == 2) {
-			int timeToNextCaptcha = Integer.parseInt(params[1]);
-			if (URLUtil.isValidUrl(params[0])) {
-				try {
+		try {
+			URL inURL = new URL(params[0]);
+
+			// Action to handle requestCaptchaID
+			if (params.length == 2) {
+				int timeToNextCaptcha = Integer.parseInt(params[1]);
+				if (URLUtil.isValidUrl(params[0])) {
 					while (true) {
-						try {
-							if (timeToNextCaptcha != 0) {
-								Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
-								Thread.sleep(250 + timeToNextCaptcha);
-							}
-							HttpGet httpGet = new HttpGet(inURL);
-							HttpResponse response = mHttpClient.execute(httpGet);
-							output = EntityUtils.toString(response.getEntity(), "UTF-8");
-							if (!output.equalsIgnoreCase("")) {
-								Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
-								break;
-							} else {
-								Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						if (timeToNextCaptcha != 0) {
+							Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
+							Thread.sleep(250 + timeToNextCaptcha);
+						}
+
+						URLConnection connection = inURL.openConnection();
+						BufferedReader bufferedReader = new BufferedReader(
+								new InputStreamReader(connection.getInputStream()));
+						output = bufferedReader.readLine();
+						bufferedReader.close();
+
+						if (output != null) {
+							Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
+							break;
+						} else {
+							Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
 						}
 					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
-		}
 
-		// Action to handle everything else
-		else {
-			if (URLUtil.isValidUrl(inURL)) {
-				HttpGet httpGet = new HttpGet(params[0]);
-				HttpResponse response = null;
-
-				try {
-					response = mHttpClient.execute(httpGet);
-					output = EntityUtils.toString(response.getEntity(), "UTF-8");
-				} catch (IOException ignored) {
-				}
+			// Action to handle everything else
+			else {
+				URLConnection connection = inURL.openConnection();
+				BufferedReader bufferedReader = new BufferedReader(
+						new InputStreamReader(connection.getInputStream()));
+				output = bufferedReader.readLine();
+				bufferedReader.close();
 			}
+
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
 		}
+
 
 		Log.i(LOG_TAG, "doInBackground: RETURN / " + output);
 		return output;
 	}
-
-	@Override
-	protected void onPostExecute(String result) {
-		super.onPostExecute(result);
-	}
-
 }
