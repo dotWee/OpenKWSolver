@@ -65,7 +65,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 				}
 				return false;
 
+			case "pref_api_key":
+				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
+				return false;
+
+			default:
+				return false;
 		}
-		return false;
 	}
 }
