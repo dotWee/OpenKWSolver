@@ -120,6 +120,8 @@ public class SolverFragment extends Fragment {
 
 	    // is no api key is set, disable the start button
 	    if (StaticHelpers.getApiKey(getActivity()) == null) {
+		    buttonSkip.setEnabled(false);
+		    buttonSend.setEnabled(false);
 		    buttonPull.setEnabled(false);
 	    }
 

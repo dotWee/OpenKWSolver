@@ -67,6 +67,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
 			case "pref_api_key":
 				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
+				SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
+				SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
 				return false;
 
 			default:
