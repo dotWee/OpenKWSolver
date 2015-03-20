@@ -15,20 +15,15 @@ minSDK: 16 (4.1 Jelly Bean)
 <br>targetSDK: 22 (5.1 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-<br>Latest **stable** release (v1.5) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
+<br>Latest **stable** release (v1.6) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
 
 Checksums
 ---------
 
 <table>
   <tr>
-    <td>md5 (release v1.5)</td>
-    <td><code>37CF2C2EBE940C526F92C5DE8A237D0A</code></td>
-  </tr>
-  
-  <tr>
-    <th>md5 (debug v1.5)</th>
-    <th><code>70351684EF8DA3F3B1CCAF94566A211B</code></th>
+    <td>sha1 (release v1.6)</td>
+    <td><code>39bd6cbd4884fd6cc2846b602284136c2ba9d209</code></td>
   </tr>
 </table>
 
@@ -44,25 +39,6 @@ Used Permissions
 + .ACCESS_NETWORK_STATE to check if network is available
 + .INTERNET to request Captcha and download Image
 + .VIBRATE to signalize the arrivement of a new Captcha
-
-Features
---------
-
-Main
-+ Support for self-only
-+ Support for debug-mode
-
-Automation
-+ Loop-Mode (Auto-pull next captcha)
-+ Loop-Timeout (Useful on slow network)
-+ Auto updating balance
-
-Layout and style
-+ Selectable image size
-+ EXPERIMENTAL Confirm-Solver
-
-Notification
-+ Vibration alert on new captcha
 
 Screenshots
 -----------
@@ -83,6 +59,30 @@ Todo
 + Add Click mode and improve Confirm
 + Loading animation
 + Documentation
+
+Changelog
+---------
+
+Date: 20/03/2015
+> Version v1.6
+<br>+ Preference to enable / disable CaptchaID TextView
+<br>+ Preference for ImageView now updates imminently
+<br>+ Preference to play sound on new Captcha
+<br>+ Disable all buttons if no API-key is set
+<br>+ Skip Captcha as soon as ProgressBar finishes
+<br>+ Removed deprecated apache http API
+<br>+ Removed unstable confirm fragment
+<br>+ Updated license
+
+Date: 16/03/2015
+> Version v1.5
+<br>+ Preference to enable / disable auto-updating balance
+<br>+ Selectable timeouts (useful on slow network)
+<br>+ Textview to display current CaptchaID
+<br>+ Built with latest build-tools (v22)
+<br>+ Reworked main code
+<br>+ Some fixes
+<br>+ A new version number
 
 Found a bug / had a force-close?
 --------------------------------
