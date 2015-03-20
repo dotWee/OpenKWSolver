@@ -19,6 +19,7 @@ package de.dotwee.openkwsolver.Tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -70,6 +71,10 @@ public class StaticHelpers {
 				Log.w(LOG_TAG, "requestCaptchaID: EXCEPTION / " + e);
 				e.printStackTrace();
 			}
+		}
+
+		if (isSoundEnabled(context)) {
+			RingtoneManager.getRingtone(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).play();
 		}
 
 		return CAPTCHA_ID;
@@ -217,6 +222,14 @@ public class StaticHelpers {
 				.getDefaultSharedPreferences(context);
 		Boolean b = prefs.getBoolean("pref_automation_balance", false);
 		Log.i(LOG_TAG, "isAutoBalanceEnabled: RETURN / " + b);
+		return b;
+	}
+
+	public static boolean isSoundEnabled(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		Boolean b = prefs.getBoolean("pref_notification_sound", true);
+		Log.i(LOG_TAG, "isSoundEnabled: RETURN / " + b);
 		return b;
 	}
 

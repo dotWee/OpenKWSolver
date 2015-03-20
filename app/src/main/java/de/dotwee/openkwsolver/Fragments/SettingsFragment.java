@@ -22,7 +22,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import de.dotwee.openkwsolver.R;
 
@@ -42,20 +41,12 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_notification);
         addPreferencesFromResource(R.xml.pref_style);
 
-	    Preference enableConfirm = findPreference("pref_layout_confirm");
-	    enableConfirm.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-		    @Override
-		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    Toast.makeText(getActivity(), "Restart to apply.", Toast.LENGTH_LONG).show();
-			    return false;
-		    }
-	    });
-
 	    Preference enableCaptchaID = findPreference("pref_layout_captchaid");
 	    enableCaptchaID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 		    @Override
 		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    if (newValue == false) {
+			    Log.i(LOG_TAG, "enableCaptchaID PreferenceListener / VALUE: " + newValue.toString());
+			    if (newValue.toString().equalsIgnoreCase("false")) {
 				    SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
 				    SolverFragment.textViewCaptcha.setVisibility(View.GONE);
 			    } else {
