@@ -53,8 +53,9 @@ public class SolverFragment extends Fragment {
 	private Boolean CURRENT_CAPTCHA;
 
 	// main widgets
-	private TextView textViewBalance;
+	private TextView textViewCaptchaDesc;
 	private TextView textViewCaptcha;
+	private TextView textViewBalance;
 
 	private EditText editTextAnswer;
 	private ImageView imageViewCaptcha;
@@ -92,8 +93,15 @@ public class SolverFragment extends Fragment {
 	    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 	    imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
 	    imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
+	    textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
 	    textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
 	    editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
+
+	    // hide captchaid textviews if disabled
+	    if (!MainActivity.isCaptchaIDEnabled(getActivity())) {
+		    textViewCaptchaDesc.setVisibility(View.GONE);
+	    }
+	    textViewCaptcha.setVisibility(View.GONE);
 
         // fix edittext width
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());

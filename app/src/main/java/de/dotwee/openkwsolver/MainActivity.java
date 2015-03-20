@@ -235,6 +235,14 @@ public class MainActivity extends ActionBarActivity {
 		return b;
 	}
 
+	public static boolean isCaptchaIDEnabled(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		Boolean b = prefs.getBoolean("pref_layout_captchaid", false);
+		Log.i(LOG_TAG, "isCaptchaIDEnabled: RETURN / " + b);
+		return b;
+	}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

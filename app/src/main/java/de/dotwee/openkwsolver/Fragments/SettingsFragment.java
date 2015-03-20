@@ -45,11 +45,22 @@ public class SettingsFragment extends PreferenceFragment {
 	    enableConfirm.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 		    @Override
 		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    Toast.makeText(getActivity(), "Restart to reload viewPager.",
-					    Toast.LENGTH_SHORT).show();
+			    notifyChange();
+			    return false;
+		    }
+	    });
 
+	    Preference enableCaptchaID = findPreference("pref_layout_captchaid");
+	    enableCaptchaID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+		    @Override
+		    public boolean onPreferenceChange(Preference preference, Object newValue) {
+			    notifyChange();
 			    return false;
 		    }
 	    });
     }
+
+	private void notifyChange() {
+		Toast.makeText(getActivity(), "Restart to apply settings.", Toast.LENGTH_LONG).show();
+	}
 }

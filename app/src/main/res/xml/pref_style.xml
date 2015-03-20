@@ -30,5 +30,10 @@
             android:key="pref_layout_confirm"
             android:title="Confirm-Solver" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_layout_captchaid"
+            android:title="Display current CaptchaID"/>
+
     </PreferenceCategory>
 </PreferenceScreen>
