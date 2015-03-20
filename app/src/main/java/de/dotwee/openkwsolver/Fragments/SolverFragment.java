@@ -55,15 +55,13 @@ public class SolverFragment extends Fragment {
 	public static TextView textViewCaptchaDesc;
 	public static TextView textViewCaptcha;
 	public static ImageView imageViewCaptcha;
+	public static Button buttonPull;
+	public static Button buttonSkip;
+	public static Button buttonSend;
 	private Boolean CURRENT_CAPTCHA;
 	private TextView textViewBalance;
 	private EditText editTextAnswer;
 	private ProgressBar progressBar;
-
-	private Button buttonPull;
-	private Button buttonSkip;
-	private Button buttonSend;
-
 	private Vibrator vibrator;
 	private Thread BalanceUpdate;
 
