@@ -53,8 +53,8 @@ public class SolverFragment extends Fragment {
 	private Boolean CURRENT_CAPTCHA;
 
 	// main widgets
-	private TextView textViewCaptchaDesc;
-	private TextView textViewCaptcha;
+	public static TextView textViewCaptchaDesc;
+	public static TextView textViewCaptcha;
 	private TextView textViewBalance;
 
 	private EditText editTextAnswer;

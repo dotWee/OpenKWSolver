@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import de.dotwee.openkwsolver.R;
@@ -45,7 +46,7 @@ public class SettingsFragment extends PreferenceFragment {
 	    enableConfirm.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 		    @Override
 		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    notifyChange();
+			    Toast.makeText(getActivity(), "Restart to apply.", Toast.LENGTH_LONG).show();
 			    return false;
 		    }
 	    });
@@ -54,8 +55,13 @@ public class SettingsFragment extends PreferenceFragment {
 	    enableCaptchaID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 		    @Override
 		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    notifyChange();
-			    return false;
+			    if (newValue == false) {
+				    SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
+				    SolverFragment.textViewCaptcha.setVisibility(View.GONE);
+			    } else {
+					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
+				    SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
+			    } return false;
 		    }
 	    });
 
@@ -69,8 +75,4 @@ public class SettingsFragment extends PreferenceFragment {
 		    }
 	    });
     }
-
-	private void notifyChange() {
-		Toast.makeText(getActivity(), "Restart to apply settings.", Toast.LENGTH_LONG).show();
-	}
 }
