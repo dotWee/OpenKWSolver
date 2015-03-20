@@ -30,10 +30,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/**
- * Created by Lukas on 20.03.2015
- * for project OpenKWSolver.
- */
 public class StaticHelpers {
 	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
 	public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
