@@ -40,39 +40,34 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 	    addPreferencesFromResource(R.xml.pref_automation);
         addPreferencesFromResource(R.xml.pref_notification);
         addPreferencesFromResource(R.xml.pref_style);
+
+	    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
+	    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
+	    findPreference("pref_api_key").setOnPreferenceChangeListener(this);
     }
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
+		Log.i(LOG_TAG, "onPreferenceChange / VALUE: " + newValue.toString());
 		String preferenceKey = preference.getKey();
+		Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
+		if (preferenceKey.equalsIgnoreCase("pref_layout_size")) {
+			SolverFragment.imageViewCaptcha.getLayoutParams().height =
+					Integer.parseInt(newValue.toString());
 
-		switch (preferenceKey) {
-			case "pref_layout_size":
-				Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
-				SolverFragment.imageViewCaptcha.getLayoutParams()
-						.height = Integer.parseInt(newValue.toString());
-				return false;
-
-			case "pref_layout_captchaid":
-				Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
-				Log.i(LOG_TAG, "enableCaptchaID PreferenceListener / VALUE: " + newValue.toString());
-				if (newValue.toString().equalsIgnoreCase("false")) {
-					SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
-					SolverFragment.textViewCaptcha.setVisibility(View.GONE);
-				} else {
-					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
-					SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
-				}
-				return false;
-
-			case "pref_api_key":
-				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
-				SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
-				SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
-				return false;
-
-			default:
-				return false;
+		} else if (preferenceKey.equalsIgnoreCase("pref_layout_captchaid")) {
+			if (newValue.toString().equalsIgnoreCase("false")) {
+				SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
+				SolverFragment.textViewCaptcha.setVisibility(View.GONE);
+			} else {
+				SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
+				SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
+			}
+		} else if (preferenceKey.equalsIgnoreCase("pref_api_key")) {
+			SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
+			SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
+			SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
 		}
+		return true;
 	}
 }
