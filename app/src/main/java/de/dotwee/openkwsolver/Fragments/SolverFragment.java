@@ -130,7 +130,7 @@ public class SolverFragment extends Fragment {
 	            Log.i(LOG_TAG, "onClickPull: Click recognized");
 	            if (StaticHelpers.isNetworkAvailable(getActivity())) {
 		            updateBalance();
-		            String CaptchaID = StaticHelpers.requestCaptchaID(getActivity(), // needed Context
+		            final String CaptchaID = StaticHelpers.requestCaptchaID(getActivity(), // needed Context
 				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
 				            2); // 2 = Normal
 		            textViewCaptcha.setText(CaptchaID);
@@ -151,6 +151,7 @@ public class SolverFragment extends Fragment {
 
 			            @Override
 			            public void onFinish() {
+				            StaticHelpers.skipCaptchaByID(getActivity(), CaptchaID);
 			            }
 		            };
 
@@ -182,13 +183,12 @@ public class SolverFragment extends Fragment {
 
 			            CountDownTimer.start();
 			            buttonSend = (Button) view.findViewById(R.id.buttonSend);
-			            final String finalCaptchaID = CaptchaID;
 			            buttonSend.setOnClickListener(new View.OnClickListener() {
 				            @Override
 				            public void onClick(View v1) {
 					            String CaptchaAnswer = editTextAnswer.getText().toString();
 					            if (!CaptchaAnswer.equalsIgnoreCase("")) {
-						            StaticHelpers.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
+						            StaticHelpers.sendCaptchaByID(getActivity(), CaptchaID, CaptchaAnswer, false);
 
 						            CountDownTimer.cancel();
 						            Log.i("OnClickSend", "Timer killed");
