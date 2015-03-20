@@ -50,6 +50,7 @@ public class SolverFragment extends Fragment {
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
 	private static final String LOG_TAG = "SolverFragment";
+
 	// main widgets
 	public static TextView textViewCaptchaDesc;
 	public static TextView textViewCaptcha;
@@ -229,8 +230,8 @@ public class SolverFragment extends Fragment {
             BalanceUpdate.interrupt();
     }
 
-    // Pull Captcha picture and display it
-    public boolean pullCaptchaPicture(String CaptchaID) {
+	// Pull Captcha picture and display it
+	public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
 		        URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(getActivity(), 2) +
 		        "&id=" + CaptchaID + StaticHelpers.getApiKey(getActivity()));

@@ -25,7 +25,7 @@ import android.view.View;
 
 import de.dotwee.openkwsolver.R;
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 	public final static String LOG_TAG = "PreferenceFragment";
 
 	public SettingsFragment() {
@@ -40,30 +40,32 @@ public class SettingsFragment extends PreferenceFragment {
 	    addPreferencesFromResource(R.xml.pref_automation);
         addPreferencesFromResource(R.xml.pref_notification);
         addPreferencesFromResource(R.xml.pref_style);
-
-	    Preference enableCaptchaID = findPreference("pref_layout_captchaid");
-	    enableCaptchaID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-		    @Override
-		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    Log.i(LOG_TAG, "enableCaptchaID PreferenceListener / VALUE: " + newValue.toString());
-			    if (newValue.toString().equalsIgnoreCase("false")) {
-				    SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
-				    SolverFragment.textViewCaptcha.setVisibility(View.GONE);
-			    } else {
-					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
-				    SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
-			    } return false;
-		    }
-	    });
-
-	    Preference layoutImageView = findPreference("pref_layout_size");
-	    layoutImageView.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-		    @Override
-		    public boolean onPreferenceChange(Preference preference, Object newValue) {
-			    SolverFragment.imageViewCaptcha.getLayoutParams()
-					    .height = Integer.parseInt(newValue.toString());
-			    return false;
-		    }
-	    });
     }
+
+	@Override
+	public boolean onPreferenceChange(Preference preference, Object newValue) {
+		String preferenceKey = preference.getKey();
+
+		switch (preferenceKey) {
+			case "pref_layout_size":
+				Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
+				SolverFragment.imageViewCaptcha.getLayoutParams()
+						.height = Integer.parseInt(newValue.toString());
+				return false;
+
+			case "pref_layout_captchaid":
+				Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
+				Log.i(LOG_TAG, "enableCaptchaID PreferenceListener / VALUE: " + newValue.toString());
+				if (newValue.toString().equalsIgnoreCase("false")) {
+					SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
+					SolverFragment.textViewCaptcha.setVisibility(View.GONE);
+				} else {
+					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
+					SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
+				}
+				return false;
+
+		}
+		return false;
+	}
 }
