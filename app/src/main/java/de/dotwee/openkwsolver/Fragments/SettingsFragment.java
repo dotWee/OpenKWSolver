@@ -58,6 +58,16 @@ public class SettingsFragment extends PreferenceFragment {
 			    return false;
 		    }
 	    });
+
+	    Preference layoutImageView = findPreference("pref_layout_size");
+	    layoutImageView.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+		    @Override
+		    public boolean onPreferenceChange(Preference preference, Object newValue) {
+			    SolverFragment.imageViewCaptcha.getLayoutParams()
+					    .height = Integer.parseInt(newValue.toString());
+			    return false;
+		    }
+	    });
     }
 
 	private void notifyChange() {

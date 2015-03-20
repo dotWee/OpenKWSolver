@@ -58,7 +58,7 @@ public class SolverFragment extends Fragment {
 	private TextView textViewBalance;
 
 	private EditText editTextAnswer;
-	private ImageView imageViewCaptcha;
+	public static ImageView imageViewCaptcha;
 	private ProgressBar progressBar;
 
 	private Button buttonPull;
