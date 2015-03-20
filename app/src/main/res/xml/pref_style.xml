@@ -25,12 +25,6 @@
             android:title="Image Size" />
 
         <SwitchPreference
-            android:contentDescription="Enable experimental Confirm-Solver. Not stable yet!"
-            android:defaultValue="false"
-            android:key="pref_layout_confirm"
-            android:title="Confirm-Solver" />
-
-        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_layout_captchaid"
             android:title="Display current CaptchaID"/>

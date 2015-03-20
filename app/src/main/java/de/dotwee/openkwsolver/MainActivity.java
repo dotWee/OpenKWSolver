@@ -39,7 +39,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import de.dotwee.openkwsolver.Fragments.ConfirmFragment;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 import de.dotwee.openkwsolver.Tools.DownloadContentTask;
@@ -203,14 +202,6 @@ public class MainActivity extends ActionBarActivity {
 		return b;
 	}
 
-    public static boolean isConfirmEnabled(Context context) {
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
-	    Boolean b = prefs.getBoolean("pref_layout_confirm", false);
-	    Log.i(LOG_TAG, "isConfirmEnabled: RETURN / " + b);
-	    return b;
-    }
-
 	public static boolean isVibrateEnabled(Context context) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
@@ -284,7 +275,6 @@ public class MainActivity extends ActionBarActivity {
 
 	public class FragmentAdapter extends FragmentPagerAdapter {
 		private static final String LOG_TAG = "FragmentAdapter";
-		private final Boolean pages = isConfirmEnabled(getApplicationContext());
 
 		public FragmentAdapter(FragmentManager fm) {
 			super(fm);
@@ -292,38 +282,28 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int position) {
+			Log.i(LOG_TAG, "getItem / " + position);
 
-	        if (pages) {
-		        if (position == 0) return new SolverFragment();
-                if (position == 1) return new ConfirmFragment();
-                if (position == 2) return new SettingsFragment();
-            } else {
-                if (position == 0) return new SolverFragment();
-                if (position == 1) return new SettingsFragment();
+	        switch (position) {
+		        case 0: return new SolverFragment();
+		        case 1: return new SettingsFragment();
+		        default: return null;
             }
-            return null;
+
         }
 
         @Override
         public int getCount() {
-	        Log.i(LOG_TAG, "getCount: CONFIRM / " + pages);
-
-	        if (pages) {
-		        return 3;
-	        } else return 2;
+	        return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-	        if (pages) {
-		        if (position == 0) return "Solver";
-                if (position == 1) return "Confirm";
-                if (position == 2) return "Settings";
-            } else {
-                if (position == 0) return "Solver";
-                if (position == 1) return "Settings";
-            }
-            return null;
+	        switch (position) {
+		        case 0: return "Solver";
+		        case 1: return "Settings";
+		        default: return null;
+	        }
         }
     }
 }
