@@ -41,24 +41,22 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import de.dotwee.openkwsolver.MainActivity;
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
+import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
 public class SolverFragment extends Fragment {
     public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
     public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
     public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
 	private static final String LOG_TAG = "SolverFragment";
-	private Boolean CURRENT_CAPTCHA;
-
 	// main widgets
 	public static TextView textViewCaptchaDesc;
 	public static TextView textViewCaptcha;
-	private TextView textViewBalance;
-
-	private EditText editTextAnswer;
 	public static ImageView imageViewCaptcha;
+	private Boolean CURRENT_CAPTCHA;
+	private TextView textViewBalance;
+	private EditText editTextAnswer;
 	private ProgressBar progressBar;
 
 	private Button buttonPull;
@@ -98,7 +96,7 @@ public class SolverFragment extends Fragment {
 	    editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
 
 	    // hide captchaid textviews if disabled
-	    if (!MainActivity.isCaptchaIDEnabled(getActivity())) {
+	    if (!StaticHelpers.isCaptchaIDEnabled(getActivity())) {
 		    textViewCaptchaDesc.setVisibility(View.GONE);
 	    }
 	    textViewCaptcha.setVisibility(View.GONE);
@@ -107,9 +105,9 @@ public class SolverFragment extends Fragment {
         editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
 
         // start showing balance if network and apikey is available
-	    if (MainActivity.isNetworkAvailable(getActivity())) {
-		    if (MainActivity.getApiKey(getActivity()) != null) {
-			    if (MainActivity.isAutoBalanceEnabled(getActivity())) {
+	    if (StaticHelpers.isNetworkAvailable(getActivity())) {
+		    if (StaticHelpers.getApiKey(getActivity()) != null) {
+			    if (StaticHelpers.isAutoBalanceEnabled(getActivity())) {
 				    Log.i(LOG_TAG, "onCreated: start balance thread");
 				    balanceThread();
 			    }
@@ -122,7 +120,7 @@ public class SolverFragment extends Fragment {
 	    }
 
 	    // is no api key is set, disable the start button
-	    if (MainActivity.getApiKey(getActivity()) == null) {
+	    if (StaticHelpers.getApiKey(getActivity()) == null) {
 		    buttonPull.setEnabled(false);
 	    }
 
@@ -130,9 +128,9 @@ public class SolverFragment extends Fragment {
             @Override
             public void onClick(View v) {
 	            Log.i(LOG_TAG, "onClickPull: Click recognized");
-	            if (MainActivity.isNetworkAvailable(getActivity())) {
+	            if (StaticHelpers.isNetworkAvailable(getActivity())) {
 		            updateBalance();
-		            String CaptchaID = MainActivity.requestCaptchaID(getActivity(), // needed Context
+		            String CaptchaID = StaticHelpers.requestCaptchaID(getActivity(), // needed Context
 				            prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
 				            2); // 2 = Normal
 		            textViewCaptcha.setText(CaptchaID);
@@ -162,8 +160,8 @@ public class SolverFragment extends Fragment {
 			            public void onClick(View v1) {
 				            Log.i("OnClickSkip", "Click recognized");
 				            editTextAnswer.setText(null);
-				            MainActivity.skipCaptchaByID(
-						            getActivity(), MainActivity.getApiKey(getActivity()));
+				            StaticHelpers.skipCaptchaByID(
+						            getActivity(), StaticHelpers.getApiKey(getActivity()));
 
 				            CountDownTimer.cancel();
 				            progressBar.setProgress(0);
@@ -178,7 +176,7 @@ public class SolverFragment extends Fragment {
 
 
 			            vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-			            if (MainActivity.isVibrateEnabled(getActivity())) {
+			            if (StaticHelpers.isVibrateEnabled(getActivity())) {
 				            vibrator.vibrate(500);
 			            }
 
@@ -190,7 +188,7 @@ public class SolverFragment extends Fragment {
 				            public void onClick(View v1) {
 					            String CaptchaAnswer = editTextAnswer.getText().toString();
 					            if (!CaptchaAnswer.equalsIgnoreCase("")) {
-						            MainActivity.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
+						            StaticHelpers.sendCaptchaByID(getActivity(), finalCaptchaID, CaptchaAnswer, false);
 
 						            CountDownTimer.cancel();
 						            Log.i("OnClickSend", "Timer killed");
@@ -199,7 +197,7 @@ public class SolverFragment extends Fragment {
 						            imageViewCaptcha.setImageDrawable(null);
 						            editTextAnswer.setText(null);
 
-						            if (MainActivity.isLoopEnabled(getActivity())) {
+						            if (StaticHelpers.isLoopEnabled(getActivity())) {
 							            Log.i("OnClickSend", "Loop-Mode");
 							            buttonPull.performClick();
 						            } else {
@@ -234,8 +232,8 @@ public class SolverFragment extends Fragment {
     // Pull Captcha picture and display it
     public boolean pullCaptchaPicture(String CaptchaID) {
         String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
-		        URL_PARAMETER_SOURCE + MainActivity.getExternalParameter(getActivity(), 2) +
-		        "&id=" + CaptchaID + MainActivity.getApiKey(getActivity()));
+		        URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(getActivity(), 2) +
+		        "&id=" + CaptchaID + StaticHelpers.getApiKey(getActivity()));
 
         Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
         if (getView() != null) {
@@ -255,7 +253,7 @@ public class SolverFragment extends Fragment {
 	public void updateBalance() {
 		if (getView() != null) {
 			textViewBalance = (TextView) getView().findViewById(R.id.textViewBA);
-			textViewBalance.setText(MainActivity.getBalance(getActivity()));
+			textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
 		}
 	}
 
@@ -277,7 +275,7 @@ public class SolverFragment extends Fragment {
                             if (getView() != null) {
 	                            textViewBalance = (TextView) getView()
 			                            .findViewById(R.id.textViewBA);
-	                            textViewBalance.setText(MainActivity.getBalance(getActivity()));
+	                            textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
                             }
                         }
                     });
