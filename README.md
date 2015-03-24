@@ -99,7 +99,7 @@ Date: 16/03/2015
 Found a bug / had a force-close?
 --------------------------------
 
-Open a new Issue and provide a logcat.
+Feel free to open a new Issue and please provide a logcat.
 
 Dependencies
 ------------
