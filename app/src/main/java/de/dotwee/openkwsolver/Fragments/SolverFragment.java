@@ -233,8 +233,12 @@ public class SolverFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-        if (BalanceUpdate.isAlive())
-            BalanceUpdate.interrupt();
+	    if (BalanceUpdate != null) {
+		    if (BalanceUpdate.isAlive()) {
+			    BalanceUpdate.interrupt();
+		    }
+	    }
+
     }
 
 	// Pull Captcha picture and display it
