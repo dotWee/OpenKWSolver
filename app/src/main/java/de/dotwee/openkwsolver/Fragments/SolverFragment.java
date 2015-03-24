@@ -87,12 +87,17 @@ public class SolverFragment extends Fragment {
 
         // declare main widgets
 	    buttonPull = (Button) view.findViewById(R.id.buttonPull);
-	    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-	    imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-	    imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
+	    buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+	    buttonSend = (Button) view.findViewById(R.id.buttonSend);
+
 	    textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
 	    textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
+
+	    imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+	    imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
+
 	    editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
+	    progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 	    // hide captchaid textviews if disabled
 	    if (!StaticHelpers.isCaptchaIDEnabled(getActivity())) {
@@ -120,9 +125,11 @@ public class SolverFragment extends Fragment {
 
 	    // is no api key is set, disable the start button
 	    if (StaticHelpers.getApiKey(getActivity()) == null) {
-		    buttonSkip.setEnabled(false);
-		    buttonSend.setEnabled(false);
-		    buttonPull.setEnabled(false);
+		    if (getView() != null) {
+			    buttonSkip.setEnabled(false);
+			    buttonSend.setEnabled(false);
+			    buttonPull.setEnabled(false);
+		    }
 	    }
 
         buttonPull.setOnClickListener(new View.OnClickListener() {
