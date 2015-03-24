@@ -15,15 +15,15 @@ minSDK: 16 (4.1 Jelly Bean)
 <br>targetSDK: 22 (5.1 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-<br>Latest **stable** release (v1.6) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
+<br>Latest **stable** release (v1.6.1) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
 
 Checksums
 ---------
 
 <table>
   <tr>
-    <td>sha1 (release v1.6)</td>
-    <td><code>39bd6cbd4884fd6cc2846b602284136c2ba9d209</code></td>
+    <td>sha1 (release v1.6.1)</td>
+    <td><code>541eb568fc44cc15c1a463e2cb4eeb166bb50a54</code></td>
   </tr>
 </table>
 
@@ -62,6 +62,11 @@ Todo
 
 Changelog
 ---------
+
+Date: 24/03/2015
+> Version v1.6.1 (Fast-fix)
+<br>+ Fix: Prevent NullPointerException (Force-close) because of unitialized widgets
+<br>+ Fix: Prevent Force-close on application exit
 
 Date: 20/03/2015
 > Version v1.6
