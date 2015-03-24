@@ -3,6 +3,13 @@
 
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
 
+<img src="http://img.shields.io/github/issues/dotWee/OpenKWSolver.svg" />
+<img src="http://img.shields.io/github/forks/dotWee/OpenKWSolver.svg" />
+
+<img src="http://img.shields.io/badge/code-java-red.svg" />
+<img src="http://img.shields.io/badge/license-WTFPL%2F2.0-blue.svg" />
+<img src="http://img.shields.io/badge/release-1.6.1-lightgrey.svg" />
+
 <a href="https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver">
   <img alt="Get it on Google Play"
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
