@@ -17,15 +17,19 @@
 
 package de.dotwee.openkwsolver.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
 
 import de.dotwee.openkwsolver.R;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
 	public final static String LOG_TAG = "PreferenceFragment";
 
 	public SettingsFragment() {
@@ -40,10 +44,16 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 	    addPreferencesFromResource(R.xml.pref_automation);
         addPreferencesFromResource(R.xml.pref_notification);
         addPreferencesFromResource(R.xml.pref_style);
+	    addPreferencesFromResource(R.xml.pref_about);
+
 
 	    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
 	    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
 	    findPreference("pref_api_key").setOnPreferenceChangeListener(this);
+
+	    findPreference("pref_about_issue").setOnPreferenceClickListener(this);
+	    findPreference("pref_about_github").setOnPreferenceClickListener(this);
+	    findPreference("pref_about_mail").setOnPreferenceClickListener(this);
     }
 
 	@Override
@@ -69,5 +79,26 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 			SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
 		}
 		return true;
+	}
+
+	@Override
+	public boolean onPreferenceClick(Preference preference) {
+		Log.i(LOG_TAG, "onPreferenceClick / ITEM: " + preference.getKey());
+		String intentUri;
+
+		if (preference == getPreferenceScreen().findPreference("pref_about_issue")) {
+			intentUri = "https://github.com/dotWee/OpenKWSolver/issues/new";
+		} else if (preference == getPreferenceScreen().findPreference("pref_about_github")) {
+			intentUri = "https://github.com/dotWee/OpenKWSolver";
+		} else if (preference == getPreferenceScreen().findPreference("pref_about_mail")) {
+			intentUri = "mailto:coding@dotwee.de";
+		} else {
+			intentUri = null;
+		}
+
+		Intent linkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
+		startActivity(linkIntent);
+		getActivity().finish();
+		return false;
 	}
 }
