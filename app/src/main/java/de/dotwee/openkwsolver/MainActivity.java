@@ -27,7 +27,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
@@ -76,35 +75,6 @@ public class MainActivity extends ActionBarActivity {
 	    viewPager = (ViewPager) findViewById(R.id.viewPager);
 	    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
 	    viewPager.setOffscreenPageLimit(2);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem linkItem = menu.add("Source");
-        linkItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        linkItem.setIcon(R.drawable.ic_bookmark_outline_white_36dp);
-        linkItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent linkIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/dotWee/OpenKWSolver"));
-                startActivity(linkIntent);
-                finish();
-                return false;
-            }
-        });
-
-        MenuItem exitItem = menu.add("Exit");
-        exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
-                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        System.exit(0);
-                        return true;
-                    }
-                });
-        return true;
     }
 
 	public class FragmentAdapter extends FragmentPagerAdapter {

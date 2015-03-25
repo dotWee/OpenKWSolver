@@ -65,11 +65,6 @@ public class SolverFragment extends Fragment {
 	private Vibrator vibrator;
 	private Thread BalanceUpdate;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
