@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,12 +35,43 @@ import de.dotwee.openkwsolver.Fragments.SolverFragment;
 
 public class MainActivity extends ActionBarActivity {
 	private static final String LOG_TAG = "MainActivity";
+	public Toolbar toolbar;
 	ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+	    toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+
+	    toolbar.setLogo(R.mipmap.ic_launcher);
+	    toolbar.setTitle(getResources().getString(R.string.app_name));
+
+	    toolbar.inflateMenu(R.menu.menu_global);
+	    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+		    @Override
+		    public boolean onMenuItemClick(MenuItem menuItem) {
+			    int intOfMenuItem = menuItem.getItemId();
+			    switch (intOfMenuItem) {
+
+				    case R.id.menu_source:
+					    Intent linkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver"));
+					    startActivity(linkIntent);
+					    finish();
+					    break;
+
+				    case R.id.menu_exit:
+					    System.exit(0);
+					    break;
+
+				    default:
+					    break;
+			    }
+
+			    return false;
+		    }
+	    });
 
 	    viewPager = (ViewPager) findViewById(R.id.viewPager);
 	    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));

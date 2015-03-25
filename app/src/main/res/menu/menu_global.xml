@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
   ~                     Version 2, December 2004
   ~
@@ -15,17 +16,19 @@
   ~
   -->
 
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <item
+        android:id="@+id/menu_source"
+        android:icon="@drawable/ic_bookmark_outline_white_36dp"
+        android:title="Source"
+        app:showAsAction="always"/>
 
-        <!-- Main theme colors -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
+    <item
+        android:id="@+id/menu_exit"
+        android:icon="@drawable/ic_close_circle_outline_white_36dp"
+        android:title="Exit"
+        app:showAsAction="always"/>
 
-        <item name="android:navigationBarColor">@color/primary_dark</item>
-    </style>
-
-</resources>
+</menu>
