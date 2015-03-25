@@ -43,7 +43,8 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 			if (params.length == 2) {
 				int timeToNextCaptcha = Integer.parseInt(params[1]);
 				if (URLUtil.isValidUrl(params[0])) {
-					while (true) {
+					boolean isCaptchaID = false;
+					while (!isCaptchaID) {
 						if (timeToNextCaptcha != 0) {
 							Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
 							Thread.sleep(250 + timeToNextCaptcha);
@@ -57,6 +58,7 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 
 						if (output != null) {
 							Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
+							isCaptchaID = true;
 							break;
 						} else {
 							Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
