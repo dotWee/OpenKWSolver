@@ -49,15 +49,9 @@ public class MainActivity extends ActionBarActivity {
 	    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 		    @Override
 		    public boolean onMenuItemClick(MenuItem menuItem) {
-			    int intOfMenuItem = menuItem.getItemId();
-			    switch (intOfMenuItem) {
-
+			    switch (menuItem.getItemId()) {
 				    case R.id.menu_exit:
 					    System.exit(0);
-					    break;
-
-				    default:
-					    break;
 			    }
 
 			    return false;
