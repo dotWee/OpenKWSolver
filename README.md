@@ -70,6 +70,13 @@ Todo
 Changelog
 ---------
 
+Date:
+> Version v1.7
+<br>+ Improvement: Loop-Mode
+<br>+ Minor: Use latest build-tools
+<br>+ Preferences: New About category
+<br>+ Layout: Use Toolbar instead of ActionBar
+
 Date: 24/03/2015
 > Version v1.6.1 (Fast-fix)
 <br>+ Fix: Prevent NullPointerException (Force-close) because of unitialized widgets
