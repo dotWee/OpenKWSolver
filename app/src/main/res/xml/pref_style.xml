@@ -25,7 +25,7 @@
             android:title="Image Size" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="pref_layout_captchaid"
             android:title="Display current CaptchaID"/>
 
