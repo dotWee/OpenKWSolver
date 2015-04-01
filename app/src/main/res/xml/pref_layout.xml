@@ -19,15 +19,15 @@
     <PreferenceCategory android:title="Layout and Style">
 
         <ListPreference
-            android:entries="@array/array_style_size"
-            android:entryValues="@array/array_style_size_value"
+            android:entries="@array/array_layout_size"
+            android:entryValues="@array/array_layout_size_value"
             android:key="pref_layout_size"
-            android:title="Image Size" />
+            android:title="@string/pref_layout_captcha_size_title"/>
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="pref_layout_captchaid"
-            android:title="Display current CaptchaID"/>
+            android:title="@string/pref_layout_captcha_id_title"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

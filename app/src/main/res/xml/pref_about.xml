@@ -22,15 +22,15 @@
 
         <Preference
             android:key="pref_about_github"
-            android:title="Sourcecode"/>
+            android:title="@string/pref_about_github_title"/>
 
         <Preference
             android:key="pref_about_issue"
-            android:title="Report issue"/>
+            android:title="@string/pref_about_issue_title"/>
 
         <Preference
             android:key="pref_about_mail"
-            android:title="E-Mail the Developer"/>
+            android:title="@string/pref_about_mail_title"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

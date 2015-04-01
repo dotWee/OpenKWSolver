@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string-array name="array_style_size">
+    <string-array name="array_layout_size">
         <item>very small: 150dp</item>
         <item>small: 220dp</item>
         <item>medium: 300dp</item>
@@ -25,7 +25,7 @@
         <item>very large: 400dp</item>
     </string-array>
 
-    <string-array name="array_style_size_value">
+    <string-array name="array_layout_size_value">
         <item>150</item>
         <item>220</item>
         <item>300</item>
