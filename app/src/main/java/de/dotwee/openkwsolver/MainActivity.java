@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
 		    }
 	    });
 
-	    if (!getResources().getBoolean(R.bool.isTablet)) {
+	    if (getResources().getBoolean(R.bool.isTablet) != true) {
 		    viewPager = (ViewPager) findViewById(R.id.viewPager);
 		    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
 		    viewPager.setOffscreenPageLimit(2);

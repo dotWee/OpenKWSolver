@@ -43,14 +43,16 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 	    addPreferencesFromResource(R.xml.pref_api);
 	    addPreferencesFromResource(R.xml.pref_automation);
         addPreferencesFromResource(R.xml.pref_notification);
-        addPreferencesFromResource(R.xml.pref_style);
+
 	    addPreferencesFromResource(R.xml.pref_about);
 
+	    if (getResources().getBoolean(R.bool.isTablet) != true) {
+		    addPreferencesFromResource(R.xml.pref_style);
+		    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
+		    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
+	    }
 
-	    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
-	    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
 	    findPreference("pref_api_key").setOnPreferenceChangeListener(this);
-
 	    findPreference("pref_about_issue").setOnPreferenceClickListener(this);
 	    findPreference("pref_about_github").setOnPreferenceClickListener(this);
 	    findPreference("pref_about_mail").setOnPreferenceClickListener(this);

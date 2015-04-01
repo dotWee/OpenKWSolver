@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+  ~                     Version 2, December 2004
+  ~
+  ~  Copyright (C) 2015 Lukas "dotwee" Wolfsteiner <lukas@wolfsteiner.de>
+  ~
+  ~  Everyone is permitted to copy and distribute verbatim or modified
+  ~  copies of this license document, and changing it is allowed as long
+  ~  as the name is changed.
+  ~
+  ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+  ~    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+  ~
+  ~   0. You just DO WHAT THE FUCK YOU WANT TO.
+  ~
+  -->
+
+<resources>
+
+    <string-array name="array_style_size">
+        <item>very small: 340dp</item>
+        <item>small: 400dp</item>
+        <item>medium: 440dp</item>
+        <item>large: 500dp</item>
+        <item>very large: 600dp</item>
+    </string-array>
+
+    <string-array name="array_style_size_value">
+        <item>340</item>
+        <item>400</item>
+        <item>440</item>
+        <item>500</item>
+        <item>600</item>
+    </string-array>
+
+    <string-array name="array_loop_time">
+        <item>Instantly</item>
+        <item>2 Seconds</item>
+        <item>5 Seconds</item>
+    </string-array>
+
+    <string-array name="array_loop_time_value">
+        <item>0</item>
+        <item>2000</item>
+        <item>5000</item>
+    </string-array>
+
+</resources>
