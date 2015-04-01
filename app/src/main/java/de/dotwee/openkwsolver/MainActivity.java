@@ -41,7 +41,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 	    toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-
 	    toolbar.setLogo(R.mipmap.ic_launcher);
 	    toolbar.setTitle(getResources().getString(R.string.app_name));
 
@@ -58,9 +57,12 @@ public class MainActivity extends ActionBarActivity {
 		    }
 	    });
 
-	    viewPager = (ViewPager) findViewById(R.id.viewPager);
-	    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
-	    viewPager.setOffscreenPageLimit(2);
+	    if (!getResources().getBoolean(R.bool.isTablet)) {
+		    viewPager = (ViewPager) findViewById(R.id.viewPager);
+		    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
+		    viewPager.setOffscreenPageLimit(2);
+	    }
+
     }
 
 	public class FragmentAdapter extends FragmentPagerAdapter {
