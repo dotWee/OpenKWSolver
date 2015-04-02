@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
   ~                     Version 2, December 2004
@@ -16,11 +17,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
@@ -33,15 +34,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/viewPagerStrip"
-            style="@style/TabTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
