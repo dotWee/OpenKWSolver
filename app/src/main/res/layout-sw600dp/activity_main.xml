@@ -22,18 +22,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_main"
-        style="@style/ToolbarTheme"
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar_main"/>
+
+    <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_height="5dp"
+        android:layout_alignBottom="@+id/include"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"/>
+        android:background="@drawable/bg_dropshadow"/>
+
 
     <fragment
         android:id="@+id/fragmentSettings"
@@ -43,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/toolbar_main"
+        android:layout_below="@+id/view"
         tools:layout="@android:layout/preference_category"/>
 
     <fragment
@@ -54,8 +55,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar_main"
-        android:layout_margin="17dp"
+        android:layout_below="@+id/view"
+        android:layout_marginBottom="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_toLeftOf="@+id/fragmentSettings"
         tools:layout="@layout/fragment_solver"/>
 

@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
 	    toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 	    toolbar.setLogo(R.mipmap.ic_launcher);
-	    toolbar.setTitle(getResources().getString(R.string.app_name));
+	    toolbar.setTitle("  " + getResources().getString(R.string.app_name));
 
 	    toolbar.inflateMenu(R.menu.menu_global);
 	    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {

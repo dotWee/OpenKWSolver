@@ -22,13 +22,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_main"
-        style="@style/ToolbarTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"/>
+    <include layout="@layout/toolbar_main"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
