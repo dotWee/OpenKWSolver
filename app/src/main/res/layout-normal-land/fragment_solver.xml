@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+  ~                     Version 2, December 2004
+  ~
+  ~  Copyright (C) 2015 Lukas "dotwee" Wolfsteiner <lukas@wolfsteiner.de>
+  ~
+  ~  Everyone is permitted to copy and distribute verbatim or modified
+  ~  copies of this license document, and changing it is allowed as long
+  ~  as the name is changed.
+  ~
+  ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+  ~    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+  ~
+  ~   0. You just DO WHAT THE FUCK YOU WANT TO.
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/imageViewCaptcha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:minHeight="340dp"
+        android:minWidth="340dp"/>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_toRightOf="@+id/imageViewCaptcha"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/editTextAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_span="3"
+                android:hint="@string/main_edittext_hint_answer"
+                android:inputType="textVisiblePassword"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:id="@+id/buttonPull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="@string/main_button_text_start"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_column="1"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toEndOf="@+id/imageViewCaptcha"
+                android:layout_toRightOf="@+id/imageViewCaptcha"/>
+
+            <Button
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="@string/main_button_text_send"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tableLayout"
+        android:layout_toEndOf="@+id/imageViewCaptcha"
+        android:layout_toRightOf="@+id/imageViewCaptcha">
+
+        <TextView
+            android:id="@+id/textViewDescID"
+            style="@style/DescTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:text="@string/main_textview_text_captcha"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textViewDescBA"
+            style="@style/DescTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:text="@string/main_textview_text_balance"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/buttonSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:text="@string/main_button_text_skip"/>
+
+        <TextView
+            android:id="@+id/textViewID"
+            style="@style/DescTheme.Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_marginLeft="5dp"
+            android:layout_row="0"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textViewBA"
+            style="@style/DescTheme.Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_marginLeft="5dp"
+            android:layout_row="1"
+            android:visibility="gone"/>
+    </GridLayout>
+
+</RelativeLayout>

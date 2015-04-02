@@ -18,5 +18,5 @@
 
 <resources>
     <bool name="isTablet">false</bool>
-    <bool name="isLandscape">false</bool>
+    <bool name="isLandscape">true</bool>
 </resources>

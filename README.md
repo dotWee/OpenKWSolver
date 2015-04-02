@@ -73,8 +73,10 @@ Changelog
 Date:
 > Version v1.7
 <br>+ Improvement: Loop-Mode
+<br>+ Improvement: Cleaned menu
 <br>+ Minor: Use latest build-tools
 <br>+ Preferences: New About category
+<br>+ Layout: Tablet & landscape layout
 <br>+ Layout: Use Toolbar instead of ActionBar
 
 Date: 24/03/2015

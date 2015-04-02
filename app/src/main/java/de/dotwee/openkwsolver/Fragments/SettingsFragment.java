@@ -46,7 +46,11 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 
 	    addPreferencesFromResource(R.xml.pref_about);
 
-	    if (getResources().getBoolean(R.bool.isTablet) != true) {
+	    if (!getResources().getBoolean(R.bool.isTablet)) {
+		    addPreferencesFromResource(R.xml.pref_layout);
+		    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
+		    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
+	    } else if (!getResources().getBoolean(R.bool.isLandscape)) {
 		    addPreferencesFromResource(R.xml.pref_layout);
 		    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
 		    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
