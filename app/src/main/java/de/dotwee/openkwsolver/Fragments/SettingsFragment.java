@@ -27,10 +27,13 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import de.dotwee.openkwsolver.R;
 
 public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
 	public final static String LOG_TAG = "PreferenceFragment";
+	private ArrayList<Preference> preferencesClickList;
 
 	public SettingsFragment() {
 
@@ -40,26 +43,10 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 	    Log.i(LOG_TAG, "onCreate");
-	    addPreferencesFromResource(R.xml.pref_api);
-	    addPreferencesFromResource(R.xml.pref_automation);
-        addPreferencesFromResource(R.xml.pref_notification);
-
-	    addPreferencesFromResource(R.xml.pref_about);
-
-	    if (!getResources().getBoolean(R.bool.isTablet)) {
-		    addPreferencesFromResource(R.xml.pref_layout);
-		    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
-		    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
-	    } else if (!getResources().getBoolean(R.bool.isLandscape)) {
-		    addPreferencesFromResource(R.xml.pref_layout);
-		    findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
-		    findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
+		setPreferencesView();
+	    for (final Preference preference : preferencesClickList()) {
+		    preference.setOnPreferenceClickListener(this);
 	    }
-
-	    findPreference("pref_api_key").setOnPreferenceChangeListener(this);
-	    findPreference("pref_about_issue").setOnPreferenceClickListener(this);
-	    findPreference("pref_about_github").setOnPreferenceClickListener(this);
-	    findPreference("pref_about_mail").setOnPreferenceClickListener(this);
     }
 
 	@Override
@@ -67,44 +54,62 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		Log.i(LOG_TAG, "onPreferenceChange / VALUE: " + newValue.toString());
 		String preferenceKey = preference.getKey();
 		Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
-		if (preferenceKey.equalsIgnoreCase("pref_layout_size")) {
-			SolverFragment.imageViewCaptcha.getLayoutParams().height =
-					Integer.parseInt(newValue.toString());
 
-		} else if (preferenceKey.equalsIgnoreCase("pref_layout_captchaid")) {
-			if (newValue.toString().equalsIgnoreCase("false")) {
-				SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
-				SolverFragment.textViewCaptcha.setVisibility(View.GONE);
-			} else {
-				SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
-				SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
-			}
-		} else if (preferenceKey.equalsIgnoreCase("pref_api_key")) {
-			SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
-			SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
-			SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
+		switch (preferenceKey) {
+			case "pref_layout_size":
+				SolverFragment.imageViewCaptcha.getLayoutParams().height = Integer.parseInt(newValue.toString());
+
+			case "pref_layout_captchaid":
+				if (newValue.toString().equalsIgnoreCase("false")) {
+					SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);
+					SolverFragment.textViewCaptcha.setVisibility(View.GONE);
+				} else {
+					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
+					SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
+				}
+
+			case "pref_api_key":
+				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
+				SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
+				SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
 		}
+
 		return true;
 	}
 
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 		Log.i(LOG_TAG, "onPreferenceClick / ITEM: " + preference.getKey());
-		String intentUri;
 
-		if (preference == getPreferenceScreen().findPreference("pref_about_issue")) {
-			intentUri = "https://github.com/dotWee/OpenKWSolver/issues/new";
-		} else if (preference == getPreferenceScreen().findPreference("pref_about_github")) {
-			intentUri = "https://github.com/dotWee/OpenKWSolver";
-		} else if (preference == getPreferenceScreen().findPreference("pref_about_mail")) {
-			intentUri = "mailto:coding@dotwee.de";
-		} else {
-			intentUri = null;
-		}
+		switch (preference.getKey()) {
+			case "pref_about_issue": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver/issues/new")));
+			case "pref_about_github": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
+			case "pref_about_mail": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:coding@dotwee.de")));
+		} getActivity().finish();
 
-		Intent linkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intentUri));
-		startActivity(linkIntent);
-		getActivity().finish();
 		return false;
+	}
+
+	private ArrayList<Preference> preferencesClickList() {
+		preferencesClickList = new ArrayList<>();
+		preferencesClickList.add(findPreference("pref_api_key"));
+		preferencesClickList.add(findPreference("pref_about_issue"));
+		preferencesClickList.add(findPreference("pref_about_github"));
+		preferencesClickList.add(findPreference("pref_about_mail"));
+		return preferencesClickList;
+	}
+
+	private void setPreferencesView() {
+		addPreferencesFromResource(R.xml.pref_api);
+		addPreferencesFromResource(R.xml.pref_automation);
+		addPreferencesFromResource(R.xml.pref_notification);
+		addPreferencesFromResource(R.xml.pref_about);
+
+		// check if tablet or landscape
+		if (!getResources().getBoolean(R.bool.isTablet) || !getResources().getBoolean(R.bool.isLandscape)) {
+			addPreferencesFromResource(R.xml.pref_layout);
+			findPreference("pref_layout_size").setOnPreferenceChangeListener(this);
+			findPreference("pref_layout_captchaid").setOnPreferenceChangeListener(this);
+		}
 	}
 }
