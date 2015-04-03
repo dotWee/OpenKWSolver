@@ -18,7 +18,7 @@
 <resources>
 
     <!-- inherit from the material theme -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
 
         <!-- Main theme colors -->
         <item name="colorPrimary">@color/primary</item>

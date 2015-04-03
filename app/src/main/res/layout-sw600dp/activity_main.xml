@@ -22,20 +22,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/toolbar_main"/>
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_alignBottom="@+id/include"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/bg_dropshadow"/>
-
-
     <fragment
         android:id="@+id/fragmentSettings"
         android:name="de.dotwee.openkwsolver.Fragments.SettingsFragment"
@@ -44,18 +30,18 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/view"
+        android:layout_alignParentTop="true"
         tools:layout="@android:layout/preference_category"/>
 
     <fragment
         android:id="@+id/fragmentSolver"
         android:name="de.dotwee.openkwsolver.Fragments.SolverFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/view"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="17dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"

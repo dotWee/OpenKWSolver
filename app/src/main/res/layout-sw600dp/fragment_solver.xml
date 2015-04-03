@@ -29,6 +29,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
+        android:contentDescription="Captcha"
         android:minHeight="340dp"
         android:minWidth="340dp"/>
 
@@ -55,12 +56,6 @@
                 android:layout_span="3"
                 android:hint="@string/main_edittext_hint_answer"
                 android:inputType="textVisiblePassword"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
         </TableRow>
 
         <TableRow

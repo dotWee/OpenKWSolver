@@ -79,7 +79,6 @@ Date: (unpublished, in work)
 <br>+ Preferences: New About category
 <br>+ Layout: Display CaptchaID by default
 <br>+ Layout: New Tablet & landscape layout
-<br>+ Layout: Replace ActionBar with toolbar
 
 Date: 24/03/2015
 > Version v1.6.1 (Fast-fix)
