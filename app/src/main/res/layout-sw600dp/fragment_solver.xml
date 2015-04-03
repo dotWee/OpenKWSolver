@@ -55,7 +55,8 @@
                 android:layout_column="0"
                 android:layout_span="3"
                 android:hint="@string/main_edittext_hint_answer"
-                android:inputType="textVisiblePassword"/>
+                android:inputType="textVisiblePassword"
+                android:singleLine="true"/>
         </TableRow>
 
         <TableRow
