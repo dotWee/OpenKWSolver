@@ -70,14 +70,16 @@ Todo
 Changelog
 ---------
 
-Date:
+Date: (unpublished, in work)
 > Version v1.7
 <br>+ Improvement: Loop-Mode
 <br>+ Improvement: Cleaned menu
+<br>+ Improvement: First-use code
 <br>+ Minor: Use latest build-tools
 <br>+ Preferences: New About category
-<br>+ Layout: Tablet & landscape layout
-<br>+ Layout: Use Toolbar instead of ActionBar
+<br>+ Layout: Display CaptchaID by default
+<br>+ Layout: New Tablet & landscape layout
+<br>+ Layout: Replace ActionBar with toolbar
 
 Date: 24/03/2015
 > Version v1.6.1 (Fast-fix)
