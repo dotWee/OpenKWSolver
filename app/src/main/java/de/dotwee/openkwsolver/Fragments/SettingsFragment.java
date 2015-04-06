@@ -82,10 +82,18 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		Log.i(LOG_TAG, "onPreferenceClick / ITEM: " + preference.getKey());
 
 		switch (preference.getKey()) {
-			case "pref_about_issue": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver/issues/new")));
-			case "pref_about_github": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
-			case "pref_about_mail": startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:coding@dotwee.de")));
-		} getActivity().finish();
+			case "pref_about_issue":
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver/issues/new")));
+				getActivity().finish();
+
+			case "pref_about_github":
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
+				getActivity().finish();
+
+			case "pref_about_mail":
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:coding@dotwee.de")));
+				getActivity().finish();
+		}
 
 		return false;
 	}
