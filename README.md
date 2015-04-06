@@ -4,8 +4,6 @@
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
 
 <img src="http://img.shields.io/github/issues/dotWee/OpenKWSolver.svg" />
-<img src="http://img.shields.io/github/forks/dotWee/OpenKWSolver.svg" />
-
 <img src="http://img.shields.io/badge/code-java-red.svg" />
 <img src="http://img.shields.io/badge/license-WTFPL%2F2.0-blue.svg" />
 <img src="http://img.shields.io/badge/release-1.6.1-lightgrey.svg" />
@@ -22,15 +20,15 @@ minSDK: 16 (4.1 Jelly Bean)
 <br>targetSDK: 22 (5.1 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
-<br>Latest **stable** release (v1.6.1) is available on the Google Play Store [here](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
+<br>Latest **stable** release (v1.7) is available on the [Google Play Store](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
 
 Checksums
 ---------
 
 <table>
   <tr>
-    <td>sha1 (release v1.6.1)</td>
-    <td><code>541eb568fc44cc15c1a463e2cb4eeb166bb50a54</code></td>
+    <td>sha1 (release v1.7)</td>
+    <td><code>a76a82f2b8359443683237d3baaaf9650b20aace</code></td>
   </tr>
 </table>
 
@@ -43,8 +41,8 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 Used Permissions
 ----------------
 
-+ .ACCESS_NETWORK_STATE to check if network is available
 + .INTERNET to request Captcha and download Image
++ .ACCESS_NETWORK_STATE to check if network is available
 + .VIBRATE to signalize the arrivement of a new Captcha
 
 Screenshots
@@ -55,6 +53,7 @@ Screenshots
         <td><img width="200px" src="art/ScreenshotNormal.png" /></td>
         <td><img width="200px" src="art/ScreenshotWithCaptcha.png" /></td>
         <td><img width="200px" src="art/ScreenshotSettings.png" /></td>
+        <td><img width="200px" src="art/ScreenshotTablet.png" /></td>
     </tr>
 </table>
 
@@ -70,13 +69,13 @@ Todo
 Changelog
 ---------
 
-Date: (unpublished, in work)
+Date: (06/04/2015)
 > Version v1.7
 <br>+ Improvement: Loop-Mode
 <br>+ Improvement: Cleaned menu
 <br>+ Improvement: First-use code
-<br>+ Minor: Use latest build-tools
 <br>+ Preferences: New About category
+<br>+ Minor: Built with latest build-tools
 <br>+ Layout: Display CaptchaID by default
 <br>+ Layout: New Tablet & landscape layout
 
@@ -88,7 +87,7 @@ Date: 24/03/2015
 Date: 20/03/2015
 > Version v1.6
 <br>+ Preference to enable / disable CaptchaID TextView
-<br>+ Preference for ImageView now updates imminently
+<br>+ Preference for ImageView now updates immediately
 <br>+ Preference to play sound on new Captcha
 <br>+ Disable all buttons if no API-key is set
 <br>+ Skip Captcha as soon as ProgressBar finishes
