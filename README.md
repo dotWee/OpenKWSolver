@@ -6,24 +6,21 @@ Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Des
 <img src="http://img.shields.io/github/issues/dotWee/OpenKWSolver.svg" />
 <img src="http://img.shields.io/badge/code-java-red.svg" />
 <img src="http://img.shields.io/badge/license-WTFPL%2F2.0-blue.svg" />
-<img src="http://img.shields.io/badge/release-1.7-lightgrey.svg" />
 
 <a href="https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver">
   <img alt="Get it on Google Play"
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
 </a>
 
-Using
------
+## Using
 
 minSDK: 16 (4.1 Jelly Bean)
-<br>targetSDK: 22 (5.1 Lollipop)
+<br>targetSDK: 22 (5.1.1 Lollipop)
 
 To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as well as an API-Key (grab one at [9kw.eu/userapi](http://www.9kw.eu/userapi.html)).
 <br>Latest **stable** release (v1.7) is available on the [Google Play Store](https://play.google.com/store/apps/details?id=de.dotwee.openkwsolver), as well as under the [release-section](https://github.com/dotWee/OpenKWSolver/releases) of this github repository.
 
-Checksums
----------
+## Checksums
 
 <table>
   <tr>
@@ -32,21 +29,18 @@ Checksums
   </tr>
 </table>
 
-Building
---------
+## Building
 
 Automatically: use Android Studio's 'Check out from Version Control' - feature and use the URL of this project as source. <br>
 Manually: clone this git-repository or download it as zip [here](https://github.com/dotwee/OpenKWSolver/archive/master.zip), extract and import it into Android Studio.
 
-Used Permissions
-----------------
+## Used Permissions
 
 + .INTERNET to request Captcha and download Image
 + .ACCESS_NETWORK_STATE to check if network is available
 + .VIBRATE to signalize the arrivement of a new Captcha
 
-Screenshots
------------
+## Screenshots
 
 <table style="border: 0px;">
     <tr>
@@ -58,8 +52,7 @@ Screenshots
 
 <img src="art/ScreenshotTablet.png" />
 
-Todo
-----
+## Todo
 
 + Use 9kw's history API to view answered Captchas
 + Make it look beautiful and tidy up the code
@@ -67,8 +60,11 @@ Todo
 + Loading animation
 + Documentation
 
-Changelog
----------
+## Changelog
+
+Date: (work in progess)
+> Version v1.8
+<br>+ Minor: Update Support-library
 
 Date: (06/04/2015)
 > Version v1.7
@@ -106,36 +102,21 @@ Date: 16/03/2015
 <br>+ Some fixes
 <br>+ A new version number
 
-Found a bug / had a force-close?
---------------------------------
+## Found a bug / had a force-close?
 
 Feel free to open a new Issue and please provide a logcat.
 
-Dependencies
-------------
+## Dependencies
 
 + Google's v7 AppCombat
 + Google's v13 Support Package
 (Both used to bring Material Design to API < 21)
 
-Credits
--------
+## Credits
 
 + Google: for their [Material Design Icons](https://github.com/google/material-design-icons) (Attribution 4.0 Internal license)
 
-License
--------
+## License
 
-           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
- Copyright (C) 2015 Lukas "dotwee" Wolfsteiner <lukas@wolfsteiner.de>
-
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO.
+Copyright (c) 2015 Lukas 'dotwee' Wolfsteiner
+Licensed under the [_Do What The Fuck You Want To_](/LICENSE) public license
