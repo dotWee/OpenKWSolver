@@ -23,25 +23,29 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 	private static final String LOG_TAG = "MainActivity";
+	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+		actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setLogo(R.mipmap.ic_launcher);
+			actionBar.setTitle("  " + getResources().getString(R.string.app_name));
+		}
 
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setLogo(R.mipmap.ic_launcher);
-		actionBar.setTitle("  " + getResources().getString(R.string.app_name));
 
 	    if (!getResources().getBoolean(R.bool.isTablet)) {
 		    ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -53,17 +57,18 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem exitItem = menu.add("Exit");
-		exitItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		exitItem.setIcon(R.drawable.ic_close_circle_outline_white_36dp)
-				.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						System.exit(0);
-						return true;
-					}
-				});
+		MenuInflater inflater = new MenuInflater(this);
+		inflater.inflate(R.menu.menu_global, menu);
+
 		return true;
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		if (item.getItemId() == R.id.menu_exit) {
+			finish();
+		}
+		return false;
 	}
 
 	public class FragmentAdapter extends FragmentPagerAdapter {
