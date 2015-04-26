@@ -109,12 +109,13 @@ public class SolverFragment extends Fragment {
 
 						// request captcha image
 						isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
+						if (CaptchaID != null) {
+							notifyUser();
+						}
 						buttonPull.setEnabled(false);
 
 						final int[] i = {0};
-						final CountDownTimer CountDownTimer;
-						CountDownTimer = new CountDownTimer(30000, 1000) {
-
+						final CountDownTimer countDownTimer = new CountDownTimer(30000, 1000) {
 							@Override
 							public void onTick(long millisUntilFinished) {
 								i[0]++;
@@ -135,7 +136,7 @@ public class SolverFragment extends Fragment {
 								StaticHelpers.skipCaptchaByID(
 										getActivity(), StaticHelpers.getApiKey(getActivity()));
 
-								CountDownTimer.cancel();
+								countDownTimer.cancel();
 								progressBar.setProgress(0);
 
 								imageViewCaptcha.setImageDrawable(null);
@@ -143,9 +144,9 @@ public class SolverFragment extends Fragment {
 							}
 						});
 
-						if (isCurrentCaptcha == true) {
+						if (isCurrentCaptcha) {
 
-							CountDownTimer.start();
+							countDownTimer.start();
 							buttonSend.setOnClickListener(new View.OnClickListener() {
 								@Override
 								public void onClick(View v1) {
@@ -153,12 +154,7 @@ public class SolverFragment extends Fragment {
 									if (!CaptchaAnswer.equalsIgnoreCase("")) {
 										StaticHelpers.sendCaptchaByID(getActivity(), CaptchaID, CaptchaAnswer, false);
 
-										CountDownTimer.cancel();
-										Log.i("OnClickSend", "Timer killed");
-										progressBar.setProgress(0);
-
-										imageViewCaptcha.setImageDrawable(null);
-										editTextAnswer.setText(null);
+										countDownTimer.cancel();
 
 										if (StaticHelpers.isLoopEnabled(getActivity())) {
 											Log.i("OnClickSend", "Loop-Mode");
@@ -217,6 +213,12 @@ public class SolverFragment extends Fragment {
 
 		// fix edittext width
 		editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
+	}
+
+	private void resetWidgets() {
+		imageViewCaptcha.setImageDrawable(null);
+		editTextAnswer.setText(null);
+		progressBar.setProgress(0);
 	}
 
 	// Pull Captcha picture and display it
