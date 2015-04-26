@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
   ~                     Version 2, December 2004
@@ -16,24 +17,16 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-              android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:weightSum="1">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include
-        android:id="@+id/includeCaptcha"
-        layout="@layout/frame_captcha"
+    <ImageView
+        android:id="@+id/imageViewCaptcha"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <include
-        android:id="@+id/includeSolver"
-        layout="@layout/frame_solver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="false"
+        android:contentDescription="Captcha"/>
 
 </LinearLayout>
