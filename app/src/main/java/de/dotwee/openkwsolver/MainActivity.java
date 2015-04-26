@@ -31,13 +31,10 @@ import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 
 public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
-	private static final String LOG_TAG = "MainActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 	    if (!getResources().getBoolean(R.bool.isTablet)) {
 		    ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -51,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = new MenuInflater(this);
 		inflater.inflate(R.menu.menu_global, menu);
-
 		return true;
 	}
 
@@ -75,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 		        case 1: return new SettingsFragment();
 		        default: return null;
             }
-
         }
 
         @Override

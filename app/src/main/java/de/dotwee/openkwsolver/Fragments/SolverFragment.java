@@ -52,72 +52,43 @@ public class SolverFragment extends Fragment {
 	private static final String LOG_TAG = "SolverFragment";
 
 	// main widgets
-	public static TextView textViewCaptchaDesc;
-	public static TextView textViewCaptcha;
+	public static TextView textViewCaptchaDesc, textViewCaptcha;
+	public static Button buttonPull, buttonSkip, buttonSend;
 	public static ImageView imageViewCaptcha;
-	public static Button buttonPull;
-	public static Button buttonSkip;
-	public static Button buttonSend;
-	private Boolean CURRENT_CAPTCHA;
+	private SharedPreferences prefs;
+	private Boolean isCurrentCaptcha;
 	private TextView textViewBalance;
 	private EditText editTextAnswer;
 	private ProgressBar progressBar;
 	private Vibrator vibrator;
 	private Thread BalanceUpdate;
+	private View view;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		return inflater.inflate(R.layout.fragment_solver, container, false);
 	}
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		Log.i(LOG_TAG, "onViewCreated");
+		this.view = view;
 
-		// init prefs
-		final SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
-
-		// declare main widgets
-		buttonPull = (Button) view.findViewById(R.id.buttonPull);
-		buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-		buttonSend = (Button) view.findViewById(R.id.buttonSend);
-
-		buttonSkip.setEnabled(false);
-		buttonSend.setEnabled(false);
-
-		textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
-		textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
-
-		imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-		// imageViewCaptcha.getLayoutParams().height = Integer.parseInt(prefs.getString("pref_layout_size", "200"));
-
-		editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
-		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
-		// hide captchaid textviews if disabled
-		if (!StaticHelpers.isCaptchaIDEnabled(getActivity())) {
-			textViewCaptchaDesc.setVisibility(View.GONE);
-		}
-		textViewCaptcha.setVisibility(View.GONE);
-
-		// fix edittext width
-		editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
+		// declare main widgets and services
+		initWidgets();
 
 		// start showing balance if network and apikey is available
 		if (StaticHelpers.isNetworkAvailable(getActivity())) {
 			if (StaticHelpers.getApiKey(getActivity()) != null) {
 				if (StaticHelpers.isAutoBalanceEnabled(getActivity())) {
-					Log.i(LOG_TAG, "onCreated: start balance thread");
 					balanceThread();
+				} else {
+					Toast.makeText(getActivity(), "Set a API-Key to start", Toast.LENGTH_SHORT).show();
 				}
-			} else {
-				Toast.makeText(getActivity(), "Set a API-Key to start", Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Log.w(LOG_TAG, "No network available");
 			Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
 		}
 
@@ -137,7 +108,7 @@ public class SolverFragment extends Fragment {
 						textViewCaptcha.setText(CaptchaID);
 
 						// request captcha image
-						CURRENT_CAPTCHA = pullCaptchaPicture(CaptchaID);
+						isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
 						buttonPull.setEnabled(false);
 
 						final int[] i = {0};
@@ -156,7 +127,6 @@ public class SolverFragment extends Fragment {
 							}
 						};
 
-						buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
 						buttonSkip.setOnClickListener(new View.OnClickListener() {
 							@Override
 							public void onClick(View v1) {
@@ -169,21 +139,13 @@ public class SolverFragment extends Fragment {
 								progressBar.setProgress(0);
 
 								imageViewCaptcha.setImageDrawable(null);
-
 								buttonPull.setEnabled(true);
 							}
 						});
 
-						if (CURRENT_CAPTCHA == true) {
-
-
-							vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-							if (StaticHelpers.isVibrateEnabled(getActivity())) {
-								vibrator.vibrate(500);
-							}
+						if (isCurrentCaptcha == true) {
 
 							CountDownTimer.start();
-							buttonSend = (Button) view.findViewById(R.id.buttonSend);
 							buttonSend.setOnClickListener(new View.OnClickListener() {
 								@Override
 								public void onClick(View v1) {
@@ -205,20 +167,16 @@ public class SolverFragment extends Fragment {
 											buttonPull.setEnabled(true);
 										}
 									} else {
-										Toast.makeText(getActivity(),
-												R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+										Toast.makeText(getActivity(), R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
 									}
 								}
 							});
 						} else {
 							buttonSkip.performClick();
 						}
-
 					} else {
-						Log.w(LOG_TAG, "onClickPull: Click without network");
 						Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
 					}
-
 				} else {
 					Toast.makeText(getActivity(), "Set an API-Key first!", Toast.LENGTH_LONG).show();
 				}
@@ -229,23 +187,44 @@ public class SolverFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
-		if (BalanceUpdate != null) {
-			if (BalanceUpdate.isAlive()) {
+		if (BalanceUpdate != null)
+			if (BalanceUpdate.isAlive())
 				BalanceUpdate.interrupt();
-			}
+	}
+
+	private void initWidgets() {
+		buttonPull = (Button) view.findViewById(R.id.buttonPull);
+		buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+		buttonSkip.setEnabled(false);
+
+		buttonSend = (Button) view.findViewById(R.id.buttonSend);
+		buttonSend.setEnabled(false);
+
+		vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+		imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+		textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
+		textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
+		textViewBalance = (TextView) view.findViewById(R.id.textViewBA);
+
+		editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
+		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+		// hide captchaid textviews if disabled
+		if (!StaticHelpers.isCaptchaIDEnabled(getActivity())) {
+			textViewCaptchaDesc.setVisibility(View.GONE);
+			textViewCaptcha.setVisibility(View.GONE);
 		}
 
+		// fix edittext width
+		editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
 	}
 
 	// Pull Captcha picture and display it
 	public boolean pullCaptchaPicture(String CaptchaID) {
-		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW +
-				URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(getActivity(), 2) +
-				"&id=" + CaptchaID + StaticHelpers.getApiKey(getActivity()));
+		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(getActivity(), 2) + "&id=" + CaptchaID + StaticHelpers.getApiKey(getActivity()));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
-		if (getView() != null) {
+		if (view != null) {
 			try {
 				Bitmap returnBit = new DownloadImageTask(imageViewCaptcha).execute(CaptchaPictureURL).get(5000, TimeUnit.MILLISECONDS);
 				if (returnBit != null) {
@@ -260,10 +239,7 @@ public class SolverFragment extends Fragment {
 	}
 
 	public void updateBalance() {
-		if (getView() != null) {
-			textViewBalance = (TextView) getView().findViewById(R.id.textViewBA);
-			textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
-		}
+		textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
 	}
 
 	// BalanceThread: Update the balance every 5 seconds
@@ -281,9 +257,7 @@ public class SolverFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (getView() != null) {
-								textViewBalance = (TextView) getView()
-										.findViewById(R.id.textViewBA);
+							if (view != null) {
 								textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
 							}
 						}
@@ -302,5 +276,14 @@ public class SolverFragment extends Fragment {
 		else {
 			BalanceUpdate.start();
 		}
+	}
+
+	public boolean captchaInWork() {
+		return isCurrentCaptcha;
+	}
+
+	public void notifyUser() {
+		if (StaticHelpers.isVibrateEnabled(getActivity()))
+			vibrator.vibrate(500);
 	}
 }
