@@ -28,9 +28,6 @@
             android:key="pref_about_issue"
             android:title="@string/pref_about_issue_title"/>
 
-        <Preference
-            android:key="pref_about_mail"
-            android:title="@string/pref_about_mail_title"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

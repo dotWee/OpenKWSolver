@@ -89,10 +89,6 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 			case "pref_about_github":
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
 				getActivity().finish();
-
-			case "pref_about_mail":
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:coding@dotwee.de")));
-				getActivity().finish();
 		}
 
 		return false;
