@@ -19,10 +19,6 @@
 
     <string name="app_name">OpenKWSolver</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_close">Close</string>
-    <string name="action_ok">OK</string>
-
     <string name="main_button_text_start">Start</string>
     <string name="main_button_text_send">Send</string>
     <string name="main_button_text_skip">Skip</string>
@@ -31,7 +27,7 @@
     <string name="main_textview_text_balance">Balance:</string>
     <string name="main_textview_text_captcha">Captcha ID:</string>
 
-    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer</string>
+    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer!</string>
 
     <string name="pref_api_key_title">API-Key</string>
     <string name="pref_api_key_description">Your 9kw API-Key</string>
