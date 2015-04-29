@@ -45,29 +45,31 @@ import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
-public class SolverFragment extends Fragment {
+public class SolverFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
 	public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
 	public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
 	private static final String LOG_TAG = "SolverFragment";
 
 	// main widgets
-	public static TextView textViewCaptchaDesc, textViewCaptcha;
+	public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
 	public static Button buttonPull, buttonSkip, buttonSend;
 	public static ImageView imageViewCaptcha;
+	private CountDownTimer countDownTimer;
 	private SharedPreferences prefs;
 	private Boolean isCurrentCaptcha;
-	private TextView textViewBalance;
 	private EditText editTextAnswer;
 	private ProgressBar progressBar;
 	private Vibrator vibrator;
 	private Thread BalanceUpdate;
+	private Context baseContext;
 	private View view;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		baseContext = getActivity().getBaseContext();
 		return inflater.inflate(R.layout.fragment_solver, container, false);
 	}
 
@@ -80,104 +82,20 @@ public class SolverFragment extends Fragment {
 		initWidgets();
 
 		// start showing balance if network and apikey is available
-		if (StaticHelpers.isNetworkAvailable(getActivity())) {
-			if (StaticHelpers.getApiKey(getActivity()) != null) {
-				if (StaticHelpers.isAutoBalanceEnabled(getActivity())) {
-					balanceThread();
-				} else {
-					Toast.makeText(getActivity(), "Set a API-Key to start", Toast.LENGTH_SHORT).show();
-				}
-			}
-		} else {
-			Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
-		}
+		if (StaticHelpers.isNetworkAvailable(baseContext))
+			if (StaticHelpers.getApiKey(baseContext) != null)
+				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) balanceThread();
+				else Toast.makeText(baseContext, "Set a API-Key to start", Toast.LENGTH_SHORT).show();
+		else Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
 
-		buttonPull.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (StaticHelpers.getApiKey(getActivity()) != null) {
-					buttonSend.setEnabled(true);
-					buttonSkip.setEnabled(true);
+		buttonPull.setOnClickListener(this);
+		buttonPull.setOnLongClickListener(this);
 
-					Log.i(LOG_TAG, "onClickPull: Click recognized");
-					if (StaticHelpers.isNetworkAvailable(getActivity())) {
-						updateBalance();
-						final String CaptchaID = StaticHelpers.requestCaptchaID(getActivity(), // needed Context
-								prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
-								2); // 2 = Normal
-						textViewCaptcha.setText(CaptchaID);
+		buttonSend.setOnClickListener(this);
+		buttonSend.setOnLongClickListener(this);
 
-						// request captcha image
-						isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
-						if (CaptchaID != null) {
-							notifyUser();
-						}
-						buttonPull.setEnabled(false);
-
-						final int[] i = {0};
-						final CountDownTimer countDownTimer = new CountDownTimer(30000, 1000) {
-							@Override
-							public void onTick(long millisUntilFinished) {
-								i[0]++;
-								progressBar.setProgress(i[0]);
-							}
-
-							@Override
-							public void onFinish() {
-								StaticHelpers.skipCaptchaByID(getActivity(), CaptchaID);
-							}
-						};
-
-						buttonSkip.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v1) {
-								Log.i("OnClickSkip", "Click recognized");
-								editTextAnswer.setText(null);
-								StaticHelpers.skipCaptchaByID(
-										getActivity(), StaticHelpers.getApiKey(getActivity()));
-
-								countDownTimer.cancel();
-								progressBar.setProgress(0);
-
-								imageViewCaptcha.setImageDrawable(null);
-								buttonPull.setEnabled(true);
-							}
-						});
-
-						if (isCurrentCaptcha) {
-
-							countDownTimer.start();
-							buttonSend.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View v1) {
-									String CaptchaAnswer = editTextAnswer.getText().toString();
-									if (!CaptchaAnswer.equalsIgnoreCase("")) {
-										StaticHelpers.sendCaptchaByID(getActivity(), CaptchaID, CaptchaAnswer, false);
-
-										countDownTimer.cancel();
-
-										if (StaticHelpers.isLoopEnabled(getActivity())) {
-											Log.i("OnClickSend", "Loop-Mode");
-											buttonPull.performClick();
-										} else {
-											buttonPull.setEnabled(true);
-										}
-									} else {
-										Toast.makeText(getActivity(), R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-									}
-								}
-							});
-						} else {
-							buttonSkip.performClick();
-						}
-					} else {
-						Toast.makeText(getActivity(), "No network available!", Toast.LENGTH_SHORT).show();
-					}
-				} else {
-					Toast.makeText(getActivity(), "Set an API-Key first!", Toast.LENGTH_LONG).show();
-				}
-			}
-		});
+		buttonSkip.setOnClickListener(this);
+		buttonSkip.setOnLongClickListener(this);
 	}
 
 	@Override
@@ -196,7 +114,7 @@ public class SolverFragment extends Fragment {
 		buttonSend = (Button) view.findViewById(R.id.buttonSend);
 		buttonSend.setEnabled(false);
 
-		vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+		vibrator = (Vibrator) baseContext.getSystemService(Context.VIBRATOR_SERVICE);
 		imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
 		textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
 		textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
@@ -206,7 +124,7 @@ public class SolverFragment extends Fragment {
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 		// hide captchaid textviews if disabled
-		if (!StaticHelpers.isCaptchaIDEnabled(getActivity())) {
+		if (!StaticHelpers.isCaptchaIDEnabled(baseContext)) {
 			textViewCaptchaDesc.setVisibility(View.GONE);
 			textViewCaptcha.setVisibility(View.GONE);
 		}
@@ -219,11 +137,12 @@ public class SolverFragment extends Fragment {
 		imageViewCaptcha.setImageDrawable(null);
 		editTextAnswer.setText(null);
 		progressBar.setProgress(0);
+		countDownTimer.cancel();
 	}
 
 	// Pull Captcha picture and display it
 	public boolean pullCaptchaPicture(String CaptchaID) {
-		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(getActivity(), 2) + "&id=" + CaptchaID + StaticHelpers.getApiKey(getActivity()));
+		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + CaptchaID + StaticHelpers.getApiKey(baseContext));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
 		if (view != null) {
@@ -241,7 +160,7 @@ public class SolverFragment extends Fragment {
 	}
 
 	public void updateBalance() {
-		textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
+		textViewBalance.setText(StaticHelpers.getBalance(baseContext));
 	}
 
 	// BalanceThread: Update the balance every 5 seconds
@@ -285,7 +204,86 @@ public class SolverFragment extends Fragment {
 	}
 
 	public void notifyUser() {
-		if (StaticHelpers.isVibrateEnabled(getActivity()))
+		if (StaticHelpers.isVibrateEnabled(baseContext))
 			vibrator.vibrate(500);
+	}
+
+	@Override
+	public void onClick(View v) {
+		int viewId = v.getId();
+		String CaptchaID = null;
+
+		if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
+			buttonSend.setEnabled(true);
+			buttonSkip.setEnabled(true);
+
+			Log.i(LOG_TAG, "onClickPull: Click recognized");
+			if (StaticHelpers.isNetworkAvailable(baseContext)) {
+				updateBalance();
+				CaptchaID = StaticHelpers.requestCaptchaID(baseContext, // needed Context
+						prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
+						2); // 2 = Normal
+				textViewCaptcha.setText(CaptchaID);
+
+				// request captcha image
+				isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
+				if (CaptchaID != null) {
+					notifyUser();
+				}
+				buttonPull.setEnabled(false);
+
+				final int[] i = {0};
+				countDownTimer = new CountDownTimer(30000, 1000) {
+					@Override
+					public void onTick(long millisUntilFinished) {
+						i[0]++;
+						progressBar.setProgress(i[0]);
+					}
+
+					@Override
+					public void onFinish() {
+						// todo global
+						// StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
+					}
+				};
+
+				if (isCurrentCaptcha) countDownTimer.start();
+				else buttonSkip.performClick();
+			} else Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
+		} else Toast.makeText(baseContext, "Set an API-Key first!", Toast.LENGTH_LONG).show();
+
+		else if (viewId == R.id.buttonSend) {
+			String answer = getCaptchaAnswer();
+			if (!answer.equalsIgnoreCase("")) {
+				StaticHelpers.sendCaptchaByID(baseContext, CaptchaID, answer, false);
+				resetWidgets();
+				if (StaticHelpers.isLoopEnabled(baseContext)) {
+					Log.i("OnClickSend", "Loop-Mode");
+					buttonPull.performClick();
+				} else buttonPull.setEnabled(true);
+			} else Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+		}
+
+		else if (viewId == R.id.buttonSkip) {
+			StaticHelpers.skipCaptchaByID(baseContext, StaticHelpers.getApiKey(baseContext));
+			buttonPull.setEnabled(true);
+			resetWidgets();
+		}
+	}
+
+	private String getCaptchaAnswer() {
+		String tmp = editTextAnswer.getText().toString();
+		editTextAnswer.setText(null);
+		return tmp;
+	}
+
+	private void startTimer() {
+
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		onClick(v);
+		return false;
 	}
 }

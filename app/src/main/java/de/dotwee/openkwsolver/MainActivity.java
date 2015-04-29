@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
@@ -34,15 +35,22 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+		setTheme(R.style.AppTheme);
+		getWindow().addFlags(Window.FEATURE_NO_TITLE);
 
-	    if (!getResources().getBoolean(R.bool.isTablet)) {
-		    ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-		    viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
-		    viewPager.setOffscreenPageLimit(2);
-	    }
+		setContentView(R.layout.activity_main);
 
-    }
+		if (!getResources().getBoolean(R.bool.isTablet)) {
+			setupViewPager();
+		}
+
+	}
+
+	private void setupViewPager() {
+		ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+		viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
+		viewPager.setOffscreenPageLimit(2);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,29 +70,35 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 	public class FragmentAdapter extends FragmentPagerAdapter {
 		public FragmentAdapter(FragmentManager fm) {
 			super(fm);
-        }
+		}
 
-        @Override
-        public Fragment getItem(int position) {
-	        switch (position) {
-		        case 0: return new SolverFragment();
-		        case 1: return new SettingsFragment();
-		        default: return null;
-            }
-        }
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+				case 0:
+					return new SolverFragment();
+				case 1:
+					return new SettingsFragment();
+				default:
+					return null;
+			}
+		}
 
-        @Override
-        public int getCount() {
-	        return 2;
-        }
+		@Override
+		public int getCount() {
+			return 2;
+		}
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-	        switch (position) {
-		        case 0: return "Solver";
-		        case 1: return "Settings";
-		        default: return null;
-	        }
-        }
-    }
+		@Override
+		public CharSequence getPageTitle(int position) {
+			switch (position) {
+				case 0:
+					return "Solver";
+				case 1:
+					return "Settings";
+				default:
+					return null;
+			}
+		}
+	}
 }

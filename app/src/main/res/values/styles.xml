@@ -23,12 +23,8 @@
         <!-- Main theme colors -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:progressBarStyle">@color/accent</item>
+        <item name="progressBarStyle">@color/accent</item>
         <item name="colorAccent">@color/accent</item>
-    </style>
-
-    <style name="ToolbarTheme" parent="AppTheme">
-        <item name="android:background">@color/primary</item>
     </style>
 
     <style name="TabTheme">
