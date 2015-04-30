@@ -22,7 +22,7 @@
             android:contentDescription="@string/pref_automation_loop_description"
             android:defaultValue="false"
             android:key="pref_automation_loop"
-            android:title="@string/pref_automation_loop_title" />
+            android:title="@string/pref_automation_loop_title"/>
 
         <ListPreference
             android:contentDescription="@string/pref_automation_loop_time_description"
@@ -36,7 +36,7 @@
             android:contentDescription="@string/pref_automation_balance_description"
             android:defaultValue="false"
             android:key="pref_automation_balance"
-            android:title="@string/pref_automation_balance_title" />
+            android:title="@string/pref_automation_balance_title"/>
 
     </PreferenceCategory>
 

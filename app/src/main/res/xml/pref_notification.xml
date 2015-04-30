@@ -27,7 +27,7 @@
         <SwitchPreference
             android:contentDescription="@string/pref_notification_vibrate_description"
             android:key="pref_notification_vibrate"
-            android:title="@string/pref_notification_vibrate_title" />
+            android:title="@string/pref_notification_vibrate_title"/>
 
         <SwitchPreference
             android:contentDescription="@string/pref_notification_sound_description"

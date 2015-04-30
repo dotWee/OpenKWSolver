@@ -29,27 +29,27 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 	private static final String LOG_TAG = "DownloadImageTask";
 	ImageView bmImage;
 
-    public DownloadImageTask(ImageView bmImage) {
-        this.bmImage = bmImage;
-    }
+	public DownloadImageTask(ImageView bmImage) {
+		this.bmImage = bmImage;
+	}
 
-    protected Bitmap doInBackground(String... urls) {
-	    Log.i(LOG_TAG, "doInBackground: INPUT / " + urls[0]);
+	protected Bitmap doInBackground(String... urls) {
+		Log.i(LOG_TAG, "doInBackground: INPUT / " + urls[0]);
 
-        try {
-	        InputStream in = new java.net.URL(urls[0]).openStream();
-	        return BitmapFactory.decodeStream(in);
-        } catch (Exception e) {
-	        Log.d(LOG_TAG, "doInBackground: EXCEPTION / " + e);
-        }
-	    return null;
-    }
+		try {
+			InputStream in = new java.net.URL(urls[0]).openStream();
+			return BitmapFactory.decodeStream(in);
+		} catch (Exception e) {
+			Log.d(LOG_TAG, "doInBackground: EXCEPTION / " + e);
+		}
+		return null;
+	}
 
-    protected void onPostExecute(Bitmap result) {
-        bmImage.setImageBitmap(result);
+	protected void onPostExecute(Bitmap result) {
+		bmImage.setImageBitmap(result);
 
-	    if (result == null) {
-		    Log.w(LOG_TAG, "onPostExecute: Bitmap empty!");
-	    }
-    }
+		if (result == null) {
+			Log.w(LOG_TAG, "onPostExecute: Bitmap empty!");
+		}
+	}
 }

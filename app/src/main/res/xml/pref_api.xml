@@ -21,12 +21,12 @@
         <EditTextPreference
             android:contentDescription="@string/pref_api_key_description"
             android:key="pref_api_key"
-            android:title="@string/pref_api_key_title" />
+            android:title="@string/pref_api_key_title"/>
 
         <CheckBoxPreference
             android:contentDescription="@string/pref_api_debug_description"
             android:key="pref_api_debug"
-            android:title="@string/pref_api_debug_title" />
+            android:title="@string/pref_api_debug_title"/>
 
         <CheckBoxPreference
             android:contentDescription="@string/pref_api_selfonly_description"

@@ -37,17 +37,17 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 
 	public SettingsFragment() {
 
-    }
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-	    Log.i(LOG_TAG, "onCreate");
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.i(LOG_TAG, "onCreate");
 		setPreferencesView();
-	    for (final Preference preference : preferencesClickList()) {
-		    preference.setOnPreferenceClickListener(this);
-	    }
-    }
+		for (final Preference preference : preferencesClickList()) {
+			preference.setOnPreferenceClickListener(this);
+		}
+	}
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {

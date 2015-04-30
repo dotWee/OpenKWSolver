@@ -82,11 +82,17 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		initWidgets();
 
 		// start showing balance if network and apikey is available
-		if (StaticHelpers.isNetworkAvailable(baseContext))
-			if (StaticHelpers.getApiKey(baseContext) != null)
-				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) balanceThread();
-				else Toast.makeText(baseContext, "Set a API-Key to start", Toast.LENGTH_SHORT).show();
-		else Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
+		if (StaticHelpers.isNetworkAvailable(baseContext)) {
+			if (StaticHelpers.getApiKey(baseContext) != null) {
+				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) {
+					balanceThread();
+				} else {
+					Toast.makeText(baseContext, "Set a API-Key to start", Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
+			}
+		}
 
 		buttonPull.setOnClickListener(this);
 		buttonPull.setOnLongClickListener(this);
@@ -101,9 +107,11 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (BalanceUpdate != null)
-			if (BalanceUpdate.isAlive())
+		if (BalanceUpdate != null) {
+			if (BalanceUpdate.isAlive()) {
 				BalanceUpdate.interrupt();
+			}
+		}
 	}
 
 	private void initWidgets() {
@@ -204,8 +212,9 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	}
 
 	public void notifyUser() {
-		if (StaticHelpers.isVibrateEnabled(baseContext))
+		if (StaticHelpers.isVibrateEnabled(baseContext)) {
 			vibrator.vibrate(500);
+		}
 	}
 
 	@Override
@@ -213,46 +222,53 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		int viewId = v.getId();
 		String CaptchaID = null;
 
-		if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
-			buttonSend.setEnabled(true);
-			buttonSkip.setEnabled(true);
+		if (viewId == R.id.buttonPull) {
+			if (StaticHelpers.getApiKey(baseContext) != null) {
+				buttonSend.setEnabled(true);
+				buttonSkip.setEnabled(true);
 
-			Log.i(LOG_TAG, "onClickPull: Click recognized");
-			if (StaticHelpers.isNetworkAvailable(baseContext)) {
-				updateBalance();
-				CaptchaID = StaticHelpers.requestCaptchaID(baseContext, // needed Context
-						prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
-						2); // 2 = Normal
-				textViewCaptcha.setText(CaptchaID);
+				Log.i(LOG_TAG, "onClickPull: Click recognized");
+				if (StaticHelpers.isNetworkAvailable(baseContext)) {
+					updateBalance();
+					CaptchaID = StaticHelpers.requestCaptchaID(baseContext, // needed Context
+							prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
+							2); // 2 = Normal
+					textViewCaptcha.setText(CaptchaID);
 
-				// request captcha image
-				isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
-				if (CaptchaID != null) {
-					notifyUser();
+					// request captcha image
+					isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
+					if (CaptchaID != null) {
+						notifyUser();
+					}
+					buttonPull.setEnabled(false);
+
+					final int[] i = {0};
+					countDownTimer = new CountDownTimer(30000, 1000) {
+						@Override
+						public void onTick(long millisUntilFinished) {
+							i[0]++;
+							progressBar.setProgress(i[0]);
+						}
+
+						@Override
+						public void onFinish() {
+							// todo global
+							// StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
+						}
+					};
+
+					if (isCurrentCaptcha) {
+						countDownTimer.start();
+					} else {
+						buttonSkip.performClick();
+					}
+				} else {
+					Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
 				}
-				buttonPull.setEnabled(false);
-
-				final int[] i = {0};
-				countDownTimer = new CountDownTimer(30000, 1000) {
-					@Override
-					public void onTick(long millisUntilFinished) {
-						i[0]++;
-						progressBar.setProgress(i[0]);
-					}
-
-					@Override
-					public void onFinish() {
-						// todo global
-						// StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
-					}
-				};
-
-				if (isCurrentCaptcha) countDownTimer.start();
-				else buttonSkip.performClick();
-			} else Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
-		} else Toast.makeText(baseContext, "Set an API-Key first!", Toast.LENGTH_LONG).show();
-
-		else if (viewId == R.id.buttonSend) {
+			} else {
+				Toast.makeText(baseContext, "Set an API-Key first!", Toast.LENGTH_LONG).show();
+			}
+		} else if (viewId == R.id.buttonSend) {
 			String answer = getCaptchaAnswer();
 			if (!answer.equalsIgnoreCase("")) {
 				StaticHelpers.sendCaptchaByID(baseContext, CaptchaID, answer, false);
@@ -260,11 +276,13 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				if (StaticHelpers.isLoopEnabled(baseContext)) {
 					Log.i("OnClickSend", "Loop-Mode");
 					buttonPull.performClick();
-				} else buttonPull.setEnabled(true);
-			} else Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-		}
-
-		else if (viewId == R.id.buttonSkip) {
+				} else {
+					buttonPull.setEnabled(true);
+				}
+			} else {
+				Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+			}
+		} else if (viewId == R.id.buttonSkip) {
 			StaticHelpers.skipCaptchaByID(baseContext, StaticHelpers.getApiKey(baseContext));
 			buttonPull.setEnabled(true);
 			resetWidgets();
