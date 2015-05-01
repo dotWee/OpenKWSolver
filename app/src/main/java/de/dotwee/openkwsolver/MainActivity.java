@@ -26,7 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
@@ -35,8 +34,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTheme(R.style.AppTheme);
-		getWindow().addFlags(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
 
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 		return false;
 	}
 
-	public class FragmentAdapter extends FragmentPagerAdapter {
+	public static class FragmentAdapter extends FragmentPagerAdapter {
 		public FragmentAdapter(FragmentManager fm) {
 			super(fm);
 		}
