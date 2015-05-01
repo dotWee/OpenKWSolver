@@ -27,33 +27,33 @@
     <string name="main_textview_text_balance">Balance:</string>
     <string name="main_textview_text_captcha">Captcha ID:</string>
 
-    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer!</string>
+    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer.</string>
 
-    <string name="pref_api_key_title">API-Key</string>
-    <string name="pref_api_key_description">Your 9kw API-Key</string>
-    <string name="pref_api_selfonly_title">Self-only Captchas</string>
+    <string name="pref_api_key_title">API key</string>
+    <string name="pref_api_key_description">Your 9kw API key</string>
+    <string name="pref_api_selfonly_title">Enable self-only Captchas</string>
     <string name="pref_api_selfonly_description">Enable solving only own Captchas</string>
-    <string name="pref_api_debug_title">Debug-Mode</string>
+    <string name="pref_api_debug_title">Debug mode</string>
     <string name="pref_api_debug_description">Enable Debug-mode, only for testing the connection!</string>
 
-    <string name="pref_notification_title">Notification Alert</string>
-    <string name="pref_notification_description">Show a notification on arrivement of new Captcha</string>
-    <string name="pref_notification_vibrate_title">Vibration Alert</string>
+    <string name="pref_notification_title">Notification alert</string>
+    <string name="pref_notification_description">Show a notification on arrivement of new captcha</string>
+    <string name="pref_notification_vibrate_title">Vibration alert</string>
     <string name="pref_notification_vibrate_description">Vibrate on arrivements</string>
-    <string name="pref_notification_sound_title">Sound Alert</string>
+    <string name="pref_notification_sound_title">Sound alert</string>
     <string name="pref_notification_sound_description">Play notification sound on arrivements</string>
 
-    <string name="pref_automation_loop_title">Loop-Mode</string>
+    <string name="pref_automation_loop_title">Loop Mode</string>
     <string name="pref_automation_loop_description">Auto-pull next Captcha after skipping or sending</string>
-    <string name="pref_automation_loop_time_title">Loop-Timeout</string>
+    <string name="pref_automation_loop_time_title">Loop Timeout</string>
     <string name="pref_automation_loop_time_description">Seconds until pulling the next Captcha</string>
-    <string name="pref_automation_balance_title">Auto updating balance</string>
+    <string name="pref_automation_balance_title">Update balance automatically</string>
     <string name="pref_automation_balance_description">Update the balance automatically every 5 seconds</string>
 
-    <string name="pref_layout_captcha_size_title">Captcha-Image Size</string>
-    <string name="pref_layout_captcha_id_title">Display current CaptchaID</string>
+    <string name="pref_layout_captcha_size_title">Captcha image size</string>
+    <string name="pref_layout_captcha_id_title">Display current Captcha ID</string>
 
-    <string name="pref_about_github_title">Source Code</string>
-    <string name="pref_about_issue_title">Report Issue</string>
+    <string name="pref_about_github_title">Source code</string>
+    <string name="pref_about_issue_title">Report issue</string>
     <string name="pref_about_mail_title">Mail the developer</string>
 </resources>
