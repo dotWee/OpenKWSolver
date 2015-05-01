@@ -27,13 +27,10 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import de.dotwee.openkwsolver.R;
 
 public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
 	public final static String LOG_TAG = "PreferenceFragment";
-	private ArrayList<Preference> preferencesClickList;
 
 	public SettingsFragment() {
 
@@ -44,8 +41,9 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		super.onCreate(savedInstanceState);
 		Log.i(LOG_TAG, "onCreate");
 		setPreferencesView();
-		for (final Preference preference : preferencesClickList()) {
-			preference.setOnPreferenceClickListener(this);
+
+		if (getPreferenceScreen() != null) {
+			setPreferencesListeners();
 		}
 	}
 
@@ -94,13 +92,20 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		return false;
 	}
 
-	private ArrayList<Preference> preferencesClickList() {
-		preferencesClickList = new ArrayList<>();
-		preferencesClickList.add(findPreference("pref_api_key"));
-		preferencesClickList.add(findPreference("pref_about_issue"));
-		preferencesClickList.add(findPreference("pref_about_github"));
-		preferencesClickList.add(findPreference("pref_about_mail"));
-		return preferencesClickList;
+	private void setPreferencesListeners() {
+		String keys[] = {
+				"pref_api_key",
+				"pref_about_mail",
+				"pref_about_issue",
+				"pref_about_github"
+		};
+
+		for (String key : keys) {
+			Preference tmp = findPreference(key);
+			if (tmp != null) {
+				tmp.setOnPreferenceClickListener(this);
+			}
+		}
 	}
 
 	private void setPreferencesView() {
