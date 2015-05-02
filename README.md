@@ -62,9 +62,16 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 
 ## Changelog
 
-Date: (work in progess)
+Date: (work in progress)
 > Version v1.8
-<br>+ Minor: Update Support-library
+<br>+ Improvement: Removed use of deprecated methods & classes
+<br>+ Improvement: Reduced apk-size by removing unused icons
+<br>+ Improvement: Reworked solver-code
+<br>+ Minor: Compiled with latest build-tools
+<br>+ Minor: Updated libraries
+<br>+ Minor: Values cleanup
+
+<br>+ Preferences: Updated titles & descriptions
 
 Date: (06/04/2015)
 > Version v1.7
