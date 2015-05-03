@@ -70,7 +70,6 @@ Date: (work in progress)
 <br>+ Minor: Compiled with latest build-tools
 <br>+ Minor: Updated libraries
 <br>+ Minor: Values cleanup
-
 <br>+ Preferences: Updated titles & descriptions
 
 Date: (06/04/2015)
