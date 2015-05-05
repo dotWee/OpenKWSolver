@@ -54,13 +54,12 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
 	public static Button buttonPull, buttonSkip, buttonSend;
 	public static ImageView imageViewCaptcha;
+	public static EditText editTextAnswer;
 	public static Thread balanceThread;
 
-	private String CaptchaID;
-	private CountDownTimer countDownTimer;
-	private SharedPreferences prefs;
-	private Boolean isCurrentCaptcha;
-	private EditText editTextAnswer;
+	private String _captchaID;
+	private CountDownTimer _countDownTimer;
+	private SharedPreferences _sharedPreferences;
 	private ProgressBar progressBar;
 	private Vibrator vibrator;
 	private Context baseContext;
@@ -70,7 +69,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		_sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		baseContext = getActivity().getBaseContext();
 		return inflater.inflate(R.layout.fragment_solver, container, false);
 	}
@@ -86,11 +85,10 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		// start showing balance if network and apikey is available
 		if (StaticHelpers.isNetworkAvailable(baseContext))
 			if (StaticHelpers.getApiKey(baseContext) != null)
-				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) { balanceThread(); } else
-					Toast.makeText(baseContext, "Set a API-Key to start", Toast.LENGTH_SHORT).show();
-			else {
-				Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
-			}
+				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) { balanceThread(); } else {
+					toastBreak("Set a API-Key to start");
+				}
+			else { toastBreak("No network available!"); }
 
 		buttonPull.setOnClickListener(this);
 		buttonPull.setOnLongClickListener(this);
@@ -231,12 +229,12 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 			if (StaticHelpers.isNetworkAvailable(baseContext)) {
 				updateBalance();
 
-				CaptchaID = StaticHelpers.requestCaptchaID(baseContext, prefs.getBoolean("pref_automation_loop", false), 2);
-				textViewCaptcha.setText(CaptchaID);
+				_captchaID = StaticHelpers.requestCaptchaID(baseContext, _sharedPreferences.getBoolean("pref_automation_loop", false), 2);
+				textViewCaptcha.setText(_captchaID);
 
 				// request captcha image
-				pullCaptchaPicture(CaptchaID);
-				if (CaptchaID != null) notifyUser();
+				pullCaptchaPicture(_captchaID);
+				if (_captchaID != null) notifyUser();
 				buttonPull.setEnabled(false);
 
 			} else { toastBreak("No network available!"); }
@@ -244,7 +242,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		else if (viewId == R.id.buttonSend) {
 			String answer = getCaptchaAnswer();
 			if (!answer.equalsIgnoreCase("")) {
-				StaticHelpers.sendCaptchaByID(baseContext, CaptchaID, answer, false);
+				StaticHelpers.sendCaptchaByID(baseContext, _captchaID, answer, false);
 				resetWidgets();
 				if (StaticHelpers.isLoopEnabled(baseContext)) {
 					Log.i("OnClickSend", "Loop-Mode");
@@ -262,7 +260,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	private void startCountdown() {
 		final int[] i = {0};
 
-		countDownTimer = new CountDownTimer(30000, 1000) {
+		_countDownTimer = new CountDownTimer(30000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				i[0]++;
@@ -271,13 +269,13 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 
 			@Override
 			public void onFinish() {
-				StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
+				StaticHelpers.skipCaptchaByID(baseContext, _captchaID);
 			}
 		}.start();
 	}
 
 	private void cancelCountDown() {
-		if (countDownTimer != null) countDownTimer.cancel();
+		if (_countDownTimer != null) _countDownTimer.cancel();
 	}
 
 	private String getCaptchaAnswer() {
