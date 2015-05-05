@@ -17,19 +17,16 @@
 
 package de.dotwee.openkwsolver.Fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
 
 import de.dotwee.openkwsolver.R;
 
-public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
+public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener {
 	public final static String LOG_TAG = "PreferenceFragment";
 
 	public SettingsFragment() {
@@ -41,10 +38,6 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		super.onCreate(savedInstanceState);
 		Log.i(LOG_TAG, "onCreate");
 		setPreferencesView();
-
-		if (getPreferenceScreen() != null) {
-			setPreferencesListeners();
-		}
 	}
 
 	@Override
@@ -62,11 +55,13 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 					SolverFragment.textViewCaptchaDesc.setVisibility(View.VISIBLE);
 					SolverFragment.textViewCaptcha.setVisibility(View.VISIBLE);
 				}
+				break;
 
 			case "pref_api_key":
 				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
 				SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
 				SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
+				break;
 
 			case "pref_automation_balance":
 				if (Boolean.parseBoolean(newValue.toString()) == false) {
@@ -76,51 +71,20 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 						} else { SolverFragment.balanceThread.run(); }
 					}
 				}
+				break;
+
 			case "pref_layout_darkui":
 				getActivity().recreate();
+				break;
 		}
 
 		return true;
-	}
-
-	@Override
-	public boolean onPreferenceClick(Preference preference) {
-		Log.i(LOG_TAG, "onPreferenceClick / ITEM: " + preference.getKey());
-
-		switch (preference.getKey()) {
-			case "pref_about_issue":
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver/issues/new")));
-				getActivity().finish();
-
-			case "pref_about_github":
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
-				getActivity().finish();
-		}
-
-		return false;
-	}
-
-	private void setPreferencesListeners() {
-		String keys[] = {
-				"pref_api_key",
-				"pref_about_mail",
-				"pref_about_issue",
-				"pref_about_github"
-		};
-
-		for (String key : keys) {
-			Preference tmp = findPreference(key);
-			if (tmp != null) {
-				tmp.setOnPreferenceClickListener(this);
-			}
-		}
 	}
 
 	private void setPreferencesView() {
 		addPreferencesFromResource(R.xml.pref_api);
 		addPreferencesFromResource(R.xml.pref_automation);
 		addPreferencesFromResource(R.xml.pref_notification);
-		addPreferencesFromResource(R.xml.pref_about);
 
 		// check if tablet or landscape
 		if (!getResources().getBoolean(R.bool.isTablet) || !getResources().getBoolean(R.bool.isLandscape)) {

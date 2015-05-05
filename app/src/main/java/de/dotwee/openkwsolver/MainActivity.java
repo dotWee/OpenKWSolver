@@ -19,6 +19,8 @@ package de.dotwee.openkwsolver;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -60,9 +62,17 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		if (item.getItemId() == R.id.menu_exit) {
-			finish();
+		switch (item.getItemId()) {
+			case R.id.menu_exit:
+				finish();
+				break;
+
+			case R.id.menu_github:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
+				finish();
+				break;
 		}
+
 		return false;
 	}
 

@@ -20,6 +20,10 @@
     >
 
     <item
+        android:id="@+id/menu_github"
+        android:title="Github"/>
+
+    <item
         android:id="@+id/menu_exit"
         android:title="Exit"/>
 
