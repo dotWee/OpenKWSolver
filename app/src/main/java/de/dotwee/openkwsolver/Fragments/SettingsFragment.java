@@ -54,9 +54,6 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		Log.i(LOG_TAG, "onPreferenceChange / KEY: " + preferenceKey);
 
 		switch (preferenceKey) {
-			case "pref_layout_size":
-				SolverFragment.imageViewCaptcha.getLayoutParams().height = Integer.parseInt(newValue.toString());
-
 			case "pref_layout_captchaid":
 				if (newValue.toString().equalsIgnoreCase("false")) {
 					SolverFragment.textViewCaptchaDesc.setVisibility(View.GONE);

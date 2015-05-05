@@ -145,8 +145,9 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				StaticHelpers.getApiKey(baseContext));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
-		if (view != null)
-			Picasso.with(baseContext).load(CaptchaPictureURL).placeholder(R.drawable.captcha_loading_animation).into(imageViewCaptcha);
+		if (view != null) {
+			Picasso.with(baseContext).load(CaptchaPictureURL).placeholder(R.drawable.captcha_loading_animation).resize(0, StaticHelpers.getImageViewHeight(baseContext)).into(imageViewCaptcha);
+		}
 
 		return imageViewCaptcha != null;
 	}

@@ -188,6 +188,12 @@ public class StaticHelpers {
 		return "";
 	}
 
+	public static int getImageViewHeight(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		return Integer.parseInt(prefs.getString("pref_layout_size", "0"));
+	}
+
 	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivityManager
 				= (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
