@@ -37,39 +37,31 @@ public class DownloadContentTask extends AsyncTask<String, Void, String> {
 		String output = null;
 
 		try {
-			URL inURL = new URL(params[0]);
+			URL mURL = new URL(params[0]);
 
 			// Action to handle requestCaptchaID
 			if (params.length == 2) {
 				int timeToNextCaptcha = Integer.parseInt(params[1]);
-				if (URLUtil.isValidUrl(params[0])) {
-					boolean isCaptchaID = false;
-					while (!isCaptchaID) {
-						if (timeToNextCaptcha != 0) {
-							Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
-							Thread.sleep(250 + timeToNextCaptcha);
-						}
-
-						URLConnection connection = inURL.openConnection();
-						BufferedReader bufferedReader = new BufferedReader(
-								new InputStreamReader(connection.getInputStream()));
-						output = bufferedReader.readLine();
-						bufferedReader.close();
-
-						if (output != null) {
-							Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
-							isCaptchaID = true;
-							break;
-						} else {
-							Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
-						}
+				if (URLUtil.isValidUrl(params[0])) while (output == null) {
+					if (timeToNextCaptcha != 0) {
+						Log.i(LOG_TAG, "doInBackground: SLEEP /" + timeToNextCaptcha);
+						Thread.sleep(250 + timeToNextCaptcha);
 					}
+
+					URLConnection connection = mURL.openConnection();
+					BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					output = bufferedReader.readLine();
+					bufferedReader.close();
+
+					if (output != null) {
+						Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
+					} else { Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA "); }
 				}
 			}
 
 			// Action to handle everything else
 			else {
-				URLConnection connection = inURL.openConnection();
+				URLConnection connection = mURL.openConnection();
 				BufferedReader bufferedReader = new BufferedReader(
 						new InputStreamReader(connection.getInputStream()));
 				output = bufferedReader.readLine();
