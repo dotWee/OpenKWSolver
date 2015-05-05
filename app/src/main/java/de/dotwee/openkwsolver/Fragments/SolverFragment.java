@@ -153,10 +153,10 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
 		if (view != null) {
-			Picasso.with(baseContext).load(CaptchaPictureURL).into(imageViewCaptcha);
+			Picasso.with(baseContext).load(CaptchaPictureURL).placeholder(R.drawable.captcha_loading_animation).into(imageViewCaptcha);
 		}
 
-		return false;
+		return imageViewCaptcha != null;
 	}
 
 	public void updateBalance() {
