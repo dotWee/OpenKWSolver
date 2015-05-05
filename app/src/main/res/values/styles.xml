@@ -27,9 +27,18 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+    <style name="AppThemeDark" parent="Theme.AppCompat">
+
+        <!-- Main theme colors -->
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary_dark</item>
+        <item name="progressBarStyle">@color/dark_accent</item>
+        <item name="colorAccent">@color/dark_accent</item>
+    </style>
+
     <style name="TabTheme">
         <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
-        <item name="android:background">@color/primary</item>
+        <item name="android:background">?attr/colorPrimary</item>
         <item name="android:textColor">@color/icons</item>
         <item name="android:layout_gravity">top</item>
         <item name="android:padding">7dp</item>
@@ -42,7 +51,7 @@
     </style>
 
     <style name="DescTheme.Count" parent="DescTheme">
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:textStyle">bold</item>
     </style>

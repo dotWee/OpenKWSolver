@@ -16,6 +16,7 @@
   -->
 
 <resources>
+    <color name="accent">#9C27B0</color>
     <color name="primary">#4CAF50</color>
     <color name="primary_dark">#388E3C</color>
     <color name="primary_light">#C8E6C9</color>
@@ -24,6 +25,10 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
 
-    <color name="accent">#9C27B0</color>
     <color name="icons">#FFFFFF</color>
+
+    <color name="dark_accent">#4CAF50</color>
+    <color name="dark_primary">#9C27B0</color>
+    <color name="dark_primary_dark">#7B1FA2</color>
+    <color name="dark_primary_light">#E1BEE7</color>
 </resources>

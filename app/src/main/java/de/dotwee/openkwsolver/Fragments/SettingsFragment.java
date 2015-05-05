@@ -76,6 +76,8 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 						} else { SolverFragment.balanceThread.run(); }
 					}
 				}
+			case "pref_layout_darkui":
+				getActivity().recreate();
 		}
 
 		return true;

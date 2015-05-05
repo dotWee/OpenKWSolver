@@ -194,13 +194,17 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					getActivity().runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							if (view != null)
-								textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
-						}
-					});
+
+					if (getActivity() != null) {
+						getActivity().runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (view != null) {
+									textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
+								}
+							}
+						});
+					}
 				}
 
 			}

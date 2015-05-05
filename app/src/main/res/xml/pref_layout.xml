@@ -29,5 +29,10 @@
             android:key="pref_layout_captchaid"
             android:title="@string/pref_layout_captcha_id_title"/>
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_layout_darkui"
+            android:title="Enable dark theme"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

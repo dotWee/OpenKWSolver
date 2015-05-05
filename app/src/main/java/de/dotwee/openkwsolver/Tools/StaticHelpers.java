@@ -30,6 +30,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import de.dotwee.openkwsolver.R;
+
 public class StaticHelpers {
 	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
 	public static final String URL_PARAMETER_NOCAPTCHA = "&nocaptcha=1";
@@ -204,42 +206,39 @@ public class StaticHelpers {
 	}
 
 	public static boolean isVibrateEnabled(Context context) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Boolean b = prefs.getBoolean("pref_notification_vibrate", true);
-		Log.i(LOG_TAG, "isVibrateEnabled: RETURN / " + b);
-		return b;
+		return getPreferencesBoolean(context, "pref_notification_vibrate", true);
 	}
 
 	public static boolean isLoopEnabled(Context context) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Boolean b = prefs.getBoolean("pref_automation_loop", true);
-		Log.i(LOG_TAG, "isLoopEnabled: RETURN / " + b);
-		return b;
+		return getPreferencesBoolean(context, "pref_automation_loop", true);
 	}
 
 	public static boolean isAutoBalanceEnabled(Context context) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Boolean b = prefs.getBoolean("pref_automation_balance", false);
-		Log.i(LOG_TAG, "isAutoBalanceEnabled: RETURN / " + b);
-		return b;
+		return getPreferencesBoolean(context, "pref_automation_balance", false);
 	}
 
 	public static boolean isSoundEnabled(Context context) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Boolean b = prefs.getBoolean("pref_notification_sound", true);
-		Log.i(LOG_TAG, "isSoundEnabled: RETURN / " + b);
-		return b;
+		return getPreferencesBoolean(context, "pref_notification_sound", true);
 	}
 
 	public static boolean isCaptchaIDEnabled(Context context) {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		Boolean b = prefs.getBoolean("pref_layout_captchaid", false);
-		Log.i(LOG_TAG, "isCaptchaIDEnabled: RETURN / " + b);
+		return getPreferencesBoolean(context, "pref_layout_captchaid", false);
+	}
+
+	public static boolean isDarkThemeEnabled(Context context) {
+		return getPreferencesBoolean(context, "pref_layout_darkui", false);
+	}
+
+	public static int getDefaultStyle(Context context) {
+		if (isDarkThemeEnabled(context)) { return R.style.AppThemeDark; } else {
+			return R.style.AppTheme;
+		}
+	}
+
+	public static boolean getPreferencesBoolean(Context context, String _pref_key, Boolean _default) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Boolean b = prefs.getBoolean(_pref_key, _default);
+		Log.i(LOG_TAG, _pref_key + ": RETURN / " + b);
 		return b;
 	}
 }

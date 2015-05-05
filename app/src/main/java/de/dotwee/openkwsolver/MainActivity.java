@@ -29,13 +29,14 @@ import android.view.MenuItem;
 
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
+import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
 public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.setTheme(StaticHelpers.getDefaultStyle(this));
 		setContentView(R.layout.activity_main);
 
 		if (!getResources().getBoolean(R.bool.isTablet)) {
