@@ -51,6 +51,8 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
 	public static Button buttonPull, buttonSkip, buttonSend;
 	public static ImageView imageViewCaptcha;
+	public static Thread balanceThread;
+
 	private String CaptchaID;
 	private CountDownTimer countDownTimer;
 	private SharedPreferences prefs;
@@ -58,7 +60,6 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	private EditText editTextAnswer;
 	private ProgressBar progressBar;
 	private Vibrator vibrator;
-	private Thread BalanceUpdate;
 	private Context baseContext;
 	private View view;
 
@@ -100,7 +101,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (BalanceUpdate != null) if (BalanceUpdate.isAlive()) BalanceUpdate.interrupt();
+		if (balanceThread != null) if (balanceThread.isAlive()) balanceThread.interrupt();
 	}
 
 	private void initWidgets() {
@@ -156,7 +157,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 
 	// BalanceThread: Update the balance every 5 seconds
 	public void balanceThread() {
-		BalanceUpdate = new Thread() {
+		balanceThread = new Thread() {
 
 			@Override
 			public void run() {
@@ -179,10 +180,10 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		};
 
 		// check if thread isn't already running.
-		if (BalanceUpdate.isAlive()) { BalanceUpdate.interrupt(); }
+		if (balanceThread.isAlive()) { balanceThread.interrupt(); }
 
 		// if not, start it
-		else { BalanceUpdate.start(); }
+		else { balanceThread.start(); }
 	}
 
 	public void notifyUser() {

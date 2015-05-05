@@ -70,6 +70,15 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 				SolverFragment.buttonPull.setEnabled(newValue.toString() != null);
 				SolverFragment.buttonSkip.setEnabled(newValue.toString() != null);
 				SolverFragment.buttonSend.setEnabled(newValue.toString() != null);
+
+			case "pref_automation_balance":
+				if (Boolean.parseBoolean(newValue.toString()) == false) {
+					if (SolverFragment.balanceThread != null) {
+						if (SolverFragment.balanceThread.isAlive()) {
+							SolverFragment.balanceThread.interrupt();
+						} else { SolverFragment.balanceThread.run(); }
+					}
+				}
 		}
 
 		return true;
