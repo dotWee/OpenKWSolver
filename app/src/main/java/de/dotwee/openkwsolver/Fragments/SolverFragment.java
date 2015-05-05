@@ -79,17 +79,13 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		initWidgets();
 
 		// start showing balance if network and apikey is available
-		if (StaticHelpers.isNetworkAvailable(baseContext)) {
-			if (StaticHelpers.getApiKey(baseContext) != null) {
-				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) {
-					balanceThread();
-				} else {
+		if (StaticHelpers.isNetworkAvailable(baseContext))
+			if (StaticHelpers.getApiKey(baseContext) != null)
+				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) { balanceThread(); } else
 					Toast.makeText(baseContext, "Set a API-Key to start", Toast.LENGTH_SHORT).show();
-				}
-			} else {
+			else {
 				Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
 			}
-		}
 
 		buttonPull.setOnClickListener(this);
 		buttonPull.setOnLongClickListener(this);
@@ -104,11 +100,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (BalanceUpdate != null) {
-			if (BalanceUpdate.isAlive()) {
-				BalanceUpdate.interrupt();
-			}
-		}
+		if (BalanceUpdate != null) if (BalanceUpdate.isAlive()) BalanceUpdate.interrupt();
 	}
 
 	private void initWidgets() {
@@ -152,9 +144,8 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				StaticHelpers.getApiKey(baseContext));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
-		if (view != null) {
+		if (view != null)
 			Picasso.with(baseContext).load(CaptchaPictureURL).placeholder(R.drawable.captcha_loading_animation).into(imageViewCaptcha);
-		}
 
 		return imageViewCaptcha != null;
 	}
@@ -178,9 +169,8 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (view != null) {
+							if (view != null)
 								textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
-							}
 						}
 					});
 				}
@@ -189,20 +179,14 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		};
 
 		// check if thread isn't already running.
-		if (BalanceUpdate.isAlive()) {
-			BalanceUpdate.interrupt();
-		}
+		if (BalanceUpdate.isAlive()) { BalanceUpdate.interrupt(); }
 
 		// if not, start it
-		else {
-			BalanceUpdate.start();
-		}
+		else { BalanceUpdate.start(); }
 	}
 
 	public void notifyUser() {
-		if (StaticHelpers.isVibrateEnabled(baseContext)) {
-			vibrator.vibrate(500);
-		}
+		if (StaticHelpers.isVibrateEnabled(baseContext)) vibrator.vibrate(500);
 	}
 
 	@Override
@@ -210,38 +194,27 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		int viewId = v.getId();
 		CaptchaID = null;
 
-		if (viewId == R.id.buttonPull) {
-			if (StaticHelpers.getApiKey(baseContext) != null) {
-				buttonSend.setEnabled(true);
-				buttonSkip.setEnabled(true);
+		if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
+			buttonSend.setEnabled(true);
+			buttonSkip.setEnabled(true);
 
-				Log.i(LOG_TAG, "onClickPull: Click recognized");
-				if (StaticHelpers.isNetworkAvailable(baseContext)) {
-					updateBalance();
+			Log.i(LOG_TAG, "onClickPull: Click recognized");
+			if (StaticHelpers.isNetworkAvailable(baseContext)) {
+				updateBalance();
 
-					CaptchaID = StaticHelpers.requestCaptchaID(baseContext, prefs.getBoolean("pref_automation_loop", false), 2);
-					textViewCaptcha.setText(CaptchaID);
+				CaptchaID = StaticHelpers.requestCaptchaID(baseContext, prefs.getBoolean("pref_automation_loop", false), 2);
+				textViewCaptcha.setText(CaptchaID);
 
-					// request captcha image
-					isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
-					if (CaptchaID != null) {
-						notifyUser();
-					}
-					buttonPull.setEnabled(false);
+				// request captcha image
+				isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
+				if (CaptchaID != null) notifyUser();
+				buttonPull.setEnabled(false);
 
-					if (isCurrentCaptcha) {
-						startCountdown();
-					} else {
-						buttonSkip.performClick();
-					}
+				if (isCurrentCaptcha) { startCountdown(); } else buttonSkip.performClick();
 
-				} else {
-					toastBreak("No network available!");
-				}
-			} else {
-				toastBreak("Set an API-Key first!");
-			}
-		} else if (viewId == R.id.buttonSend) {
+			} else { toastBreak("No network available!"); }
+		} else { toastBreak("Set an API-Key first!"); }
+		else if (viewId == R.id.buttonSend) {
 			String answer = getCaptchaAnswer();
 			if (!answer.equalsIgnoreCase("")) {
 				StaticHelpers.sendCaptchaByID(baseContext, CaptchaID, answer, false);
@@ -249,12 +222,9 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				if (StaticHelpers.isLoopEnabled(baseContext)) {
 					Log.i("OnClickSend", "Loop-Mode");
 					buttonPull.performClick();
-				} else {
-					buttonPull.setEnabled(true);
-				}
-			} else {
+				} else { buttonPull.setEnabled(true); }
+			} else
 				Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-			}
 		} else if (viewId == R.id.buttonSkip) {
 			StaticHelpers.skipCaptchaByID(baseContext, StaticHelpers.getApiKey(baseContext));
 			buttonPull.setEnabled(true);
@@ -280,9 +250,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	}
 
 	private void cancelCountDown() {
-		if (countDownTimer != null) {
-			countDownTimer.cancel();
-		}
+		if (countDownTimer != null) countDownTimer.cancel();
 	}
 
 	private String getCaptchaAnswer() {
