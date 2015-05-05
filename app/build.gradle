@@ -25,7 +25,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 19
-        versionName "v1.9"
+        versionName "v1.8"
     }
     buildTypes {
         release {
@@ -39,4 +39,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:support-v13:22.1.1'
+
+    // @link https://github.com/square/picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

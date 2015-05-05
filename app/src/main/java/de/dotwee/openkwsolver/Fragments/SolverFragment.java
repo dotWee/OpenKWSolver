@@ -20,7 +20,6 @@ package de.dotwee.openkwsolver.Fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -37,12 +36,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import com.squareup.picasso.Picasso;
 
 import de.dotwee.openkwsolver.R;
-import de.dotwee.openkwsolver.Tools.DownloadImageTask;
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
 public class SolverFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
@@ -55,6 +51,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
 	public static Button buttonPull, buttonSkip, buttonSend;
 	public static ImageView imageViewCaptcha;
+	private String CaptchaID;
 	private CountDownTimer countDownTimer;
 	private SharedPreferences prefs;
 	private Boolean isCurrentCaptcha;
@@ -145,23 +142,18 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		imageViewCaptcha.setImageDrawable(null);
 		editTextAnswer.setText(null);
 		progressBar.setProgress(0);
-		countDownTimer.cancel();
+		cancelCountDown();
 	}
 
 	// Pull Captcha picture and display it
-	public boolean pullCaptchaPicture(String CaptchaID) {
-		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE + StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + CaptchaID + StaticHelpers.getApiKey(baseContext));
+	public boolean pullCaptchaPicture(String mCaptchaID) {
+		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE +
+				StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + mCaptchaID +
+				StaticHelpers.getApiKey(baseContext));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
 		if (view != null) {
-			try {
-				Bitmap returnBit = new DownloadImageTask(imageViewCaptcha).execute(CaptchaPictureURL).get(5000, TimeUnit.MILLISECONDS);
-				if (returnBit != null) {
-					return true; // true = new image
-				}
-			} catch (InterruptedException | ExecutionException | TimeoutException e) {
-				e.printStackTrace();
-			}
+			Picasso.with(baseContext).load(CaptchaPictureURL).into(imageViewCaptcha);
 		}
 
 		return false;
@@ -207,10 +199,6 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		}
 	}
 
-	public boolean captchaInWork() {
-		return isCurrentCaptcha;
-	}
-
 	public void notifyUser() {
 		if (StaticHelpers.isVibrateEnabled(baseContext)) {
 			vibrator.vibrate(500);
@@ -220,7 +208,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Override
 	public void onClick(View v) {
 		int viewId = v.getId();
-		String CaptchaID = null;
+		CaptchaID = null;
 
 		if (viewId == R.id.buttonPull) {
 			if (StaticHelpers.getApiKey(baseContext) != null) {
@@ -230,9 +218,8 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				Log.i(LOG_TAG, "onClickPull: Click recognized");
 				if (StaticHelpers.isNetworkAvailable(baseContext)) {
 					updateBalance();
-					CaptchaID = StaticHelpers.requestCaptchaID(baseContext, // needed Context
-							prefs.getBoolean("pref_automation_loop", false), // Loop: false / true
-							2); // 2 = Normal
+
+					CaptchaID = StaticHelpers.requestCaptchaID(baseContext, prefs.getBoolean("pref_automation_loop", false), 2);
 					textViewCaptcha.setText(CaptchaID);
 
 					// request captcha image
@@ -242,31 +229,17 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 					}
 					buttonPull.setEnabled(false);
 
-					final int[] i = {0};
-					countDownTimer = new CountDownTimer(30000, 1000) {
-						@Override
-						public void onTick(long millisUntilFinished) {
-							i[0]++;
-							progressBar.setProgress(i[0]);
-						}
-
-						@Override
-						public void onFinish() {
-							// todo global
-							// StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
-						}
-					};
-
 					if (isCurrentCaptcha) {
-						countDownTimer.start();
+						startCountdown();
 					} else {
 						buttonSkip.performClick();
 					}
+
 				} else {
-					Toast.makeText(baseContext, "No network available!", Toast.LENGTH_SHORT).show();
+					toastBreak("No network available!");
 				}
 			} else {
-				Toast.makeText(baseContext, "Set an API-Key first!", Toast.LENGTH_LONG).show();
+				toastBreak("Set an API-Key first!");
 			}
 		} else if (viewId == R.id.buttonSend) {
 			String answer = getCaptchaAnswer();
@@ -289,19 +262,42 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 		}
 	}
 
+	private void startCountdown() {
+		final int[] i = {0};
+
+		countDownTimer = new CountDownTimer(30000, 1000) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+				i[0]++;
+				progressBar.setProgress(i[0]);
+			}
+
+			@Override
+			public void onFinish() {
+				StaticHelpers.skipCaptchaByID(baseContext, CaptchaID);
+			}
+		}.start();
+	}
+
+	private void cancelCountDown() {
+		if (countDownTimer != null) {
+			countDownTimer.cancel();
+		}
+	}
+
 	private String getCaptchaAnswer() {
 		String tmp = editTextAnswer.getText().toString();
 		editTextAnswer.setText(null);
 		return tmp;
 	}
 
-	private void startTimer() {
-
-	}
-
 	@Override
 	public boolean onLongClick(View v) {
 		onClick(v);
 		return false;
+	}
+
+	private void toastBreak(String message) {
+		Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show();
 	}
 }
