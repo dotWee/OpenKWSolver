@@ -20,6 +20,8 @@ package de.dotwee.openkwsolver.Fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -37,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
@@ -61,6 +64,7 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	private ProgressBar progressBar;
 	private Vibrator vibrator;
 	private Context baseContext;
+	private Target imageTarget;
 	private View view;
 
 	@Nullable
@@ -96,6 +100,26 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 
 		buttonSkip.setOnClickListener(this);
 		buttonSkip.setOnLongClickListener(this);
+
+		imageTarget = new com.squareup.picasso.Target() {
+			@Override
+			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+				imageViewCaptcha.setImageBitmap(bitmap);
+				startCountdown();
+			}
+
+			@Override
+			public void onBitmapFailed(Drawable drawable) {
+				buttonSkip.performClick();
+
+				toastBreak("Error with Captcha. Reloading...");
+			}
+
+			@Override
+			public void onPrepareLoad(Drawable drawable) {
+				imageViewCaptcha.setImageDrawable(drawable);
+			}
+		};
 	}
 
 	@Override
@@ -139,17 +163,21 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	}
 
 	// Pull Captcha picture and display it
-	public boolean pullCaptchaPicture(String mCaptchaID) {
+	public void pullCaptchaPicture(String mCaptchaID) {
 		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE +
 				StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + mCaptchaID +
 				StaticHelpers.getApiKey(baseContext));
 
 		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
 		if (view != null) {
-			Picasso.with(baseContext).load(CaptchaPictureURL).placeholder(R.drawable.captcha_loading_animation).resize(0, StaticHelpers.getImageViewHeight(baseContext)).into(imageViewCaptcha);
-		}
 
-		return imageViewCaptcha != null;
+			Picasso.with(baseContext)
+					.load(CaptchaPictureURL)
+					.placeholder(R.drawable.captcha_loading_animation)
+					.resize(0, StaticHelpers.getImageViewHeight(baseContext))
+					.into(imageTarget);
+
+		}
 	}
 
 	public void updateBalance() {
@@ -194,7 +222,6 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 	@Override
 	public void onClick(View v) {
 		int viewId = v.getId();
-		CaptchaID = null;
 
 		if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
 			buttonSend.setEnabled(true);
@@ -208,11 +235,9 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 				textViewCaptcha.setText(CaptchaID);
 
 				// request captcha image
-				isCurrentCaptcha = pullCaptchaPicture(CaptchaID);
+				pullCaptchaPicture(CaptchaID);
 				if (CaptchaID != null) notifyUser();
 				buttonPull.setEnabled(false);
-
-				if (isCurrentCaptcha) { startCountdown(); } else buttonSkip.performClick();
 
 			} else { toastBreak("No network available!"); }
 		} else { toastBreak("Set an API-Key first!"); }
