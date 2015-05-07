@@ -73,9 +73,9 @@ Date: (work in progress; upcoming)
 		- Updated titles & descriptions
 		- Removed about category
 <br>+ Layout changes:
-		- Loading-animation for captchas
 		- Allow switching between dark- light theme
 		- Slightly different color-scheme
+		- Loading-animation for captchas
 <br>+ Minor:
 		- Compiled with latest build-tools
 		- Updated libraries

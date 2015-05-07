@@ -229,6 +229,11 @@ public class StaticHelpers {
 		return getPreferencesBoolean(context, "pref_layout_darkui", false);
 	}
 
+	public static int getDefaultIcon(Context context) {
+		if (isDarkThemeEnabled(context)) return R.mipmap.ic_launcher_dark;
+		else return R.mipmap.ic_launcher;
+	}
+
 	public static int getDefaultStyle(Context context) {
 		if (isDarkThemeEnabled(context)) { return R.style.AppThemeDark; } else {
 			return R.style.AppTheme;

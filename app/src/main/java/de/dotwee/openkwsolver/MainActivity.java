@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,9 +43,15 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 		setContentView(R.layout.activity_main);
 
 		if (!getResources().getBoolean(R.bool.isTablet)) {
+			setupActionBar();
 			setupViewPager();
 		}
 
+	}
+
+	private void setupActionBar() {
+		if (getSupportActionBar() != null)
+			getSupportActionBar().setLogo(StaticHelpers.getDefaultIcon(this));
 	}
 
 	private void setupViewPager() {
