@@ -1,4 +1,4 @@
-<img width="75px" height="75px" src="Icon.png" />  OpenKWSolver
+<img width="75px" height="75px" src="art/web_icon_dark.png" />  OpenKWSolver
 =================================================================
 
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
@@ -62,51 +62,57 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 
 ## Changelog
 
-Date: (work in progress)
+Date: (work in progress; upcoming)
 > Version v1.8
-<br>+ Improvement: Removed use of deprecated methods & classes
-<br>+ Improvement: Reduced apk-size by removing unused icons
-<br>+ Improvement: Reworked solver-code
-<br>+ Minor: Compiled with latest build-tools
-<br>+ Minor: Updated libraries
-<br>+ Minor: Values cleanup
-<br>+ Preferences: Updated titles & descriptions
+<br>+ Improvements:
+		- Reduced application-size
+		- Removed deprecated code
+		- Reduced memory-usage
+		- Reworked solver-code
+		- Refactored loop-code
+		- Updated titles & descriptions
+		- Removed about category
+<br>+ Layout changes:
+		- Loading-animation for captchas
+		- Allow switching between dark- light theme
+		- Slightly different color-scheme
+<br>+ Minor:
+		- Compiled with latest build-tools
+		- Updated libraries
+		- Values cleanup
 
 Date: (06/04/2015)
 > Version v1.7
-<br>+ Improvement: Loop-Mode
-<br>+ Improvement: Cleaned menu
-<br>+ Improvement: First-use code
-<br>+ Preferences: New About category
-<br>+ Minor: Built with latest build-tools
-<br>+ Layout: Display CaptchaID by default
-<br>+ Layout: New Tablet & landscape layout
+<br>+ Improvements: 
+		- Loop-Mode
+		- Cleaned menu
+		- First-use code
+<br>+ Layout changes: 
+		- Display CaptchaID by default
+		- New Tablet & landscape layout
+<br>+ Minor:
+		- Built with latest build-tools
+		- New about preference-category
 
 Date: 24/03/2015
 > Version v1.6.1 (Fast-fix)
-<br>+ Fix: Prevent NullPointerException (Force-close) because of unitialized widgets
-<br>+ Fix: Prevent Force-close on application exit
+<br>+ Fixs: 
+		- Prevent Force-close on application exit
+		- Prevent Force-clone on startup
 
 Date: 20/03/2015
 > Version v1.6
-<br>+ Preference to enable / disable CaptchaID TextView
-<br>+ Preference for ImageView now updates immediately
-<br>+ Preference to play sound on new Captcha
-<br>+ Disable all buttons if no API-key is set
-<br>+ Skip Captcha as soon as ProgressBar finishes
-<br>+ Removed deprecated apache http API
-<br>+ Removed unstable confirm fragment
-<br>+ Updated license
-
-Date: 16/03/2015
-> Version v1.5
-<br>+ Preference to enable / disable auto-updating balance
-<br>+ Selectable timeouts (useful on slow network)
-<br>+ Textview to display current CaptchaID
-<br>+ Built with latest build-tools (v22)
-<br>+ Reworked main code
-<br>+ Some fixes
-<br>+ A new version number
+<br>+ Improvements: 
+		- Removed deprecated apache http API
+		- Removed unstable confirm fragment
+<br>+ Layout changes: 
+		- Preference to enable / disable CaptchaID TextView
+		- Preference for ImageView now updates immediately
+		- Preference to play sound on new Captcha
+<br>+ Minor:
+		- Skip Captcha as soon as ProgressBar finishes
+		- Disable all buttons if no API-key is set
+		- Updated application license
 
 ## Found a bug / had a force-close?
 
