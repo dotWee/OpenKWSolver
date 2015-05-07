@@ -19,6 +19,7 @@ package de.dotwee.openkwsolver;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.ContextThemeWrapper;
 
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
@@ -30,7 +31,15 @@ import de.dotwee.openkwsolver.Tools.StaticHelpers;
 public class OpenKWSolverApp extends Application {
 	@Override
 	public Context getBaseContext() {
-		Context context = super.getBaseContext();
+		return wrapTheme(super.getBaseContext());
+	}
+
+	@Override
+	public Context getApplicationContext() {
+		return wrapTheme(super.getApplicationContext());
+	}
+
+	private static Context wrapTheme(Context context) {
 		if (StaticHelpers.isDarkThemeEnabled(context)) {
 			return new ContextThemeWrapper(context, R.style.AppThemeDark);
 		} else { return new ContextThemeWrapper(context, R.style.AppTheme); }
