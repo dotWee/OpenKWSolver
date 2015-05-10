@@ -23,7 +23,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
-
 import de.dotwee.openkwsolver.R;
 
 public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener {

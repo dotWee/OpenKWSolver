@@ -31,16 +31,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
 

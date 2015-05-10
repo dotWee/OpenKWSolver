@@ -25,12 +25,11 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+import de.dotwee.openkwsolver.R;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import de.dotwee.openkwsolver.R;
 
 public class StaticHelpers {
 	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
