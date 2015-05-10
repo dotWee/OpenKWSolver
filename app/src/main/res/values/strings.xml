@@ -55,8 +55,4 @@
 
     <string name="pref_layout_captcha_size_title">Captcha image size</string>
     <string name="pref_layout_captcha_id_title">Display current Captcha ID</string>
-
-    <string name="pref_about_github_title">Source code</string>
-    <string name="pref_about_issue_title">Report issue</string>
-    <string name="pref_about_mail_title">Mail the developer</string>
 </resources>

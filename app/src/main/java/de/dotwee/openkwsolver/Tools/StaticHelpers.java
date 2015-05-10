@@ -216,7 +216,7 @@ public class StaticHelpers {
 		return getPreferencesBoolean(context, "pref_automation_balance", false);
 	}
 
-	public static boolean isSoundEnabled(Context context) {
+	private static boolean isSoundEnabled(Context context) {
 		return getPreferencesBoolean(context, "pref_notification_sound", true);
 	}
 
@@ -239,7 +239,7 @@ public class StaticHelpers {
 		}
 	}
 
-	public static boolean getPreferencesBoolean(Context context, String _pref_key, Boolean _default) {
+	private static boolean getPreferencesBoolean(Context context, String _pref_key, Boolean _default) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Boolean b = prefs.getBoolean(_pref_key, _default);
 		Log.i(LOG_TAG, _pref_key + ": RETURN / " + b);

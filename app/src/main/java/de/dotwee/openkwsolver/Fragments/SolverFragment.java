@@ -37,6 +37,7 @@ import com.squareup.picasso.Target;
 import de.dotwee.openkwsolver.R;
 import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
+@SuppressWarnings("ClassHasNoToStringMethod")
 public class SolverFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
 	public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
@@ -289,5 +290,10 @@ public class SolverFragment extends Fragment implements View.OnClickListener, Vi
 
 	private void toastBreak(String message) {
 		Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public String toString() {
+		return "SolverFragment{}";
 	}
 }
