@@ -26,7 +26,7 @@ import de.dotwee.openkwsolver.Tools.StaticHelpers;
  * Created by Lukas on 05.05.2015
  * for project OpenKWSolver.
  */
-public class OpenKWSolverApp extends Application {
+class OpenKWSolverApp extends Application {
 	private static Context wrapTheme(Context context) {
 		if (StaticHelpers.isDarkThemeEnabled(context)) {
 			return new ContextThemeWrapper(context, R.style.AppThemeDark);
