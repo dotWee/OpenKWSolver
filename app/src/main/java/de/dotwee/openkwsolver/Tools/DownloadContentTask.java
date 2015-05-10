@@ -28,7 +28,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 
-public class DownloadContentTask extends AsyncTask<String, Void, String> {
+class DownloadContentTask extends AsyncTask<String, Void, String> {
 	private static final String LOG_TAG = "DownloadContentTask";
 
 	@Override
