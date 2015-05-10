@@ -27,6 +27,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="false"
-        android:contentDescription="Captcha"/>
+        android:contentDescription="@string/main_imageview_description"/>
 
 </LinearLayout>
