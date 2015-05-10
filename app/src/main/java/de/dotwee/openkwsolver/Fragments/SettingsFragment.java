@@ -63,7 +63,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 				break;
 
 			case "pref_automation_balance":
-				if (Boolean.parseBoolean(newValue.toString()) == false) {
+				if (!Boolean.parseBoolean(newValue.toString())) {
 					if (SolverFragment.balanceThread != null) {
 						if (SolverFragment.balanceThread.isAlive()) {
 							SolverFragment.balanceThread.interrupt();
