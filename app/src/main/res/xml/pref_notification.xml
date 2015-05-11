@@ -25,14 +25,14 @@
             android:title="@string/pref_notification_title"/-->
 
         <SwitchPreference
-            android:contentDescription="@string/pref_notification_vibrate_description"
-            android:key="pref_notification_vibrate"
-            android:title="@string/pref_notification_vibrate_title"/>
+                android:contentDescription="@string/pref_notification_vibrate_description"
+                android:key="pref_notification_vibrate"
+                android:title="@string/pref_notification_vibrate_title"/>
 
         <SwitchPreference
-            android:contentDescription="@string/pref_notification_sound_description"
-            android:key="pref_notification_sound"
-            android:title="@string/pref_notification_sound_title"/>
+                android:contentDescription="@string/pref_notification_sound_description"
+                android:key="pref_notification_sound"
+                android:title="@string/pref_notification_sound_title"/>
 
     </PreferenceCategory>
 

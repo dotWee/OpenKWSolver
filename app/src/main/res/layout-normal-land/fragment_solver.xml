@@ -23,17 +23,17 @@
               android:baselineAligned="false">
 
     <include
-        android:id="@+id/includeCaptcha"
-        layout="@layout/frame_captcha"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"/>
+            android:id="@+id/includeCaptcha"
+            layout="@layout/frame_captcha"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
 
     <include
-        android:id="@+id/includeSolver"
-        layout="@layout/frame_solver"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"/>
+            android:id="@+id/includeSolver"
+            layout="@layout/frame_solver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
 
 </LinearLayout>

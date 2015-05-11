@@ -19,24 +19,24 @@
 
     <PreferenceCategory android:title="Automation Settings">
         <SwitchPreference
-            android:contentDescription="@string/pref_automation_loop_description"
-            android:defaultValue="false"
-            android:key="pref_automation_loop"
-            android:title="@string/pref_automation_loop_title"/>
+                android:contentDescription="@string/pref_automation_loop_description"
+                android:defaultValue="false"
+                android:key="pref_automation_loop"
+                android:title="@string/pref_automation_loop_title"/>
 
         <ListPreference
-            android:contentDescription="@string/pref_automation_loop_time_description"
-            android:defaultValue="0"
-            android:entries="@array/array_loop_time"
-            android:entryValues="@array/array_loop_time_value"
-            android:key="pref_automation_loop_time"
-            android:title="@string/pref_automation_loop_time_title"/>
+                android:contentDescription="@string/pref_automation_loop_time_description"
+                android:defaultValue="0"
+                android:entries="@array/array_loop_time"
+                android:entryValues="@array/array_loop_time_value"
+                android:key="pref_automation_loop_time"
+                android:title="@string/pref_automation_loop_time_title"/>
 
         <SwitchPreference
-            android:contentDescription="@string/pref_automation_balance_description"
-            android:defaultValue="false"
-            android:key="pref_automation_balance"
-            android:title="@string/pref_automation_balance_title"/>
+                android:contentDescription="@string/pref_automation_balance_description"
+                android:defaultValue="false"
+                android:key="pref_automation_balance"
+                android:title="@string/pref_automation_balance_title"/>
 
     </PreferenceCategory>
 

@@ -19,7 +19,7 @@
 
     <string name="app_name">OpenKWSolver</string>
 
-    <string name="main_button_text_start">Start</string>
+    <string name="main_button_text_pull">Pull</string>
     <string name="main_button_text_send">Send</string>
     <string name="main_button_text_skip">Skip</string>
     <string name="main_edittext_hint_answer">Answer</string>
@@ -27,7 +27,8 @@
     <string name="main_textview_text_balance">Balance:</string>
     <string name="main_textview_text_captcha">Captcha ID:</string>
 
-    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer.</string>
+    <string name="main_toast_emptyanswer">Empty answer. Please skip the Captcha instead of sending a empty answer.
+    </string>
 
     <string name="menu_title_github">Github</string>
     <string name="menu_title_exit">Exit</string>
