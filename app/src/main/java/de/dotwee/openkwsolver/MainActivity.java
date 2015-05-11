@@ -30,89 +30,80 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
-import de.dotwee.openkwsolver.Tools.StaticHelpers;
+import de.dotwee.openkwsolver.Tools.ThemeChanger;
 
 public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.setTheme(StaticHelpers.getDefaultStyle(this));
-		setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ThemeChanger.onCreateChangeTheme(this);
+        setContentView(R.layout.activity_main);
 
-		if (!getResources().getBoolean(R.bool.isTablet)) {
-			setupActionBar();
-			setupViewPager();
-		}
+        if (!getResources().getBoolean(R.bool.isTablet)) setupViewPager();
+    }
 
-	}
+    private void setupViewPager() {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
+        viewPager.setOffscreenPageLimit(2);
+    }
 
-	private void setupActionBar() {
-		if (getSupportActionBar() != null)
-			getSupportActionBar().setLogo(StaticHelpers.getDefaultIcon(this));
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.menu_global, menu);
+        return true;
+    }
 
-	private void setupViewPager() {
-		ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-		viewPager.setAdapter(new FragmentAdapter(getFragmentManager()));
-		viewPager.setOffscreenPageLimit(2);
-	}
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_exit:
+                finish();
+                break;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = new MenuInflater(this);
-		inflater.inflate(R.menu.menu_global, menu);
-		return true;
-	}
+            case R.id.menu_github:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
+                finish();
+                break;
+        }
 
-	@Override
-	public boolean onMenuItemClick(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_exit:
-				finish();
-				break;
+        return false;
+    }
 
-			case R.id.menu_github:
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dotWee/OpenKWSolver")));
-				finish();
-				break;
-		}
+    public static class FragmentAdapter extends FragmentPagerAdapter {
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-		return false;
-	}
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new SolverFragment();
+                case 1:
+                    return new SettingsFragment();
+                default:
+                    return null;
+            }
+        }
 
-	public static class FragmentAdapter extends FragmentPagerAdapter {
-		public FragmentAdapter(FragmentManager fm) {
-			super(fm);
-		}
+        @Override
+        public int getCount() {
+            return 2;
+        }
 
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-				case 0:
-					return new SolverFragment();
-				case 1:
-					return new SettingsFragment();
-				default:
-					return null;
-			}
-		}
-
-		@Override
-		public int getCount() {
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-				case 0:
-					return "Solver";
-				case 1:
-					return "Settings";
-				default:
-					return null;
-			}
-		}
-	}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Solver";
+                case 1:
+                    return "Settings";
+                default:
+                    return null;
+            }
+        }
+    }
 }

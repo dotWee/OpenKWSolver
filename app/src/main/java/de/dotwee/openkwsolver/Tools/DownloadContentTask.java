@@ -55,7 +55,9 @@ class DownloadContentTask extends AsyncTask<String, Void, String> {
 
 					if (output != null) {
 						Log.i(LOG_TAG, "doInBackground: NEW CAPTCHA / " + output);
-					} else { Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA "); }
+					} else {
+						Log.i(LOG_TAG, "doInBackground: EMPTY CAPTCHA ");
+					}
 				}
 			}
 

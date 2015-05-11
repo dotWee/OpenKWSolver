@@ -24,6 +24,7 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.View;
 import de.dotwee.openkwsolver.R;
+import de.dotwee.openkwsolver.Tools.ThemeChanger;
 
 public class SettingsFragment extends PreferenceFragment implements OnPreferenceChangeListener {
 	public final static String LOG_TAG = "PreferenceFragment";
@@ -67,13 +68,15 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 					if (SolverFragment.balanceThread != null) {
 						if (SolverFragment.balanceThread.isAlive()) {
 							SolverFragment.balanceThread.interrupt();
-						} else { SolverFragment.balanceThread.run(); }
+						} else {
+							SolverFragment.balanceThread.run();
+						}
 					}
 				}
 				break;
 
 			case "pref_layout_darkui":
-				getActivity().recreate();
+				ThemeChanger.changeTheme(getActivity());
 				break;
 		}
 
