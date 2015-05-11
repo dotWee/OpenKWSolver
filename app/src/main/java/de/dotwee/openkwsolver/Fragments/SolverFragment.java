@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.github.clans.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import de.dotwee.openkwsolver.R;
@@ -39,261 +40,303 @@ import de.dotwee.openkwsolver.Tools.StaticHelpers;
 
 @SuppressWarnings("ClassHasNoToStringMethod")
 public class SolverFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener {
-	public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
-	public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
-	public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
-	private static final String LOG_TAG = "SolverFragment";
+    public static final String URL_9WK = "http://www.9kw.eu:80/index.cgi";
+    public static final String URL_PARAMETER_CAPTCHA_SHOW = "?action=usercaptchashow";
+    public static final String URL_PARAMETER_SOURCE = "&source=androidopenkws";
+    private static final String LOG_TAG = "SolverFragment";
 
-	// main widgets
-	public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
-	public static Button buttonPull, buttonSkip, buttonSend;
-	public static ImageView imageViewCaptcha;
-	public static EditText editTextAnswer;
-	public static Thread balanceThread;
+    // main widgets
+    public static TextView textViewCaptchaDesc, textViewCaptcha, textViewBalance;
+    public static FloatingActionButton floatingActionButton;
+    public static Button buttonPull, buttonSkip, buttonSend;
+    public static ImageView imageViewCaptcha;
+    public static EditText editTextAnswer;
+    public static Thread balanceThread;
 
-	private String _captchaID;
-	private CountDownTimer _countDownTimer;
-	private SharedPreferences _sharedPreferences;
-	private ProgressBar progressBar;
-	private Vibrator vibrator;
-	private Context baseContext;
-	private Target imageTarget;
-	private View view;
+    private String _captchaID;
+    private CountDownTimer _countDownTimer;
+    private SharedPreferences _sharedPreferences;
+    @SuppressWarnings("FieldNotUsedInToString")
+    private ProgressBar progressBar;
+    private Vibrator vibrator;
+    private Context baseContext;
+    private Target imageTarget;
+    private View view;
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		_sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		baseContext = getActivity().getBaseContext();
-		return inflater.inflate(R.layout.fragment_solver, container, false);
-	}
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        _sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        baseContext = getActivity().getBaseContext();
+        return inflater.inflate(R.layout.fragment_solver, container, false);
+    }
 
-	@Override
-	public void onViewCreated(final View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		this.view = view;
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
 
-		// declare main widgets and services
-		initWidgets();
+        // declare main widgets and services
+        initWidgets();
 
-		// start showing balance if network and apikey is available
-		if (StaticHelpers.isNetworkAvailable(baseContext))
-			if (StaticHelpers.getApiKey(baseContext) != null)
-				if (StaticHelpers.isAutoBalanceEnabled(baseContext)) { balanceThread(); } else {
-					toastBreak("Set a API-Key to start");
-				}
-			else { toastBreak("No network available!"); }
+        // start showing balance if network and apikey is available
+        if (StaticHelpers.isNetworkAvailable(baseContext))
+            if (StaticHelpers.getApiKey(baseContext) != null)
+                if (StaticHelpers.isAutoBalanceEnabled(baseContext)) {
+                    balanceThread();
+                } else {
+                    toastBreak("Set a API-Key to start");
+                }
+            else {
+                toastBreak("No network available!");
+            }
 
-		buttonPull.setOnClickListener(this);
-		buttonPull.setOnLongClickListener(this);
 
-		buttonSend.setOnClickListener(this);
-		buttonSend.setOnLongClickListener(this);
+        imageTarget = new com.squareup.picasso.Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+                imageViewCaptcha.setImageBitmap(bitmap);
+                startCountdown();
+            }
 
-		buttonSkip.setOnClickListener(this);
-		buttonSkip.setOnLongClickListener(this);
+            @Override
+            public void onBitmapFailed(Drawable drawable) {
+                buttonSkip.performClick();
 
-		imageTarget = new com.squareup.picasso.Target() {
-			@Override
-			public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-				imageViewCaptcha.setImageBitmap(bitmap);
-				startCountdown();
-			}
+                toastBreak("Error with Captcha. Reloading...");
+            }
 
-			@Override
-			public void onBitmapFailed(Drawable drawable) {
-				buttonSkip.performClick();
+            @Override
+            public void onPrepareLoad(Drawable drawable) {
+                imageViewCaptcha.setImageDrawable(drawable);
+            }
+        };
+    }
 
-				toastBreak("Error with Captcha. Reloading...");
-			}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (balanceThread != null) if (balanceThread.isAlive()) balanceThread.interrupt();
+    }
 
-			@Override
-			public void onPrepareLoad(Drawable drawable) {
-				imageViewCaptcha.setImageDrawable(drawable);
-			}
-		};
-	}
+    private void initWidgets() {
+        buttonPull = (Button) view.findViewById(R.id.buttonPull);
+        buttonPull.setEnabled(false);
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (balanceThread != null) if (balanceThread.isAlive()) balanceThread.interrupt();
-	}
+        buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
+        buttonSkip.setEnabled(false);
 
-	private void initWidgets() {
-		buttonPull = (Button) view.findViewById(R.id.buttonPull);
-		buttonSkip = (Button) view.findViewById(R.id.buttonSkip);
-		buttonSkip.setEnabled(false);
+        buttonSend = (Button) view.findViewById(R.id.buttonSend);
+        buttonSend.setEnabled(false);
 
-		buttonSend = (Button) view.findViewById(R.id.buttonSend);
-		buttonSend.setEnabled(false);
+        vibrator = (Vibrator) baseContext.getSystemService(Context.VIBRATOR_SERVICE);
+        imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
+        textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
+        textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
+        textViewBalance = (TextView) view.findViewById(R.id.textViewBA);
 
-		vibrator = (Vibrator) baseContext.getSystemService(Context.VIBRATOR_SERVICE);
-		imageViewCaptcha = (ImageView) view.findViewById(R.id.imageViewCaptcha);
-		textViewCaptchaDesc = (TextView) view.findViewById(R.id.textViewDescID);
-		textViewCaptcha = (TextView) view.findViewById(R.id.textViewID);
-		textViewBalance = (TextView) view.findViewById(R.id.textViewBA);
+        editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
-		editTextAnswer = (EditText) view.findViewById(R.id.editTextAnswer);
-		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        // hide captchaid textviews if disabled
+        if (!StaticHelpers.isCaptchaIDEnabled(baseContext)) {
+            textViewCaptchaDesc.setVisibility(View.GONE);
+            textViewCaptcha.setVisibility(View.GONE);
+        }
 
-		// hide captchaid textviews if disabled
-		if (!StaticHelpers.isCaptchaIDEnabled(baseContext)) {
-			textViewCaptchaDesc.setVisibility(View.GONE);
-			textViewCaptcha.setVisibility(View.GONE);
-		}
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+            floatingActionButton.setOnClickListener(this);
+            floatingActionButton.setOnLongClickListener(this);
+        }
 
-		// fix edittext width
-		editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
-	}
+        // fix edittext width
+        editTextAnswer.setMaxWidth(editTextAnswer.getWidth());
 
-	private void resetWidgets() {
-		imageViewCaptcha.setImageDrawable(null);
-		editTextAnswer.setText(null);
-		progressBar.setProgress(0);
-		cancelCountDown();
-	}
+        // init listeners
+        buttonPull.setOnClickListener(this);
+        buttonPull.setOnLongClickListener(this);
 
-	// Pull Captcha picture and display it
-	public void pullCaptchaPicture(String mCaptchaID) {
-		String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE +
-				StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + mCaptchaID +
-				StaticHelpers.getApiKey(baseContext));
+        buttonSend.setOnClickListener(this);
+        buttonSend.setOnLongClickListener(this);
 
-		Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
-		if (view != null) {
+        buttonSkip.setOnClickListener(this);
+        buttonSkip.setOnLongClickListener(this);
+    }
 
-			Picasso.with(baseContext)
-					.load(CaptchaPictureURL)
-					.placeholder(R.drawable.captcha_loading_animation)
-					.resize(0, StaticHelpers.getImageViewHeight(baseContext))
-					.into(imageTarget);
+    private void resetWidgets() {
+        imageViewCaptcha.setImageDrawable(null);
+        editTextAnswer.setText(null);
+        progressBar.setProgress(0);
+        cancelCountDown();
+    }
 
-		}
-	}
+    // Pull Captcha picture and display it
+    public void pullCaptchaPicture(String mCaptchaID) {
+        String CaptchaPictureURL = (URL_9WK + URL_PARAMETER_CAPTCHA_SHOW + URL_PARAMETER_SOURCE +
+                StaticHelpers.getExternalParameter(baseContext, 2) + "&id=" + mCaptchaID +
+                StaticHelpers.getApiKey(baseContext));
 
-	public void updateBalance() {
-		textViewBalance.setText(StaticHelpers.getBalance(baseContext));
-	}
+        Log.i("pullCaptchaPicture", "URL: " + CaptchaPictureURL);
+        if (view != null) {
 
-	// BalanceThread: Update the balance every 5 seconds
-	public void balanceThread() {
-		balanceThread = new Thread() {
+            Picasso.with(baseContext)
+                    .load(CaptchaPictureURL)
+                    .placeholder(R.drawable.captcha_loading_animation)
+                    .resize(0, StaticHelpers.getImageViewHeight(baseContext))
+                    .into(imageTarget);
 
-			@Override
-			public void run() {
-				while (!isInterrupted()) {
-					try {
-						Thread.sleep(5000); // 5000ms = 5s
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+        }
+    }
 
-					if (getActivity() != null) {
-						getActivity().runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								if (view != null) {
-									textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
-								}
-							}
-						});
-					}
-				}
+    public void updateBalance() {
+        textViewBalance.setText(StaticHelpers.getBalance(baseContext));
+    }
 
-			}
-		};
+    // BalanceThread: Update the balance every 5 seconds
+    public void balanceThread() {
+        balanceThread = new Thread() {
 
-		// check if thread isn't already running.
-		if (balanceThread.isAlive()) { balanceThread.interrupt(); }
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        Thread.sleep(5000); // 5000ms = 5s
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-		// if not, start it
-		else { balanceThread.start(); }
-	}
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (view != null) {
+                                    textViewBalance.setText(StaticHelpers.getBalance(getActivity()));
+                                }
+                            }
+                        });
+                    }
+                }
 
-	public void notifyUser() {
-		if (StaticHelpers.isVibrateEnabled(baseContext)) vibrator.vibrate(500);
-	}
+            }
+        };
 
-	@Override
-	public void onClick(View v) {
-		int viewId = v.getId();
+        // check if thread isn't already running.
+        if (balanceThread.isAlive()) {
+            balanceThread.interrupt();
+        }
 
-		if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
-			buttonSend.setEnabled(true);
-			buttonSkip.setEnabled(true);
+        // if not, start it
+        else {
+            balanceThread.start();
+        }
+    }
 
-			Log.i(LOG_TAG, "onClickPull: Click recognized");
-			if (StaticHelpers.isNetworkAvailable(baseContext)) {
-				updateBalance();
+    public void notifyUser() {
+        if (StaticHelpers.isVibrateEnabled(baseContext)) vibrator.vibrate(500);
+    }
 
-				_captchaID = StaticHelpers.requestCaptchaID(baseContext, _sharedPreferences.getBoolean("pref_automation_loop", false), 2);
-				textViewCaptcha.setText(_captchaID);
+    @Override
+    public void onClick(View v) {
+        int viewId = v.getId();
 
-				// request captcha image
-				pullCaptchaPicture(_captchaID);
-				if (_captchaID != null) notifyUser();
-				buttonPull.setEnabled(false);
+        if (viewId == R.id.buttonPull) if (StaticHelpers.getApiKey(baseContext) != null) {
+            buttonSend.setEnabled(true);
+            buttonSkip.setEnabled(true);
 
-			} else { toastBreak("No network available!"); }
-		} else { toastBreak("Set an API-Key first!"); }
-		else if (viewId == R.id.buttonSend) {
-			String answer = getCaptchaAnswer();
-			if (!answer.equalsIgnoreCase("")) {
-				StaticHelpers.sendCaptchaByID(baseContext, _captchaID, answer, false);
-				resetWidgets();
-				if (StaticHelpers.isLoopEnabled(baseContext)) {
-					Log.i("OnClickSend", "Loop-Mode");
-					buttonPull.performClick();
-				} else { buttonPull.setEnabled(true); }
-			} else
-				Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
-		} else if (viewId == R.id.buttonSkip) {
-			StaticHelpers.skipCaptchaByID(baseContext, StaticHelpers.getApiKey(baseContext));
-			buttonPull.setEnabled(true);
-			resetWidgets();
-		}
-	}
+            Log.i(LOG_TAG, "onClickPull: Click recognized");
+            if (StaticHelpers.isNetworkAvailable(baseContext)) {
+                updateBalance();
 
-	private void startCountdown() {
-		final int[] i = {0};
+                _captchaID = StaticHelpers.requestCaptchaID(baseContext, _sharedPreferences.getBoolean("pref_automation_loop", false), 2);
+                textViewCaptcha.setText(_captchaID);
 
-		_countDownTimer = new CountDownTimer(30000, 1000) {
-			@Override
-			public void onTick(long millisUntilFinished) {
-				i[0]++;
-				progressBar.setProgress(i[0]);
-			}
+                // request captcha image
+                pullCaptchaPicture(_captchaID);
+                if (_captchaID != null) notifyUser();
+                buttonPull.setEnabled(false);
 
-			@Override
-			public void onFinish() {
-				StaticHelpers.skipCaptchaByID(baseContext, _captchaID);
-			}
-		}.start();
-	}
+            } else {
+                toastBreak("No network available!");
+            }
+        } else {
+            toastBreak("Set an API-Key first!");
+        }
+        else if (viewId == R.id.buttonSend) {
+            String answer = getCaptchaAnswer();
+            if (!answer.equalsIgnoreCase("")) {
+                StaticHelpers.sendCaptchaByID(baseContext, _captchaID, answer, false);
+                resetWidgets();
+                if (StaticHelpers.isLoopEnabled(baseContext)) {
+                    Log.i("OnClickSend", "Loop-Mode");
+                    buttonPull.performClick();
+                } else {
+                    buttonPull.setEnabled(true);
+                }
+            } else
+                Toast.makeText(baseContext, R.string.main_toast_emptyanswer, Toast.LENGTH_LONG).show();
+        } else if (viewId == R.id.buttonSkip) {
+            StaticHelpers.skipCaptchaByID(baseContext, StaticHelpers.getApiKey(baseContext));
+            buttonPull.setEnabled(true);
+            resetWidgets();
+        } else if (viewId == R.id.fab) {
+            floatingActionButton.setEnabled(false);
 
-	private void cancelCountDown() {
-		if (_countDownTimer != null) _countDownTimer.cancel();
-	}
+            if (StaticHelpers.getApiKey(baseContext) != null) {
+                buttonPull.setEnabled(true);
+                buttonPull.performClick();
 
-	private String getCaptchaAnswer() {
-		String tmp = editTextAnswer.getText().toString();
-		editTextAnswer.setText(null);
-		return tmp;
-	}
+                if (StaticHelpers.isAutoBalanceEnabled(baseContext)) {
+                    balanceThread();
+                } else {
+                    toastBreak("Set a API-Key to start");
+                }
+            } else {
+                toastBreak("No network available!");
+            }
 
-	@Override
-	public boolean onLongClick(View v) {
-		onClick(v);
-		return false;
-	}
+        }
+    }
 
-	private void toastBreak(String message) {
-		Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show();
-	}
+    private void startCountdown() {
+        final int[] i = {0};
 
-	@Override
-	public String toString() {
-		return "SolverFragment{}";
-	}
+        _countDownTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                i[0]++;
+                progressBar.setProgress(i[0]);
+            }
+
+            @Override
+            public void onFinish() {
+                StaticHelpers.skipCaptchaByID(baseContext, _captchaID);
+            }
+        }.start();
+    }
+
+    private void cancelCountDown() {
+        if (_countDownTimer != null) _countDownTimer.cancel();
+    }
+
+    private String getCaptchaAnswer() {
+        String tmp = editTextAnswer.getText().toString();
+        editTextAnswer.setText(null);
+        return tmp;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        onClick(v);
+        return false;
+    }
+
+    private void toastBreak(String message) {
+        Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String toString() {
+        return "SolverFragment{}";
+    }
 }

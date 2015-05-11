@@ -25,7 +25,6 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-import de.dotwee.openkwsolver.R;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -224,22 +223,7 @@ public class StaticHelpers {
 		return getPreferencesBoolean(context, "pref_layout_captchaid", false);
 	}
 
-	public static boolean isDarkThemeEnabled(Context context) {
-		return getPreferencesBoolean(context, "pref_layout_darkui", false);
-	}
-
-	public static int getDefaultIcon(Context context) {
-		if (isDarkThemeEnabled(context)) return R.mipmap.ic_launcher_dark;
-		else return R.mipmap.ic_launcher;
-	}
-
-	public static int getDefaultStyle(Context context) {
-		if (isDarkThemeEnabled(context)) { return R.style.AppThemeDark; } else {
-			return R.style.AppTheme;
-		}
-	}
-
-	private static boolean getPreferencesBoolean(Context context, String _pref_key, Boolean _default) {
+	static boolean getPreferencesBoolean(Context context, String _pref_key, Boolean _default) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		Boolean b = prefs.getBoolean(_pref_key, _default);
 		Log.i(LOG_TAG, _pref_key + ": RETURN / " + b);

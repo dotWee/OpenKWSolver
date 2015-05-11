@@ -22,11 +22,12 @@
               android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageViewCaptcha"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="false"
-        android:contentDescription="@string/main_imageview_description"/>
+            android:id="@+id/imageViewCaptcha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/main_imageview_description"
+            android:minHeight="100dp"/>
 
 </LinearLayout>
