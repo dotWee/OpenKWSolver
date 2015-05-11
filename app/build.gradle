@@ -42,4 +42,7 @@ dependencies {
 
     // @link https://github.com/square/picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // @link https://github.com/Clans/FloatingActionButton
+    compile 'com.github.clans:fab:1.5.0'
 }
