@@ -1,7 +1,7 @@
-<img width="75px" height="75px" src="art/web_icon_dark.png" />  OpenKWSolver
-=================================================================
+#<img width="75px" height="75px" src="art/web_icon_dark.png" />  OpenKWSolver 
 
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
+<img src="https://travis-ci.org/dotWee/OpenKWSolver.svg?branch=master" href="https://travis-ci.org/dotWee/OpenKWSolver"/>
 
 <img src="http://img.shields.io/github/issues/dotWee/OpenKWSolver.svg" />
 <img src="http://img.shields.io/badge/code-java-red.svg" />
