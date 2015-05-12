@@ -60,59 +60,26 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 + Loading animation
 + Documentation
 
-## Changelog
+## Upcoming version / changes
 
-Date: (work in progress; upcoming)
-> Version v1.8
-<br>+ Improvements:
-		- Reduced application-size
-		- Removed deprecated code
-		- Reduced memory-usage
-		- Reworked solver-code
-		- Refactored loop-code
-		- Updated titles & descriptions
-		- Removed about category
-<br>+ Layout changes:
-		- Allow switching between dark & light theme
-		- Slightly different color-scheme
-		- Loading-animation for captchas
-<br>+ Minor:
-		- Compiled with latest build-tools
-		- Updated libraries
-		- Values cleanup
-
-Date: (06/04/2015)
-> Version v1.7
-<br>+ Improvements: 
-		- Loop-Mode
-		- Cleaned menu
-		- First-use code
-<br>+ Layout changes: 
-		- Display CaptchaID by default
-		- New Tablet & landscape layout
-<br>+ Minor:
-		- Built with latest build-tools
-		- New about preference-category
-
-Date: 24/03/2015
-> Version v1.6.1 (Fast-fix)
-<br>+ Fixs: 
-		- Prevent Force-close on application exit
-		- Prevent Force-clone on startup
-
-Date: 20/03/2015
-> Version v1.6
-<br>+ Improvements: 
-		- Removed deprecated apache http API
-		- Removed unstable confirm fragment
-<br>+ Layout changes: 
-		- Preference to enable / disable CaptchaID TextView
-		- Preference for ImageView now updates immediately
-		- Preference to play sound on new Captcha
-<br>+ Minor:
-		- Skip Captcha as soon as ProgressBar finishes
-		- Disable all buttons if no API-key is set
-		- Updated application license
+* Improvements:
+  - Reduced application-size
+  - Removed deprecated code
+  - Reduced memory-usage
+  - Reworked solver-code
+  - Refactored loop-code
+  - Updated titles & descriptions
+  - Removed about category
+  
+* Layout changes:
+  - Allow switching between dark & light theme
+  - Slightly different color-scheme
+  - Loading-animation for captchas
+  
+* Minor:
+  - Compiled with latest build-tools
+  - Updated libraries
+  - Values cleanup
 
 ## Found a bug / had a force-close?
 
