@@ -1,8 +1,8 @@
 #<img width="75px" height="75px" src="art/web_icon_dark.png" />  OpenKWSolver 
 
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
-<img src="https://travis-ci.org/dotWee/OpenKWSolver.svg?branch=master" href="https://travis-ci.org/dotWee/OpenKWSolver"/>
 
+<img src="https://travis-ci.org/dotWee/OpenKWSolver.svg?branch=master" href="https://travis-ci.org/dotWee/OpenKWSolver"/>
 <img src="http://img.shields.io/github/issues/dotWee/OpenKWSolver.svg" />
 <img src="http://img.shields.io/badge/code-java-red.svg" />
 <img src="http://img.shields.io/badge/license-WTFPL%2F2.0-blue.svg" />
@@ -22,12 +22,13 @@ To use OpenKWSolver, you need an account on [9kw.eu](http://www.9kw.eu/), as wel
 
 ## Checksums
 
-<table>
-  <tr>
-    <td>sha1 (release v1.7)</td>
-    <td><code>a76a82f2b8359443683237d3baaaf9650b20aace</code></td>
-  </tr>
-</table>
+| version code 	| version code 	| sha1-checksum                            	|
+|--------------	|--------------	|------------------------------------------	|
+| v1.7         	| 18           	| a76a82f2b8359443683237d3baaaf9650b20aace 	|
+| v1.6.1       	| 17           	| 541eb568fc44cc15c1a463e2cb4eeb166bb50a54 	|
+| v1.6         	| 16           	| 39bd6cbd4884fd6cc2846b602284136c2ba9d209 	|
+| v1.5         	| 15           	| 1d6ed83983b0e357cf99daf9fd5fac393823c564 	|
+| v1.4         	| 14           	| d4be2961fce39c1a7a6da8414fd2c2a11ab78902 	|
 
 ## Building
 
@@ -62,26 +63,29 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 
 ## Upcoming version / changes
 
+###### Version v1.8
+Date: unknown
+
 * Improvements:
+  - Updated titles & descriptions
+  - Removed about category
   - Reduced application-size
   - Removed deprecated code
   - Reduced memory-usage
   - Reworked solver-code
   - Refactored loop-code
-  - Updated titles & descriptions
-  - Removed about category
-  
+
 * Layout changes:
   - Allow switching between dark & light theme
   - Slightly different color-scheme
   - Loading-animation for captchas
-  
+
 * Minor:
   - Compiled with latest build-tools
   - Updated libraries
   - Values cleanup
 
-## Found a bug / had a force-close?
+## Bug / force-close?
 
 Feel free to open a new Issue and please provide a logcat.
 
@@ -89,7 +93,11 @@ Feel free to open a new Issue and please provide a logcat.
 
 + Google's v7 AppCombat
 + Google's v13 Support Package
-(Both used to bring Material Design to API < 21)
+(Both used to bring Material Design to API > 21)
+
+## Changelog
+
+Check the [changelog](/docs/CHANGELOG.md)-file.
 
 ## Credits
 
@@ -98,4 +106,4 @@ Feel free to open a new Issue and please provide a logcat.
 ## License
 
 Copyright (c) 2015 Lukas 'dotwee' Wolfsteiner
-Licensed under the [_Do What The Fuck You Want To_](/LICENSE) public license
+This project is licensed under the [_Do What The Fuck You Want To_](/LICENSE) public license.
