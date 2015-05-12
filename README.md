@@ -73,7 +73,7 @@ Date: (work in progress; upcoming)
 		- Updated titles & descriptions
 		- Removed about category
 <br>+ Layout changes:
-		- Allow switching between dark- light theme
+		- Allow switching between dark & light theme
 		- Slightly different color-scheme
 		- Loading-animation for captchas
 <br>+ Minor:
