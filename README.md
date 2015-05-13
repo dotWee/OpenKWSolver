@@ -57,7 +57,13 @@ Manually: clone this git-repository or download it as zip [here](https://github.
     </tr>
 </table>
 
-<img src="art/ScreenshotTablet.png" />
+<img src="art/sc_phone_dark_default.png" height="400px"/>
+&nbsp;<img src="art/sc_phone_dark_captcha.png" height="400px"/>
+&nbsp;<img src="art/sc_phone_dark_settings.png" height="400px"/>
+
+<img src="art/sc_phone_light_default.png" height="400px"/>
+&nbsp;<img src="art/sc_phone_light_captcha.png" height="400px"/>
+&nbsp;<img src="art/sc_phone_light_settings.png" height="400px"/>
 
 ## Todo
 
