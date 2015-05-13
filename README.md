@@ -43,20 +43,6 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 
 ## Screenshots
 
-<table style="border: 0px;">
-    <tr>
-        <td><img width="200px" src="art/sc_phone_dark_default.png" /></td>
-        <td><img width="200px" src="art/sc_phone_dark_captcha.png" /></td>
-        <td><img width="200px" src="art/sc_phone_dark_settings.png" /></td>
-    </tr>
-    
-    <tr>
-        <td><img width="200px" src="art/sc_phone_light_default.png" /></td>
-        <td><img width="200px" src="art/sc_phone_light_captcha.png" /></td>
-        <td><img width="200px" src="art/sc_phone_light_settings.png" /></td>
-    </tr>
-</table>
-
 <img src="art/sc_phone_dark_default.png" height="400px"/>
 &nbsp;<img src="art/sc_phone_dark_captcha.png" height="400px"/>
 &nbsp;<img src="art/sc_phone_dark_settings.png" height="400px"/>
