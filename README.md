@@ -45,9 +45,15 @@ Manually: clone this git-repository or download it as zip [here](https://github.
 
 <table style="border: 0px;">
     <tr>
-        <td><img width="200px" src="art/ScreenshotNormal.png" /></td>
-        <td><img width="200px" src="art/ScreenshotWithCaptcha.png" /></td>
-        <td><img width="200px" src="art/ScreenshotSettings.png" /></td>
+        <td><img width="200px" src="art/sc_phone_dark_default.png" /></td>
+        <td><img width="200px" src="art/sc_phone_dark_captcha.png" /></td>
+        <td><img width="200px" src="art/sc_phone_dark_settings.png" /></td>
+    </tr>
+    
+    <tr>
+        <td><img width="200px" src="art/sc_phone_light_default.png" /></td>
+        <td><img width="200px" src="art/sc_phone_light_captcha.png" /></td>
+        <td><img width="200px" src="art/sc_phone_light_settings.png" /></td>
     </tr>
 </table>
 
