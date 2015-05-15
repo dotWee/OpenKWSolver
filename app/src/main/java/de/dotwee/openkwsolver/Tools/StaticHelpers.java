@@ -215,7 +215,7 @@ public class StaticHelpers {
 		return getPreferencesBoolean(context, "pref_automation_balance", false);
 	}
 
-	private static boolean isSoundEnabled(Context context) {
+	public static boolean isSoundEnabled(Context context) {
 		return getPreferencesBoolean(context, "pref_notification_sound", true);
 	}
 

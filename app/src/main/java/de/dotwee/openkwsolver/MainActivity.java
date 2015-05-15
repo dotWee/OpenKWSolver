@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +33,11 @@ import de.dotwee.openkwsolver.Fragments.SettingsFragment;
 import de.dotwee.openkwsolver.Fragments.SolverFragment;
 import de.dotwee.openkwsolver.Tools.ThemeChanger;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
+    private static final String LOG_TAG = "MainActivity";
+    private Fragment solverFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         ThemeChanger.onCreateChangeTheme(this);
         setContentView(R.layout.activity_main);
 
-        if (!getResources().getBoolean(R.bool.isTablet)) setupViewPager();
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            setupViewPager();
+            Loggi();
+        }
     }
 
     private void setupViewPager() {
@@ -72,7 +80,25 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         return false;
     }
 
-    public static class FragmentAdapter extends FragmentPagerAdapter {
+    public void Loggi() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        Thread.sleep(5000); // 5000ms = 5s
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.i(LOG_TAG, "Timestamp{" + Calendar.getInstance().get(Calendar.MILLISECOND) + "}");
+                    if (solverFragment != null) Log.i(LOG_TAG, solverFragment.toString());
+                }
+            }
+        };
+    }
+
+    public class FragmentAdapter extends FragmentPagerAdapter {
         public FragmentAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -81,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new SolverFragment();
+                    return solverFragment = new SolverFragment();
                 case 1:
                     return new SettingsFragment();
                 default:
