@@ -1,4 +1,6 @@
 #<img width="75px" height="75px" src="art/web_icon_dark.png" />  OpenKWSolver 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FdotWee%2FOpenKWSolver.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FdotWee%2FOpenKWSolver?ref=badge_shield)
+
 
 Solve Captchas for [9kw.eu](http://www.9kw.eu/) the open-source and Material-Design-way!
 
@@ -105,3 +107,5 @@ Check the [changelog](/docs/CHANGELOG.md)-file.
 
 Copyright (c) 2015 Lukas 'dotwee' Wolfsteiner
 This project is licensed under the [_Do What The Fuck You Want To_](/LICENSE) public license.
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FdotWee%2FOpenKWSolver.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FdotWee%2FOpenKWSolver?ref=badge_large)
